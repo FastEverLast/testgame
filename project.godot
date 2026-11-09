@@ -25,7 +25,7 @@ project/assembly_name="testgame"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot_with_u/plugin.cfg")
+enabled=PackedStringArray("res://addons/godot_with_u/plugin.cfg", "res://addons/team_create/plugin.cfg")
 
 [physics]
 
