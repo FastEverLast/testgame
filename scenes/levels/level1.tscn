@@ -1,4 +1,5 @@
-[gd_scene format=3 uid="uid://b8k6bvvxrw22k"]
+[gd_scene format=3 uid="uid://bwmx5q1l3aism"]
 
-[node name="Level1" type="Node2D" unique_id=1624560782]
-metadata/_tc_uuid = "4378928673088656708"
+[ext_resource type="PackedScene" uid="uid://dkoqypbd3jl3a" path="res://scenes/base_level.tscn" id="1_jwv3a"]
+
+[node name="BaseLevel" unique_id=1515612743 instance=ExtResource("1_jwv3a")]
