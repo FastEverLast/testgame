@@ -9,6 +9,8 @@ script = ExtResource("1_mdypr")
 
 [node name="Hover" type="AudioStreamPlayer" parent="." unique_id=1929522172]
 stream = ExtResource("2_qw16a")
+volume_db = -12.814
+pitch_scale = 0.65
 bus = &"SFX"
 metadata/_tc_offline_added = true
 
