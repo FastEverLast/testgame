@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://hxsimfx7dkxw"]
+
+[ext_resource type="Script" uid="uid://b03hdsjqq00ew" path="res://scenes/ui_audio.gd" id="1_mdypr"]
+[ext_resource type="AudioStream" uid="uid://064crt82f87s" path="res://assets/audio/shutter_click.mp3" id="2_qw16a"]
+
+[node name="UIaudio" type="Node" unique_id=1116439728]
+process_mode = 3
+script = ExtResource("1_mdypr")
+
+[node name="Hover" type="AudioStreamPlayer" parent="." unique_id=1929522172]
+stream = ExtResource("2_qw16a")
+bus = &"SFX"
+metadata/_tc_offline_added = true
+
+[node name="Click" type="AudioStreamPlayer" parent="." unique_id=588497670]
+bus = &"SFX"
+metadata/_tc_offline_added = true

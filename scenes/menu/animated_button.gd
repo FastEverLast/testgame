@@ -24,6 +24,7 @@ func _restart_tween() -> Tween:
 
 func _on_anim_button_mouse_entered() -> void:
 	_restart_tween().tween_property(self, ^"offset_transform_scale", HOVER_SCALE, HOVER_TIME).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	UiAudio.play_hover() # Play the sound for hovering
 
 func _on_anim_button_mouse_exited() -> void:
 	_restart_tween().tween_property(self, ^"offset_transform_scale", REST_SCALE, HOVER_TIME).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
@@ -32,3 +33,4 @@ func _on_anim_button_button_down() -> void:
 	var tween: Tween = _restart_tween()
 	tween.tween_property(self, ^"offset_transform_scale", SQUASH_SCALE, SQUASH_TIME).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 	tween.tween_property(self, ^"offset_transform_scale", HOVER_SCALE, HOVER_TIME).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT) 
+	UiAudio.play_click()	
