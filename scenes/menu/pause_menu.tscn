@@ -37,6 +37,7 @@ shadow_size = 5
 shadow_offset = Vector2(0, 3.6)
 
 [node name="PauseMenu" type="Control" unique_id=1157975477]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -44,6 +45,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xtxec")
+metadata/_tc_uuid = "2158454188588145385"
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=853871665]
 visible = false
@@ -58,11 +60,13 @@ grow_vertical = 2
 offset_transform_enabled = true
 theme_override_styles/panel = SubResource("StyleBoxEmpty_khqvw")
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "640649808389466510"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1876980088]
 layout_mode = 2
 theme_override_constants/separation = 79
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "7896619495762816551"
 
 [node name="Resume" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1651268141]
 layout_mode = 2
@@ -77,6 +81,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_mb26x")
 text = "Resume"
 script = ExtResource("2_ux7g8")
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "8868531563016515980"
 
 [node name="Options" type="Button" parent="PanelContainer/VBoxContainer" unique_id=2082928763]
 layout_mode = 2
@@ -91,6 +96,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_mb26x")
 text = "Options"
 script = ExtResource("2_ux7g8")
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "1002206517175709107"
 
 [node name="Save" type="Button" parent="PanelContainer/VBoxContainer" unique_id=485567708]
 layout_mode = 2
@@ -105,6 +111,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_mb26x")
 text = "Save"
 script = ExtResource("2_ux7g8")
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "3322439395751058873"
 
 [node name="QuitToMainMenu" type="Button" parent="PanelContainer/VBoxContainer" unique_id=402720635]
 layout_mode = 2
@@ -119,6 +126,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_mb26x")
 text = "Quit to main menu"
 script = ExtResource("2_ux7g8")
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "1996562002612162194"
 
 [node name="QuitToDesktop" type="Button" parent="PanelContainer/VBoxContainer" unique_id=417198347]
 layout_mode = 2
@@ -133,3 +141,8 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_mb26x")
 text = "Quit to desktop"
 script = ExtResource("2_ux7g8")
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "5774038158726648289"
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/QuitToMainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/QuitToDesktop" to="." method="_on_quit_pressed"]

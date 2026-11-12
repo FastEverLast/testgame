@@ -25,6 +25,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _toggle(should_open: bool) -> void:
 	_open = should_open
+	get_tree().paused = should_open
 	if should_open:
 		panel_container.visible = true # must be visible before anim starts
 
@@ -52,3 +53,13 @@ func _reset() -> void:
 	_open = false
 	for button in _buttons:
 		button.offset_transform_position = CLOSED_OFFSET
+		
+func _on_resume_pressed():
+	_toggle(false)
+	
+func _on_main_menu_pressed():
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://scenes/menu/main_menu.tscn")
+	
+func _on_quit_pressed():
+	get_tree().quit()

@@ -22,9 +22,11 @@ buses/default_bus_layout="uid://coof21wilsqsw"
 [autoload]
 
 UiAudio="*uid://hxsimfx7dkxw"
+Settings="*uid://bna46k1mesrmk"
 
 [display]
 
+window/size/always_on_top=true
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
