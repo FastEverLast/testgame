@@ -23,6 +23,7 @@ buses/default_bus_layout="uid://coof21wilsqsw"
 
 UiAudio="*uid://hxsimfx7dkxw"
 Settings="*uid://bna46k1mesrmk"
+GameState="*uid://bsiqyp2c4lc0y"
 
 [display]
 
@@ -70,6 +71,17 @@ move_right={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Walls"
+2d_physics/layer_3="Enemies"
+2d_physics/layer_4="Vision"
+2d_physics/layer_5="Pickups"
+2d_physics/layer_6="Interactables"
+2d_physics/layer_7="Hiding"
+2d_physics/layer_8="Statue"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
@@ -80,3 +92,4 @@ textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+2d/snap/snap_2d_transforms_to_pixel=true
