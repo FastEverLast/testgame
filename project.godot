@@ -30,6 +30,7 @@ SceneManager="*uid://bsth2w68nfm8o"
 
 window/size/viewport_width=640
 window/size/viewport_height=360
+window/size/mode=3
 window/size/always_on_top=true
 window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
