@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://bo3nft3cn3asn"]
 
 [ext_resource type="Texture2D" uid="uid://darmxqw5q0nu6" path="res://assets/sprites/wheel.png" id="1_amwdr"]
-[ext_resource type="Script" uid="uid://ccoy738lxvq52" path="res://scenes/sprites_ui/charwheel.gd" id="1_vi5rs"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vi5rs"]
 atlas = ExtResource("1_amwdr")
@@ -47,7 +46,6 @@ animations = [{
 }]
 
 [node name="Charwheel" type="Node2D" unique_id=810125182]
-script = ExtResource("1_vi5rs")
 metadata/_tc_uuid = "6569705959866581284"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1767225472]
