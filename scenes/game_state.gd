@@ -23,3 +23,7 @@ func shift_to(form):
 			change_memory(-1)
 	current_form = form
 	form_changed.emit(form)
+	
+func reset():
+	memory = 5
+	current_form = Form.BASE

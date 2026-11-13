@@ -37,3 +37,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		GameState.shift_to(GameState.Form.CAT)
 	if event.is_action_pressed("form_statue"):
 		GameState.shift_to(GameState.Form.STATUE )
+	
+	if event.is_action_pressed("debug_reset"):
+		SceneManager.restart_level()
