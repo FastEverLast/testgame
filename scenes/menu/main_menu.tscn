@@ -189,6 +189,7 @@ offset_bottom = -51.0
 grow_horizontal = 2
 grow_vertical = 0
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "6534312461615167906"
 
 [node name="OptionsTitle" type="Label" parent="Options" unique_id=113181950]
 layout_mode = 1
@@ -202,6 +203,7 @@ text = "Options"
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "3155903036551064918"
 
 [node name="Back" type="Button" parent="Options" unique_id=189011263]
 layout_mode = 0
@@ -244,6 +246,7 @@ value = 1.0
 script = ExtResource("5_hj162")
 audio_bus_name = "SFX"
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "2472289418470995041"
 
 [node name="Music" type="HSlider" parent="Options" unique_id=672029691]
 layout_mode = 1
@@ -267,6 +270,7 @@ value = 1.0
 script = ExtResource("5_hj162")
 audio_bus_name = "Music"
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "7808712815453683733"
 
 [node name="Fullscreen" type="CheckButton" parent="Options" unique_id=1623259696]
 layout_mode = 0
@@ -279,6 +283,7 @@ theme_override_font_sizes/font_size = 24
 text = "Fullscreen"
 script = ExtResource("6_xn6kt")
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "3170560454679537247"
 
 [node name="LabelSFX" type="Label" parent="Options" unique_id=552716124]
 layout_mode = 0
@@ -290,6 +295,7 @@ theme_override_fonts/font = ExtResource("2_3rkf3")
 theme_override_font_sizes/font_size = 24
 text = "SFX"
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "7665981080175522063"
 
 [node name="LabelMusic" type="Label" parent="Options" unique_id=868734418]
 layout_mode = 0
@@ -301,6 +307,7 @@ theme_override_fonts/font = ExtResource("2_3rkf3")
 theme_override_font_sizes/font_size = 24
 text = "Music"
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "3011622451298703367"
 
 [connection signal="pressed" from="VBoxContainer/StartGame" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_pressed"]
