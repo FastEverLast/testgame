@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bwmx5q1l3aism"]
+
+[ext_resource type="PackedScene" uid="uid://dkoqypbd3jl3a" path="res://scenes/base_level.tscn" id="1_jwv3a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eu66n"]
+size = Vector2(17, 257)
+
+[node name="BaseLevel" unique_id=1515612743 instance=ExtResource("1_jwv3a")]
+
+[node name="Player" parent="." index="1" unique_id=1894673584]
+position = Vector2(200, 219)
+
+[node name="Wall" type="StaticBody2D" parent="." index="2" unique_id=1171031968]
+collision_layer = 2
+collision_mask = 0
+metadata/_tc_offline_added = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall" index="0" unique_id=1873143682]
+position = Vector2(556, 189.5)
+shape = SubResource("RectangleShape2D_eu66n")
+metadata/_tc_offline_added = true
+
+[node name="ColorRect" type="ColorRect" parent="Wall/CollisionShape2D" index="0" unique_id=633337125]
+offset_left = -6.0
+offset_top = -128.5
+offset_right = 8.0
+offset_bottom = 128.5
+metadata/_tc_offline_added = true

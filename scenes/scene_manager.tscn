@@ -9,6 +9,7 @@ metadata/_tc_uuid = "1583298720836216090"
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=156671405]
 layer = 100
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "5937677813340799160"
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=289006893]
 process_mode = 3
@@ -21,3 +22,4 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.15127608, 0.15127608, 0.15127608, 1)
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "3936869498543301571"

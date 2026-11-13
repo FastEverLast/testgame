@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dkoqypbd3jl3a"]
+
+[ext_resource type="PackedScene" uid="uid://2sfre1mijbbj" path="res://scenes/menu/pause_menu.tscn" id="1_dbkse"]
+[ext_resource type="PackedScene" uid="uid://dwr53o88up1lx" path="res://scenes/player/player.tscn" id="2_0n1tn"]
+[ext_resource type="FontFile" uid="uid://3oubag611cju" path="res://assets/font/pixelfont_regular.ttf" id="2_oox4p"]
+[ext_resource type="Script" uid="uid://p5kk6u0iw3db" path="res://scenes/memory_label.gd" id="3_oox4p"]
+
+[node name="BaseLevel" type="Node2D" unique_id=1515612743]
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1543863405]
+layer = 10
+metadata/_tc_offline_added = true
+
+[node name="PauseMenu" parent="UI" unique_id=1157975477 instance=ExtResource("1_dbkse")]
+metadata/_tc_offline_added = true
+
+[node name="MemoryLabel" type="Label" parent="UI" unique_id=93435944]
+offset_left = 14.0
+offset_top = 6.0
+offset_right = 145.0
+offset_bottom = 36.0
+theme_override_fonts/font = ExtResource("2_oox4p")
+theme_override_font_sizes/font_size = 24
+text = "Memory = 5"
+script = ExtResource("3_oox4p")
+metadata/_tc_offline_added = true
+
+[node name="Player" parent="." unique_id=1894673584 instance=ExtResource("2_0n1tn")]
+metadata/_tc_offline_added = true
