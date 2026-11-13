@@ -49,8 +49,10 @@ animations = [{
 metadata/_tc_uuid = "6569705959866581284"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1767225472]
+texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_alj2j")
 animation = &"wheel_anim"
 frame = 2
 frame_progress = 0.26642245
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "6051090125873967197"
