@@ -47,7 +47,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 	if event.is_action_released("wheel_open") and visible:
 		_confirm()
-		_close() # If the wheel is already open, close it
+		_close() # Close after shifting the player 
 		return
 	
 	if event is InputEventMouseMotion:
