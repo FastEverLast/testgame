@@ -29,10 +29,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		_open()
 		return
 		
-	
-			
 		
-	
 	if not visible:
 		return
 	elif event.is_action_pressed("move_up"):
@@ -46,8 +43,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 		
 	if event.is_action_released("wheel_open") and visible:
-		_confirm()
-		_close() # Close after shifting the player 
+		_confirm() 
+		_close() # Rather close twice than not closing at all, after all closing just hides it
 		return
 	
 	if event is InputEventMouseMotion:
