@@ -26,11 +26,12 @@ func _confirm():
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("wheel_open"):
-		if visible:
-			_close() # If the wheel is already open, close it
-		else:
-			_open()
+		_open()
 		return
+		
+	
+			
+		
 	
 	if not visible:
 		return
@@ -42,9 +43,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		_set_hovered(GameState.Form.CAT)
 	elif event.is_action_pressed("move_left"):
 		_set_hovered(GameState.Form.STATUE)
-	
-	if event.is_action_pressed("wheel_confirm") or event.is_action_pressed("wheel_select"):
+
+		
+	if event.is_action_released("wheel_open") and visible:
 		_confirm()
+		_close() # If the wheel is already open, close it
+		return
 	
 	if event is InputEventMouseMotion:
 		_hover_from_mouse()
