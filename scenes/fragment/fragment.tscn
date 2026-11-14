@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://jp2bns3b10c4"]
+
+[ext_resource type="Script" uid="uid://bl6scbn0sm7t7" path="res://scenes/fragment/fragment.gd" id="1_h7my7"]
+[ext_resource type="Texture2D" uid="uid://hfv5e23fwqu7" path="res://assets/sprites/fragment.png" id="2_3jbsj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rbs2f"]
+radius = 4.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mei78"]
+atlas = ExtResource("2_3jbsj")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dejd5"]
+atlas = ExtResource("2_3jbsj")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nvly6"]
+atlas = ExtResource("2_3jbsj")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vo2kc"]
+atlas = ExtResource("2_3jbsj")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dh4mo"]
+atlas = ExtResource("2_3jbsj")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yi7dq"]
+atlas = ExtResource("2_3jbsj")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_eu66n"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mei78")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dejd5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nvly6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vo2kc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dh4mo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yi7dq")
+}],
+"loop": 1,
+"name": &"fragment",
+"speed": 9.0
+}]
+
+[node name="Fragment" type="Area2D" unique_id=1635556197]
+scale = Vector2(2, 2)
+collision_layer = 16
+script = ExtResource("1_h7my7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2073363677]
+shape = SubResource("CircleShape2D_rbs2f")
+metadata/_tc_offline_added = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1877575148]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_eu66n")
+animation = &"fragment"
+frame_progress = 0.91198534
+metadata/_tc_offline_added = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
