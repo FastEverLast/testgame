@@ -3,7 +3,7 @@ extends Node
 const MAX_MEMORY = 10
 var memory := 5
 var current_form:Form = Form.BASE
-var wheel_open:bool = false
+var wheel_open : bool = false
 
 enum Form { BASE, GUARD, CAT, STATUE }
 

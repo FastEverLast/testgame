@@ -14,4 +14,4 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	GameState.change_memory(1)
-	queue_free()
+	queue_free() 

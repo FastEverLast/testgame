@@ -69,7 +69,8 @@ metadata/_tc_offline_added = true
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_eu66n")
 animation = &"fragment"
-frame_progress = 0.91198534
+autoplay = "fragment"
+frame_progress = 0.74471104
 metadata/_tc_offline_added = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
