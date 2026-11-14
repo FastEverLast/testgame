@@ -3,6 +3,7 @@ extends Node
 const MAX_MEMORY = 10
 var memory := 5
 var current_form:Form = Form.BASE
+var wheel_open:bool = false
 
 enum Form { BASE, GUARD, CAT, STATUE }
 
@@ -27,3 +28,4 @@ func shift_to(form):
 func reset():
 	memory = 5
 	current_form = Form.BASE
+	wheel_open = false

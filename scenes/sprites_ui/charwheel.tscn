@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bo3nft3cn3asn"]
 
 [ext_resource type="Texture2D" uid="uid://darmxqw5q0nu6" path="res://assets/sprites/wheel.png" id="1_amwdr"]
+[ext_resource type="Script" uid="uid://ccoy738lxvq52" path="res://scenes/sprites_ui/charwheel.gd" id="1_vi5rs"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vi5rs"]
 atlas = ExtResource("1_amwdr")
@@ -40,19 +41,19 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qfgwk")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"wheel_anim",
-"speed": 5.0
+"speed": 0.0
 }]
 
 [node name="Charwheel" type="Node2D" unique_id=810125182]
+script = ExtResource("1_vi5rs")
 metadata/_tc_uuid = "6569705959866581284"
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1767225472]
+[node name="Wheel" type="AnimatedSprite2D" parent="." unique_id=1767225472]
 texture_filter = 1
+scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_alj2j")
 animation = &"wheel_anim"
-frame = 2
-frame_progress = 0.26642245
 metadata/_tc_offline_added = true
 metadata/_tc_uuid = "6051090125873967197"

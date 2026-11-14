@@ -25,5 +25,5 @@ metadata/_tc_uuid = "1446378528900355734"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1865295162]
 process_callback = 0
-position_smoothing_enabled = true
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "1383486668470256463"
