@@ -154,30 +154,35 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r1pee"]
-radius = 4.5
+radius = 4.3420625
 height = 19.0
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1894673584]
 collision_mask = 2
 motion_mode = 1
 script = ExtResource("1_dovo2")
+speed = 120
 metadata/_tc_uuid = "1989091544495428667"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=314815248]
 texture_filter = 1
+scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_eu66n")
 animation = &"idle_up"
 offset = Vector2(0, -8)
 metadata/_tc_offline_added = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2007712537]
-position = Vector2(0.5, -9.5)
+position = Vector2(0.5, -14.5)
+rotation = -0.036651913
+scale = Vector2(1.5, 1.5)
+skew = 0.02617994
 shape = SubResource("CapsuleShape2D_r1pee")
 metadata/_tc_offline_added = true
 metadata/_tc_uuid = "1389435197227948082"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1865295162]
-zoom = Vector2(3, 3)
+zoom = Vector2(2.5, 2.5)
 process_callback = 0
 metadata/_tc_offline_added = true
 metadata/_tc_uuid = "1383486668470256463"
