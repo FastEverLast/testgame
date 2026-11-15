@@ -34,10 +34,6 @@ window/stretch/scale_mode="integer"
 
 project/assembly_name="testgame"
 
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/team_create/plugin.cfg")
-
 [input]
 
 pause={
