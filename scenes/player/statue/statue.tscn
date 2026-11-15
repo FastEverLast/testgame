@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bhepm76kbajsn"]
+
+[ext_resource type="Texture2D" uid="uid://cy2mdh88oql6y" path="res://assets/player/statue/statue.png" id="1_6h35p"]
+
+[sub_resource type="GDScript" id="GDScript_dlg4w"]
+script/source = "extends CharacterBody2D
+
+
+#func _physics_process(delta: float) -> void: 
+	#if not is_on_floor():
+		#velocity += get_gravity() * delta
+#
+	#move_and_slide()
+	#
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_alj2j"]
+size = Vector2(20, 32)
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1223669279]
+collision_mask = 2
+script = SubResource("GDScript_dlg4w")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1292840101]
+texture = ExtResource("1_6h35p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1668365768]
+shape = SubResource("RectangleShape2D_alj2j")
