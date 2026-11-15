@@ -60,17 +60,20 @@ animations = [{
 scale = Vector2(2, 2)
 collision_layer = 16
 script = ExtResource("1_h7my7")
+metadata/_tc_uuid = "1906401528075340749"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2073363677]
 shape = SubResource("CircleShape2D_rbs2f")
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "4914791197471270540"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1877575148]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_eu66n")
 animation = &"fragment"
 autoplay = "fragment"
-frame_progress = 0.74471104
+frame_progress = 0.6497355
 metadata/_tc_offline_added = true
+metadata/_tc_uuid = "855079209550903134"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

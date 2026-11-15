@@ -1,12 +1,30 @@
 extends CharacterBody2D
 
-@export var speed := 300
-@onready var sprite: Sprite2D = $Sprite2D
+@export var speed := 200
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 var last_direction: Vector2 = Vector2.DOWN
 
 func _ready() -> void:
 	GameState.form_changed.connect(_on_form_changed)
 	_on_form_changed(GameState.current_form)
+
+func _update_animation(direction : Vector2):
+	var dir_name : String
+	if abs(last_direction.x) > abs(last_direction.y):
+		if last_direction.x > 0:
+			dir_name = "right"
+		else:
+			dir_name = "left"
+	else:	
+		if last_direction.y > 0:
+			dir_name = "down"
+		else:
+			dir_name = "up"
+			
+	if direction != Vector2.ZERO:
+		sprite.play("walk_" + dir_name)
+	else:
+		sprite.play("idle_" + dir_name)
 
 func _on_form_changed(form):
 	match form:
@@ -28,6 +46,7 @@ func _physics_process(_delta: float) -> void:
 			last_direction = direction.normalized()
 	
 		move_and_slide()
+		_update_animation(direction)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("form_base"):
