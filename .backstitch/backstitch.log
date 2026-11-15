@@ -1,5 +1,0 @@
-2026-11-15T17:24:26.407987Z  INFO backstitch_godot::tracing: 174: Tracing subscriber initialized
-2026-11-15T17:24:26.408019Z  INFO backstitch_godot::interop::extension: 28: ** on_level_init: Scene
-2026-11-15T17:24:26.415920Z  INFO backstitch_godot::interop::extension: 45: ** on_level_init: Editor
-2026-11-15T17:24:26.492660Z DEBUG backstitch_godot::interop::godot_project: 978: ** GodotProjectPlugin: enter_tree
-2026-11-15T17:24:27.406528Z  INFO backstitch_godot::interop::godot_project: 734: Backstitch config has no project id, not autostarting...
