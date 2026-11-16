@@ -3,9 +3,10 @@ extends CharacterBody2D
 @export var speed := 200
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var camera: Camera2D = $Camera2D
-@onready var statue_instance = preload("res://scenes/player/statue/statue.tscn")
-signal new_guard_signal
+@onready var statue_scene = preload("res://scenes/player/statue/statue.tscn")
+signal new_statue_signal
 var last_direction: Vector2 = Vector2.DOWN
+var _statue: Node2D
 
 func _ready() -> void:
 	GameState.form_changed.connect(_on_form_changed)
@@ -39,9 +40,12 @@ func _on_form_changed(form):
 			sprite.modulate = Color.ORANGE
 		GameState.Form.STATUE:
 			sprite.modulate = Color.GRAY
-			new_guard_signal.emit()
-			var new_statue = statue_instance.instantiate()
-			new_statue.position = camera.get_target_position()
+			new_statue_signal.emit()
+			if is_instance_valid(_statue):
+				_statue.queue_free()
+			var new_statue = statue_scene.instantiate()
+			new_statue.position = position
+			_statue = new_statue
 			add_sibling(new_statue)
 			
 

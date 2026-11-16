@@ -8,6 +8,7 @@
 [ext_resource type="TileSet" uid="uid://ce75ixjc04rts" path="res://tilesets/dungeon_gathering(main set).tres" id="5_3aqo6"]
 
 [node name="BaseLevel" type="Node2D" unique_id=1515612743]
+y_sort_enabled = true
 metadata/_tc_uuid = "948087773354586457"
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1543863405]
@@ -36,12 +37,14 @@ position = Vector2(320, 180)
 metadata/_tc_offline_added = true
 
 [node name="Floor" type="TileMapLayer" parent="." unique_id=512615916]
+z_index = -1
 texture_filter = 1
 tile_set = ExtResource("5_3aqo6")
 metadata/_tc_offline_added = true
 metadata/_tc_uuid = "6766147172219563349"
 
 [node name="Walls" type="TileMapLayer" parent="." unique_id=506420691]
+y_sort_enabled = true
 texture_filter = 1
 tile_set = ExtResource("5_3aqo6")
 metadata/_tc_offline_added = true

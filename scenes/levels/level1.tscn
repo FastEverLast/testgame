@@ -37,13 +37,15 @@ metadata/_tc_uuid = "1963902454935485103"
 metadata/_tc_offline_added = true
 
 [node name="Gate" parent="." index="7" unique_id=488032558 instance=ExtResource("3_dd0lh")]
-position = Vector2(200, 64)
+position = Vector2(200, 71)
 
 [node name="Gate2" parent="." index="8" unique_id=837141038 instance=ExtResource("3_dd0lh")]
-position = Vector2(200, 80)
+position = Vector2(200, 87)
 
 [node name="FloorButton" parent="." index="9" unique_id=607420037 instance=ExtResource("4_bfxgj")]
 position = Vector2(138, 135)
 
+[connection signal="activated" from="FloorButton" to="Gate" method="_on_floor_button_activated"]
 [connection signal="activated" from="FloorButton" to="Gate2" method="_on_floor_button_activated"]
+[connection signal="released" from="FloorButton" to="Gate" method="_on_floor_button_released"]
 [connection signal="released" from="FloorButton" to="Gate2" method="_on_floor_button_released"]

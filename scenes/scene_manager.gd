@@ -25,6 +25,7 @@ func change_level(path: String) -> void:
 	busy = false
 	
 func restart_level():
+	GameState.reset()
 	change_level(get_tree().current_scene.scene_file_path)
 	
 func go_to_main_menu():

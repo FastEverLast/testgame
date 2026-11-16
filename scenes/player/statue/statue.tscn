@@ -15,14 +15,17 @@ script/source = "extends CharacterBody2D
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_alj2j"]
-size = Vector2(20, 32)
+size = Vector2(12, 12)
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1223669279]
+collision_layer = 128
 collision_mask = 2
 script = SubResource("GDScript_dlg4w")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1292840101]
 texture = ExtResource("1_6h35p")
+offset = Vector2(0, -16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1668365768]
+position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_alj2j")

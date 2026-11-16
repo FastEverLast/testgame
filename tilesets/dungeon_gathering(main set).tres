@@ -381,13 +381,21 @@ texture = ExtResource("1_iewc6")
 11:17/0 = 0
 12:17/0 = 0
 5:18/0 = 0
+5:18/0/y_sort_origin = 16
 6:18/0 = 0
+6:18/0/y_sort_origin = 16
 7:18/0 = 0
+7:18/0/y_sort_origin = 16
 8:18/0 = 0
+8:18/0/y_sort_origin = 16
 5:19/0 = 0
+5:19/0/physics_layer_0/polygon_0/points = PackedVector2Array(-6, -4, -4, -4, -4, -8, 4, -8, 4, -4, 6, -4, 6, 6, -6, 6)
 6:19/0 = 0
+6:19/0/physics_layer_0/polygon_0/points = PackedVector2Array(-6, -4, -4, -4, -4, -8, 4, -8, 4, -4, 6, -4, 6, 6, -6, 6)
 7:19/0 = 0
+7:19/0/physics_layer_0/polygon_0/points = PackedVector2Array(-6, -4, -4, -4, -4, -8, 4, -8, 4, -4, 6, -4, 6, 6, -6, 6)
 8:19/0 = 0
+8:19/0/physics_layer_0/polygon_0/points = PackedVector2Array(-6, -4, -4, -4, -4, -8, 4, -8, 4, -4, 6, -4, 6, 6, -6, 6)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mlsew"]
 texture = ExtResource("2_kilm2")

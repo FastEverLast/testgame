@@ -68,6 +68,7 @@ metadata/_tc_offline_added = true
 metadata/_tc_uuid = "4914791197471270540"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1877575148]
+z_index = -1
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_eu66n")
 animation = &"fragment"
