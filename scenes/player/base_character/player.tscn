@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dwr53o88up1lx"]
 
-[ext_resource type="Script" uid="uid://dcq073p1tqi6w" path="res://scenes/player/player.gd" id="1_dovo2"]
+[ext_resource type="Script" uid="uid://dcq073p1tqi6w" path="res://scenes/player/base_character/player.gd" id="1_dovo2"]
 [ext_resource type="Texture2D" uid="uid://dyisnxw658ugx" path="res://assets/test_character/Run/Down/Base_run_down_1.png" id="2_007i1"]
 [ext_resource type="Texture2D" uid="uid://duasng8w7eyni" path="res://assets/test_character/Run/Left/base_run_left_1.png" id="3_6cv16"]
 [ext_resource type="Texture2D" uid="uid://btqg7sfu2hihu" path="res://assets/test_character/Run/Right/base_run_right_1.png" id="4_j4nxn"]
@@ -25,6 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://dhpa2dxmhqk30" path="res://assets/test_character/Run/Up/Base_run_up_4.png" id="23_iwuka"]
 [ext_resource type="Texture2D" uid="uid://bgdbwwgpf5swl" path="res://assets/test_character/Run/Up/Base_run_up_5.png" id="24_hyqqp"]
 [ext_resource type="Texture2D" uid="uid://ccvttmlprxj7d" path="res://assets/test_character/Run/Up/Base_run_up_6.png" id="25_ds1xl"]
+[ext_resource type="SpriteFrames" uid="uid://ddak614qttx86" path="res://assets/animations/cat.tres" id="26_kkree"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_eu66n"]
 animations = [{
@@ -156,7 +157,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eu66n"]
 size = Vector2(11, 9)
 
-[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1894673584]
+[node name="Player" type="CharacterBody2D" unique_id=1894673584]
 collision_mask = 258
 motion_mode = 1
 script = ExtResource("1_dovo2")
@@ -182,3 +183,11 @@ metadata/_tc_uuid = "1383486668470256463"
 position = Vector2(0.5, -4.6)
 shape = SubResource("RectangleShape2D_eu66n")
 metadata/_tc_offline_added = true
+
+[node name="CatForm" type="AnimatedSprite2D" parent="." unique_id=414651045]
+position = Vector2(0, -10)
+scale = Vector2(0.2, 0.2)
+sprite_frames = ExtResource("26_kkree")
+animation = &"walk_down"
+frame = 2
+frame_progress = 0.6719331

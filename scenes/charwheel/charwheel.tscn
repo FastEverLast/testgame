@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bo3nft3cn3asn"]
 
 [ext_resource type="Texture2D" uid="uid://darmxqw5q0nu6" path="res://assets/sprites/wheel.png" id="1_amwdr"]
-[ext_resource type="Script" uid="uid://ccoy738lxvq52" path="res://scenes/sprites_ui/charwheel.gd" id="1_vi5rs"]
+[ext_resource type="Script" uid="uid://ccoy738lxvq52" path="res://scenes/charwheel/charwheel.gd" id="1_vi5rs"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vi5rs"]
 atlas = ExtResource("1_amwdr")

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://drk4ukekf0bn6"]
 
-[ext_resource type="Script" uid="uid://bvlp2olvmkqc1" path="res://scenes/guard/guard.gd" id="1_3ptlu"]
+[ext_resource type="Script" uid="uid://bvlp2olvmkqc1" path="res://scenes/guard_enemy/guard_enemy.gd" id="1_3ptlu"]
 [ext_resource type="Texture2D" uid="uid://dyisnxw658ugx" path="res://assets/test_character/Run/Down/Base_run_down_1.png" id="1_s4gqi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rbs2f"]
