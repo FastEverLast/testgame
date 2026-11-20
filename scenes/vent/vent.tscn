@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://dvxygtm0tkjch"]
+
+[ext_resource type="Texture2D" uid="uid://b04b8pakxvrta" path="res://assets/tilesets/Dungeon Gathering/Set 1.png" id="1_uqux3"]
+[ext_resource type="Script" uid="uid://drdaj31u5facs" path="res://scenes/vent/vent.gd" id="1_ylrj1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eu66n"]
+size = Vector2(16, 15.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rbs2f"]
+size = Vector2(12, 12)
+
+[node name="StaticBody2D" type="StaticBody2D" unique_id=1633649404]
+collision_layer = 256
+collision_mask = 0
+script = ExtResource("1_ylrj1")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1418346514]
+texture = ExtResource("1_uqux3")
+region_enabled = true
+region_rect = Rect2(176, 176, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1096098323]
+shape = SubResource("RectangleShape2D_eu66n")
+
+[node name="Zone" type="Area2D" parent="." unique_id=1010662221]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zone" unique_id=1308760153]
+shape = SubResource("RectangleShape2D_rbs2f")
+
+[connection signal="body_entered" from="Zone" to="." method="_on_zone_body_entered"]
+[connection signal="body_exited" from="Zone" to="." method="_on_zone_body_exited"]

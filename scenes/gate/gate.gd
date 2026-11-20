@@ -3,7 +3,7 @@ extends StaticBody2D
 var _tween: Tween
 var _is_open := false
 @onready var shape: CollisionShape2D = $CollisionShape2D
-	
+
 
 func _open() -> void:
 	if _is_open:
@@ -26,8 +26,8 @@ func _close() -> void:
 	# Play close sound
 
 func _on_floor_button_activated() -> void:
-	_open()	
+	_open()
 
 
 func _on_floor_button_released() -> void:
-	_close()	
+	_close()
