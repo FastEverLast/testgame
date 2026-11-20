@@ -1,12 +1,11 @@
 extends Node2D
 
-@onready var camera: Camera2D = $Player/Camera2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	camera.set_limit_enabled(true)
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass

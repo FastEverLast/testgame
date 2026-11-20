@@ -80,7 +80,7 @@ func _show_options(show_options: bool) -> void:
 	var hide_node: Control
 	var show_node: Control
 	
-	if show_options:
+	if show_options:	
 		hide_node = v_box_container
 		show_node = options
 	else:
