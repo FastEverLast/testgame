@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bn70s6r752pd2" path="res://scenes/gate/gate.tscn" id="3_dd0lh"]
 [ext_resource type="PackedScene" uid="uid://ciqpycv1doga5" path="res://scenes/floor_button/floor_button.tscn" id="4_bfxgj"]
 [ext_resource type="PackedScene" uid="uid://dvxygtm0tkjch" path="res://scenes/vent/vent.tscn" id="5_dywbp"]
+[ext_resource type="PackedScene" uid="uid://drk4ukekf0bn6" path="res://scenes/guard/guard.tscn" id="6_1seuy"]
 
 [sub_resource type="GDScript" id="GDScript_bfxgj"]
 
@@ -51,6 +52,9 @@ position = Vector2(152, 152)
 
 [node name="Marker2D" type="Marker2D" parent="." index="11" unique_id=662645759]
 position = Vector2(-44, -46)
+
+[node name="Guard" parent="." index="12" unique_id=179134705 instance=ExtResource("6_1seuy")]
+position = Vector2(42, 90)
 
 [connection signal="activated" from="FloorButton" to="Gate" method="_on_floor_button_activated"]
 [connection signal="activated" from="FloorButton" to="Gate2" method="_on_floor_button_activated"]
