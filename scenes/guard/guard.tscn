@@ -28,7 +28,7 @@ position = Vector2(0.5, -8)
 collision_layer = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Vision/Cone" unique_id=1925150633]
-polygon = PackedVector2Array(0, 0, 80, -40, 80, 40)
+polygon = PackedVector2Array(0, 0, -14, -40, 20, -50, 45, -48, 62, -38, 74, -22, 78, 0, 74, 22, 62, 38, 45, 48, 20, 50, -14, 40)
 
 [node name="LineOfSight" type="RayCast2D" parent="." unique_id=1937117469]
 position = Vector2(0, -8)
