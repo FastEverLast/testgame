@@ -3,10 +3,10 @@ extends CharacterBody2D
 @export var speed := 200
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var camera: Camera2D = $Camera2D
-@onready var statue_scene = preload("res://scenes/player/statue/statue.tscn")
-signal new_statue_signal
+@onready var statue_instance = preload("res://scenes/player/statue/statue.tscn")
+signal new_guard_signal
+var _statue: Node2D # re-added: holds the current statue
 var last_direction: Vector2 = Vector2.DOWN
-var _statue: Node2D
 
 func _ready() -> void:
 	GameState.form_changed.connect(_on_form_changed)
@@ -19,12 +19,12 @@ func _update_animation(direction : Vector2):
 			dir_name = "right"
 		else:
 			dir_name = "left"
-	else:	
+	else:
 		if last_direction.y > 0:
 			dir_name = "down"
 		else:
 			dir_name = "up"
-			
+
 	if direction != Vector2.ZERO:
 		sprite.play("walk_" + dir_name)
 	else:
@@ -40,23 +40,23 @@ func _on_form_changed(form):
 			sprite.modulate = Color.ORANGE
 		GameState.Form.STATUE:
 			sprite.modulate = Color.GRAY
-			new_statue_signal.emit()
+			new_guard_signal.emit()
 			if is_instance_valid(_statue):
 				_statue.queue_free()
-			var new_statue = statue_scene.instantiate()
+				
+			var new_statue = statue_instance.instantiate()
 			new_statue.position = position
-			_statue = new_statue
+			_statue = new_statue # re-added: remember the new statue
 			add_sibling(new_statue)
-			
 
 func _physics_process(_delta: float) -> void:
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	if GameState.wheel_open == false:
 		velocity = direction * speed
-	
+
 		if direction != Vector2.ZERO:
 			last_direction = direction.normalized()
-	
+
 		move_and_slide()
 		_update_animation(direction)
 
@@ -68,7 +68,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("form_cat"):
 		GameState.shift_to(GameState.Form.CAT)
 	if event.is_action_pressed("form_statue"):
-		GameState.shift_to(GameState.Form.STATUE )
-	
+		GameState.shift_to(GameState.Form.STATUE)
+
 	if event.is_action_pressed("debug_reset"):
 		SceneManager.restart_level()

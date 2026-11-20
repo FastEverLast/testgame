@@ -5,8 +5,17 @@ signal released
 @onready var sprite: Sprite2D = $Sprite2D
 var _bodies_on := 0
 
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
 
-func _on_body_entered(_body: Node2D) -> void:
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func _on_body_entered(body: Node2D) -> void:
 	_bodies_on += 1
 	if _bodies_on == 1:
 		sprite.frame = 2
@@ -14,7 +23,7 @@ func _on_body_entered(_body: Node2D) -> void:
 		# Play audio?
 
 
-func _on_body_exited(_body: Node2D) -> void:
+func _on_body_exited(body: Node2D) -> void:
 	_bodies_on -= 1
 	if _bodies_on == 0:
 		sprite.frame = 1
