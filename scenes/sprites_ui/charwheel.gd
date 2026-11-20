@@ -11,11 +11,13 @@ func _ready() -> void:
 	GameState.wheel_open = false
 	
 func _open():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	visible = true
 	GameState.wheel_open = true
 	_set_hovered(-1)
 
 func _close():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	visible = false
 	GameState.wheel_open = false
 	

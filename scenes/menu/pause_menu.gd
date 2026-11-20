@@ -32,8 +32,12 @@ func _toggle(should_open: bool) -> void:
 	v_box_container.modulate.a = 1.0
 	_open = should_open
 	get_tree().paused = should_open
+
 	if should_open:
 		panel_container.visible = true # must be visible before anim starts
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 	if _tween and _tween.is_valid():
 		_tween.kill()

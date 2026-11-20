@@ -6,6 +6,7 @@ extends Control
 var _tween:Tween = null
 
 func _ready() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	v_box_container.visible = true
 	options.visible = false
 	options.modulate.a = 0.0
@@ -13,6 +14,7 @@ func _ready() -> void:
 func _on_start_game_pressed() -> void:
 	GameState.reset()
 	SceneManager.change_level("res://scenes/levels/level1.tscn")
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 
 func _on_options_pressed() -> void:
@@ -20,6 +22,7 @@ func _on_options_pressed() -> void:
 
 
 func _on_quit_pressed() -> void:
+
 	get_tree().quit()
 
 

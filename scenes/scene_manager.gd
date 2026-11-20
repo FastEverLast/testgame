@@ -1,9 +1,9 @@
 extends Node
 
 @onready var fade: ColorRect = $CanvasLayer/ColorRect
+
 var busy := false
-
-
+	
 func change_level(path: String) -> void:
 	if busy:
 		return

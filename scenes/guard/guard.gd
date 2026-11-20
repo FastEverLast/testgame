@@ -41,7 +41,7 @@ func _can_see_player() -> bool:
 	los.target_position = los.to_local(_player.global_position + Vector2(0, -8))	
 	los.force_raycast_update()
 	
-	return los.is_colliding()
+	return not los.is_colliding()
 	
 func _move_toward(target: Vector2, speed: float):
 	var dir = global_position.direction_to(target)
@@ -96,14 +96,14 @@ func _alert(delta, sees):
 		if global_position.distance_to(_player.global_position) < 14.0 and not _caught:
 			_caught = true
 			SceneManager.restart_level()
-		else:
-			_lost_timer += delta
+	else:
+		_lost_timer += delta
 			
-			if global_position.distance_to(_last_seen) > 4.0:
-				_move_toward(_last_seen, chase_speed)
+		if global_position.distance_to(_last_seen) > 4.0:
+			_move_toward(_last_seen, chase_speed)
 			
-			if _lost_timer >= lose_time:
-				_set_state(State.PATROL)
+		if _lost_timer >= lose_time:
+			_set_state(State.PATROL)
 
 func _physics_process(delta: float) -> void:
 	var sees := _can_see_player()
