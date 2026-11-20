@@ -31,6 +31,7 @@ func _update_animation(direction : Vector2):
 		sprite.play("idle_" + dir_name)
 
 func _on_form_changed(form):
+	set_collision_mask_value(9, form != GameState.Form.CAT)
 	match form:
 		GameState.Form.BASE:
 			sprite.modulate = Color.WHITE

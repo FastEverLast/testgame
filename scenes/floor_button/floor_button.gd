@@ -11,11 +11,11 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 
-func _on_body_entered(body: Node2D) -> void:
+func _on_body_entered(_body: Node2D) -> void:
 	_bodies_on += 1
 	if _bodies_on == 1:
 		sprite.frame = 2
@@ -23,7 +23,7 @@ func _on_body_entered(body: Node2D) -> void:
 		# Play audio?
 
 
-func _on_body_exited(body: Node2D) -> void:
+func _on_body_exited(_body: Node2D) -> void:
 	_bodies_on -= 1
 	if _bodies_on == 0:
 		sprite.frame = 1

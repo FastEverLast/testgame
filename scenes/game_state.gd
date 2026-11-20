@@ -4,6 +4,7 @@ const MAX_MEMORY = 10
 var memory := 5
 var current_form:Form = Form.BASE
 var wheel_open : bool = false
+var shift_lock := 0
 
 enum Form { BASE, GUARD, CAT, STATUE }
 
@@ -15,6 +16,8 @@ func change_memory(amount):
 	memory_changed.emit(memory)
 
 func shift_to(form):
+	if shift_lock > 0:
+		return
 	if form == current_form:
 		return
 	elif form != Form.BASE:
@@ -29,3 +32,4 @@ func reset():
 	memory = 5
 	current_form = Form.BASE
 	wheel_open = false
+	shift_lock = 0
