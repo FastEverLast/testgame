@@ -11,6 +11,7 @@ collision_layer = 4
 collision_mask = 258
 motion_mode = 1
 script = ExtResource("1_3ptlu")
+chase_speed = 60.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1022339886]
 modulate = Color(1, 0.5019608, 0.5019608, 1)
