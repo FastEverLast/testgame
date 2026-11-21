@@ -15,7 +15,7 @@ func _on_zone_body_exited(_body):
 func _on_z_detection_body_entered(body) -> void:
 	if GameState.current_form == GameState.Form.CAT:
 		top_half.z_index = 1
-		#body.get_node("CatForm").z_index = -1
+		body.get_node("CatForm").z_index = -1
 		
 		
 	if GameState.current_form == GameState.Form.BASE:
@@ -24,4 +24,6 @@ func _on_z_detection_body_entered(body) -> void:
 
 func _on_z_detection_body_exited(body: Node2D) -> void:
 	if GameState.current_form == GameState.Form.CAT:
-		#body.get_node("CatForm").z_index = 0
+		body.get_node("CatForm").z_index = 0
+	if body.global_position.y > global_position.y + 8:
+		top_half.z_index = 0

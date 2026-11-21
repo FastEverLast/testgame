@@ -17,9 +17,6 @@ func _ready() -> void:
 func _change_animation(form) -> void:
 	if form == GameState.Form.CAT:
 		active_sprite = cat_sprite
-	elif form == GameState.Form.GUARD:
-		pass
-		# active_sprite = cat_sprite 
 	else:
 		active_sprite = sprite
 	
