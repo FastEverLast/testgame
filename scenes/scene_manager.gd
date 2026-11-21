@@ -30,4 +30,4 @@ func restart_level():
 
 func go_to_main_menu():
 	GameState.reset()
-	change_level("res://scenes/menu/main_menu.tscn")
+	change_level("res://scenes/ui/menu/main_menu.tscn")

@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://ciqpycv1doga5"]
+
+[ext_resource type="Texture2D" uid="uid://bedvf3q4h4gmy" path="res://assets/tilesets/tiles/sprites/floor_button.png" id="1_fq8ip"]
+[ext_resource type="Script" uid="uid://bvvo3dadm6w5h" path="res://scenes/resources/level/floor_button/floor_button.gd" id="1_ympb2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eu66n"]
+size = Vector2(14, 14)
+
+[node name="FloorButton" type="Area2D" unique_id=607420037]
+z_index = -1
+collision_layer = 32
+collision_mask = 129
+script = ExtResource("1_ympb2")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1003276377]
+texture = ExtResource("1_fq8ip")
+hframes = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1707448839]
+shape = SubResource("RectangleShape2D_eu66n")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

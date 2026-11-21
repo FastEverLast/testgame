@@ -1,10 +1,10 @@
 [gd_scene format=4 uid="uid://bwmx5q1l3aism"]
 
 [ext_resource type="PackedScene" uid="uid://dkoqypbd3jl3a" path="res://scenes/base_level.tscn" id="1_jwv3a"]
-[ext_resource type="PackedScene" uid="uid://jp2bns3b10c4" path="res://scenes/fragment/fragment.tscn" id="2_4tcl0"]
-[ext_resource type="PackedScene" uid="uid://bn70s6r752pd2" path="res://scenes/gate/gate.tscn" id="3_dd0lh"]
-[ext_resource type="PackedScene" uid="uid://ciqpycv1doga5" path="res://scenes/floor_button/floor_button.tscn" id="4_bfxgj"]
-[ext_resource type="PackedScene" uid="uid://dvxygtm0tkjch" path="res://scenes/vent/vent.tscn" id="5_dywbp"]
+[ext_resource type="PackedScene" uid="uid://jp2bns3b10c4" path="res://scenes/resources/interactables/fragment/fragment.tscn" id="2_4tcl0"]
+[ext_resource type="PackedScene" uid="uid://bn70s6r752pd2" path="res://scenes/resources/level/gate/gate.tscn" id="3_dd0lh"]
+[ext_resource type="PackedScene" uid="uid://ciqpycv1doga5" path="res://scenes/resources/level/floor_button/floor_button.tscn" id="4_bfxgj"]
+[ext_resource type="PackedScene" uid="uid://dvxygtm0tkjch" path="res://scenes/resources/level/vent/vent.tscn" id="5_dywbp"]
 [ext_resource type="PackedScene" uid="uid://drk4ukekf0bn6" path="res://scenes/guard_enemy/guard_enemy.tscn" id="6_1seuy"]
 
 [sub_resource type="GDScript" id="GDScript_bfxgj"]

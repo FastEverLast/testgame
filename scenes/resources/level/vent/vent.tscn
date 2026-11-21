@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://dvxygtm0tkjch"]
+
+[ext_resource type="Script" uid="uid://drdaj31u5facs" path="res://scenes/resources/level/vent/vent.gd" id="1_ylrj1"]
+[ext_resource type="Texture2D" uid="uid://c40vmk3lmpwif" path="res://assets/tilesets/Sets/Set-Misc.png" id="2_ylrj1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eu66n"]
+size = Vector2(16, 15.75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rbs2f"]
+size = Vector2(12, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_alj2j"]
+size = Vector2(16, 2)
+
+[node name="Vent" type="StaticBody2D" unique_id=1633649404]
+collision_layer = 256
+collision_mask = 0
+script = ExtResource("1_ylrj1")
+
+[node name="TopHalf" type="Sprite2D" parent="." unique_id=1418346514]
+texture = ExtResource("2_ylrj1")
+region_enabled = true
+region_rect = Rect2(160, 63, 16, 16)
+
+[node name="BottomHalf" type="Sprite2D" parent="." unique_id=282399866]
+z_index = -2
+texture = ExtResource("2_ylrj1")
+region_enabled = true
+region_rect = Rect2(160, 80, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1096098323]
+position = Vector2(0, 0.125)
+shape = SubResource("RectangleShape2D_eu66n")
+
+[node name="Zone" type="Area2D" parent="." unique_id=1010662221]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zone" unique_id=1308760153]
+shape = SubResource("RectangleShape2D_rbs2f")
+
+[node name="ZDetection" type="Area2D" parent="." unique_id=1347278325]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZDetection" unique_id=278591172]
+position = Vector2(0, 7)
+shape = SubResource("RectangleShape2D_alj2j")
+
+[connection signal="body_entered" from="Zone" to="." method="_on_zone_body_entered"]
+[connection signal="body_exited" from="Zone" to="." method="_on_zone_body_exited"]
+[connection signal="body_entered" from="ZDetection" to="." method="_on_z_detection_body_entered"]
+[connection signal="body_exited" from="ZDetection" to="." method="_on_z_detection_body_exited"]

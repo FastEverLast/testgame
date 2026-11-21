@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-UiAudio="*res://scenes/audio/ui_audio.tscn"
+UiAudio="*res://scenes/audio/sfx/ui/ui_audio.tscn"
 Settings="*res://scenes/settings.gd"
 GameState="*res://scenes/game_state.gd"
 SceneManager="*res://scenes/scene_manager.tscn"

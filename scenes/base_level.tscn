@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://dkoqypbd3jl3a"]
 
-[ext_resource type="PackedScene" uid="uid://2sfre1mijbbj" path="res://scenes/menu/pause_menu.tscn" id="1_dbkse"]
+[ext_resource type="PackedScene" uid="uid://2sfre1mijbbj" path="res://scenes/ui/menu/pause_menu.tscn" id="1_dbkse"]
 [ext_resource type="Script" uid="uid://dyyj8i4ihxwp7" path="res://scenes/base_level.gd" id="1_rlct4"]
-[ext_resource type="PackedScene" uid="uid://dwr53o88up1lx" path="res://scenes/player/base_character/player.tscn" id="2_0n1tn"]
+[ext_resource type="PackedScene" uid="uid://dwr53o88up1lx" path="res://scenes/characters/player/base_character/player.tscn" id="2_0n1tn"]
 [ext_resource type="FontFile" uid="uid://3oubag611cju" path="res://assets/font/pixelfont_regular.ttf" id="2_oox4p"]
-[ext_resource type="Script" uid="uid://p5kk6u0iw3db" path="res://scenes/memory_label.gd" id="3_oox4p"]
-[ext_resource type="PackedScene" uid="uid://bo3nft3cn3asn" path="res://scenes/charwheel/charwheel.tscn" id="4_k2uud"]
-[ext_resource type="TileSet" uid="uid://ce75ixjc04rts" path="res://tilesets/dungeon_gathering(main set).tres" id="5_3aqo6"]
+[ext_resource type="Script" uid="uid://p5kk6u0iw3db" path="res://scenes/ui/labels/memory_label.gd" id="3_oox4p"]
+[ext_resource type="PackedScene" uid="uid://bo3nft3cn3asn" path="res://scenes/ui/charwheel/charwheel.tscn" id="4_k2uud"]
+[ext_resource type="TileSet" uid="uid://ce75ixjc04rts" path="res://tilesets/Set-Main.tres" id="5_3aqo6"]
 
 [node name="BaseLevel" type="Node2D" unique_id=1515612743]
 y_sort_enabled = true
