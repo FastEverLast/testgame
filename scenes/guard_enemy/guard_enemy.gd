@@ -14,12 +14,12 @@ enum State { PATROL, SUSPICIOUS, ALERT }
 
 var _state: int = State.PATROL
 var _points : Array[Vector2]		# The different places the guard is going to stop at
-var _index := 0						# The stop he is currently driving to
+var _index := 0						# The stop he is currently driving to - Fast here DRIVIG???
 var _player : Node2D = null			# Gets filled after the player (you) first walks into the enemies vision cone
 var _in_cone := false
 var _suspicion := 0.0				# 0.0 is nothing and 1.0 is certain
 var _lost_timer := 0.0				# How many seconds the guard has been chasing the player without seeing him
-var _last_seen : Vector2 = Vector2.ZERO		#Last position the guard saw the player, he moves toward it every frame
+var _last_seen : Vector2 = Vector2.ZERO		# Last position the guard saw the player, he moves toward it every frame
 var _caught := false
 
 func _ready() -> void:
@@ -46,7 +46,7 @@ func _can_see_player() -> bool:
 	
 func _move_toward(target: Vector2, speed: float):
 	var dir: Vector2 = global_position.direction_to(target)		# Direction to gives an arrow of length 1 that points at the target
-	velocity = dir * speed		# Moves the enemy in a certain direction (dir) at a certain speed (speed)
+	velocity = dir * speed			# Moves the enemy in a certain direction (dir) at a certain speed (speed)
 	vision.rotation = dir.angle()	# Rotates the red vision cone towards the player, so that he can detect the player again
 	move_and_slide()
 	
@@ -62,7 +62,7 @@ func _set_state(new_state):		# Changes the guards "mood"
 		State.ALERT : alert_label.text = "!"
 	
 func _patrol(sees) -> void:
-	if sees == true:	# The "sees" comes from the can see player variable
+	if sees == true:	# The "sees" comes from the can_see_player variable
 		_set_state(State.SUSPICIOUS)
 		return
 	
@@ -78,9 +78,9 @@ func _suspicious(delta, sees):	# Delta is the number of seconds since the last f
 	if sees:
 		_suspicion += delta / sus_time	# Adds this very small number to the sus time, every second
 		_last_seen = _player.global_position	# REMEMBERS the last place he saw you at
-		vision.rotation = global_position.direction_to(_player.global_position).angle()	# Rotate the red vision area to face that last seen position.
+		vision.rotation = (global_position.direction_to(_player.global_position)).angle()	# Rotate the red vision area to face that last seen position.
 	else:
-		_suspicion -= delta	# The meter drains in seconds
+		_suspicion -= delta		# The meter drains in seconds
 	
 	
 	if _suspicion >= 1.0:	# If the meter is full
@@ -95,7 +95,7 @@ func _alert(delta, sees):
 		_lost_timer = 0.0						# Reset lost timer, because he sees you...
 		_move_toward(_last_seen, chase_speed)
 		
-		if global_position.distance_to(_player.global_position) < 14.0 and not _caught: # If you are within 14 pixels of him, and caught is still false, make it true
+		if global_position.distance_to(_player.global_position) < 14.0 and not _caught: # If you are within 14 pixels of him, and _caught is still false, make it true
 			_caught = true
 			SceneManager.restart_level() # Pretty obvious what this does...
 	else:
@@ -105,11 +105,12 @@ func _alert(delta, sees):
 			_move_toward(_last_seen, chase_speed)
 			
 		if _lost_timer >= lose_time:	# Give up, you lost the player ;)
+			
 			_set_state(State.PATROL)
 
-func _physics_process(delta: float) -> void: # Runns 60 times a second
+func _physics_process(delta: float) -> void: 	# Runs 60 times a second
 	var sees := _can_see_player()	# Asks the question and stores the "true" or "false" answer
-	match _state:	# Call the right function depending on his mood
+	match _state:					# Call the right function depending on his mood
 		State.PATROL : _patrol(sees)
 		State.SUSPICIOUS : _suspicious(delta, sees)
 		State.ALERT : _alert(delta, sees)
