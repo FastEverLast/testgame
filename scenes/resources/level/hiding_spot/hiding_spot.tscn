@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://dij54u3ixb7vq"]
+
+[ext_resource type="Script" uid="uid://co3o6d03q2kvu" path="res://scenes/resources/level/hiding_spot/hiding_spot.gd" id="1_1um11"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eu66n"]
+size = Vector2(16, 16)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_wrtls"]
+specular_color = Color(0.41960785, 1, 1, 1)
+
+[node name="HidingSpot" type="Area2D" unique_id=45458896]
+collision_layer = 64
+script = ExtResource("1_1um11")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=36013875]
+z_index = -1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1570732388]
+shape = SubResource("RectangleShape2D_eu66n")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1851099567]
+z_index = -1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_wrtls")
+
+[connection signal="body_entered" from="." to="." method="_on_enter"]
+[connection signal="body_exited" from="." to="." method="_on_exit"]

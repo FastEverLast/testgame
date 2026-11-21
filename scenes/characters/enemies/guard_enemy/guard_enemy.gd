@@ -43,6 +43,10 @@ func _on_cone_body_exited(_body):	# The _body just means that we are not using t
 func _can_see_player() -> bool:
 	if _in_cone == false:			
 		return false
+		
+	if GameState.hidden_count > 0:
+		return false
+			
 	if GameState.current_form == GameState.Form.GUARD:	# Guard does not detect the player when he is in the guard form
 		return false
 	
@@ -105,7 +109,7 @@ func _suspicious(delta, sees):	# Delta is the number of seconds since the last f
 		_repatrol(global_position, "lost_sucpicion")
 		
 				
-func _repatrol(position_guard, reason) -> void:	# Starts patrolling in the new position
+func _repatrol(_position_guard, reason) -> void:	# Starts patrolling in the new position
 	if reason == "lost_player":
 		var distance_down : float = patrol_down.target_position.length()	# Get the lenght of the vector (128 px)
 		if patrol_down.is_colliding():

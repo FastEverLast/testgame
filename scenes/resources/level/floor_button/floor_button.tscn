@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bedvf3q4h4gmy" path="res://assets/tilesets/tiles/sprites/floor_button.png" id="1_fq8ip"]
 [ext_resource type="Script" uid="uid://bvvo3dadm6w5h" path="res://scenes/resources/level/floor_button/floor_button.gd" id="1_ympb2"]
+[ext_resource type="AudioStream" uid="uid://djwedoa3gekqn" path="res://assets/audio/sfx/game/floor_button.wav" id="3_xdh54"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eu66n"]
 size = Vector2(14, 14)
@@ -18,6 +19,16 @@ hframes = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1707448839]
 shape = SubResource("RectangleShape2D_eu66n")
+
+[node name="PressSound" type="AudioStreamPlayer" parent="." unique_id=610514233]
+stream = ExtResource("3_xdh54")
+bus = &"SFX"
+
+[node name="ReleaseSound" type="AudioStreamPlayer" parent="." unique_id=407172447]
+stream = ExtResource("3_xdh54")
+volume_db = -6.0
+pitch_scale = 0.8
+bus = &"SFX"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
