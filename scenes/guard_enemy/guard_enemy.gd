@@ -5,12 +5,20 @@ enum State { PATROL, SUSPICIOUS, ALERT }
 @export var patrol_offset := Vector2(96, 0)		# The point the guard is going to, we can make it an array for more complex shapes
 @export var patrol_speed : float = 40.0
 @export var chase_speed : float = 85.0
+@export var creep_speed : float = 12.0
 @export var sus_time : float = 1.4				# How long until he starts chasing after he saw you
 @export var lose_time : float = 3.0				# How long to keep searching after he cant se you anymore
+@export var search_reach : float = 128.0			# How far the guard checks if there is a wall in the way before starting to patrol
 
-@onready var vision: Node2D = $Vision			# We rotate this to turn the guards view
-@onready var los: RayCast2D = $LineOfSight		# Line of sight
-@onready var alert_label: Label = $LineOfSight/Alert
+@onready var vision : Node2D = $Vision			# We rotate this to turn the guards view
+@onready var los : RayCast2D = $LineOfSight		# Line of sight
+@onready var alert_label : Label = $LineOfSight/Alert
+
+@onready var patrol_up : RayCast2D = $Patrol_Up
+@onready var patrol_down : RayCast2D = $Patrol_Down
+@onready var patrol_left : RayCast2D = $Patrol_Left
+@onready var patrol_right : RayCast2D = $Patrol_Right
+
 
 var _state: int = State.PATROL
 var _points : Array[Vector2]		# The different places the guard is going to stop at
@@ -44,11 +52,14 @@ func _can_see_player() -> bool:
 	return not los.is_colliding()	# The raycast only collides with walls. Since the raycast is aimed at the player, this checks if there is a wall between the plyer and enemy.
 									# Returns false if it hits a wall, and true when he does not. 
 	
-func _move_toward(target: Vector2, speed: float):
-	var dir: Vector2 = global_position.direction_to(target)		# Direction to gives an arrow of length 1 that points at the target
-	velocity = dir * speed			# Moves the enemy in a certain direction (dir) at a certain speed (speed)
-	vision.rotation = dir.angle()	# Rotates the red vision cone towards the player, so that he can detect the player again
-	move_and_slide()
+func _move_toward(target: Vector2, speed: float) -> void:
+	if (_player != null) and ((target == _player.global_position) and (_can_see_player() == false)): # So that the enemy doesn't chase you if you are behind a wall
+		return		
+	else:
+		var dir: Vector2 = global_position.direction_to(target)		# Direction to gives an arrow of length 1 that points at the target
+		velocity = dir * speed			# Moves the enemy in a certain direction (dir) at a certain speed (speed)
+		vision.rotation = dir.angle()	# Rotates the red vision cone towards the player, so that he can detect the player again
+		move_and_slide()
 	
 func _set_state(new_state):		# Changes the guards "mood"
 	_state = new_state			# Store the new mood
@@ -79,15 +90,69 @@ func _suspicious(delta, sees):	# Delta is the number of seconds since the last f
 		_suspicion += delta / sus_time	# Adds this very small number to the sus time, every second
 		_last_seen = _player.global_position	# REMEMBERS the last place he saw you at
 		vision.rotation = (global_position.direction_to(_player.global_position)).angle()	# Rotate the red vision area to face that last seen position.
+		
+		if global_position.distance_to(_player.global_position) > 20:
+			_move_toward(_player.global_position, creep_speed)
 	else:
 		_suspicion -= delta		# The meter drains in seconds
-	
+		if global_position.distance_to(_last_seen) > 4.0:
+			_move_toward(_last_seen, creep_speed)
 	
 	if _suspicion >= 1.0:	# If the meter is full
 		_set_state(State.ALERT)
 	
 	if _suspicion <= 0.0: # If the meter is empty
-		_set_state(State.PATROL)
+		_repatrol(global_position, "lost_sucpicion")
+		
+				
+func _repatrol(position_guard, reason) -> void:	# Starts patrolling in the new position
+	if reason == "lost_player":
+		var distance_down : float = patrol_down.target_position.length()	# Get the lenght of the vector (128 px)
+		if patrol_down.is_colliding():
+			distance_down = global_position.distance_to(patrol_down.get_collision_point()) 		# If the raycast collides with anything, make the new distance that point
+																								#										|
+		var distance_up : float = patrol_up.target_position.length()							#										|
+		if patrol_up.is_colliding():															#										|
+			distance_up = global_position.distance_to(patrol_up.get_collision_point())			# <-------------------------------------|
+																								#										|									 	
+		var distance_right : float = patrol_right.target_position.length()						#										|
+		if patrol_right.is_colliding():															#										|
+			distance_right = global_position.distance_to(patrol_right.get_collision_point())	# <-------------------------------------|
+																								#										|
+		var distance_left : float = patrol_left.target_position.length()						#										|
+		if patrol_left.is_colliding():															#										|
+			distance_left = global_position.distance_to(patrol_left.get_collision_point())		# <-------------------------------------|
+		
+		var horizontal : float = distance_left + distance_right
+		var vertical : float = distance_up + distance_down
+		var buffer_distance := 12	# Important, otherwise the distance the guard can walk is smaller than its hitbox, causing it to get stuck
+		
+		if vertical > horizontal:
+			if distance_up > 96:
+				_points = [global_position, global_position - Vector2(0, 96)] 
+			elif distance_down > 96:
+				_points = [global_position, global_position + Vector2(0, 96)] 
+			else: 	
+				_points = [Vector2(global_position.x, global_position.y - distance_up + buffer_distance), Vector2(global_position.x, global_position.y + distance_down - buffer_distance)] 
+			
+		else:
+			if distance_right > 96:
+				_points = [global_position, global_position + Vector2(96, 0)] 
+			elif distance_left > 96:
+				_points = [global_position, global_position - Vector2(96, 0)] 
+			else: 	
+				_points = [Vector2(global_position.x - distance_left + buffer_distance, global_position.y), Vector2(global_position.x + distance_right - buffer_distance, global_position.y)] 
+	
+		_index = 0	# Walk to the second point first		
+			
+	_set_state(State.PATROL)
+				
+	# elif reason == "lost_sucpicion":
+					
+				
+				
+	
+
 
 func _alert(delta, sees):
 	if sees:
@@ -105,8 +170,7 @@ func _alert(delta, sees):
 			_move_toward(_last_seen, chase_speed)
 			
 		if _lost_timer >= lose_time:	# Give up, you lost the player ;)
-			
-			_set_state(State.PATROL)
+			_repatrol(global_position, "lost_player")
 
 func _physics_process(delta: float) -> void: 	# Runs 60 times a second
 	var sees := _can_see_player()	# Asks the question and stores the "true" or "false" answer

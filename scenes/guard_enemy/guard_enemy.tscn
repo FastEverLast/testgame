@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dyisnxw658ugx" path="res://assets/test_character/Run/Down/Base_run_down_1.png" id="1_s4gqi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rbs2f"]
-size = Vector2(11, 10)
+size = Vector2(8, 10)
 
 [node name="Guard" type="CharacterBody2D" unique_id=179134705]
 collision_layer = 4
@@ -40,6 +40,22 @@ offset_left = -4.0
 offset_top = -40.0
 offset_right = 36.0
 offset_bottom = -17.0
+
+[node name="Patrol_Left" type="RayCast2D" parent="." unique_id=1299833948]
+target_position = Vector2(-128, 0)
+collision_mask = 258
+
+[node name="Patrol_Up" type="RayCast2D" parent="." unique_id=1484870379]
+target_position = Vector2(0, -128)
+collision_mask = 258
+
+[node name="Patrol_Down" type="RayCast2D" parent="." unique_id=1955153950]
+target_position = Vector2(0, 128)
+collision_mask = 258
+
+[node name="Patrol_Right" type="RayCast2D" parent="." unique_id=392480336]
+target_position = Vector2(128, 0)
+collision_mask = 258
 
 [connection signal="body_entered" from="Vision/Cone" to="." method="_on_cone_body_entered"]
 [connection signal="body_exited" from="Vision/Cone" to="." method="_on_cone_body_exited"]
