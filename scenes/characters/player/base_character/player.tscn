@@ -27,6 +27,7 @@
 [ext_resource type="Texture2D" uid="uid://ccvttmlprxj7d" path="res://assets/characters/player/default/sprite/Up/Base_run_up_6.png" id="25_ds1xl"]
 [ext_resource type="SpriteFrames" uid="uid://ddak614qttx86" path="res://assets/characters/player/cat/animations/cat.tres" id="26_kkree"]
 [ext_resource type="AudioStream" uid="uid://ddnvmx2m8we2s" path="res://assets/audio/sfx/game/footsteps_coarse.wav" id="27_037os"]
+[ext_resource type="AudioStream" uid="uid://cbagebe6f8ft3" path="res://assets/audio/sfx/game/whoosh.mp3" id="28_bythr"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_eu66n"]
 animations = [{
@@ -194,4 +195,8 @@ frame_progress = 0.6719331
 
 [node name="Footsteps_base" type="AudioStreamPlayer" parent="." unique_id=2030906858]
 stream = ExtResource("27_037os")
+bus = &"SFX"
+
+[node name="ShiftSound" type="AudioStreamPlayer" parent="." unique_id=498874251]
+stream = ExtResource("28_bythr")
 bus = &"SFX"

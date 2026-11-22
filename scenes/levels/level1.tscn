@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dvxygtm0tkjch" path="res://scenes/resources/level/vent/vent.tscn" id="5_dywbp"]
 [ext_resource type="PackedScene" uid="uid://drk4ukekf0bn6" path="res://scenes/characters/enemies/guard_enemy/guard_enemy.tscn" id="6_1seuy"]
 [ext_resource type="PackedScene" uid="uid://dij54u3ixb7vq" path="res://scenes/resources/level/hiding_spot/hiding_spot.tscn" id="7_2r1tl"]
+[ext_resource type="PackedScene" uid="uid://dwk8hae3oh1ac" path="res://scenes/levels/exit_level/exit_level.tscn" id="8_8a7m2"]
 
 [sub_resource type="GDScript" id="GDScript_bfxgj"]
 
@@ -59,6 +60,10 @@ position = Vector2(42, 90)
 
 [node name="HidingSpot" parent="." index="13" unique_id=45458896 instance=ExtResource("7_2r1tl")]
 position = Vector2(184, 136)
+
+[node name="ExitLevel" parent="." index="14" unique_id=1225360685 instance=ExtResource("8_8a7m2")]
+position = Vector2(536, 73)
+next_level = "uid://bp3tnpmf8eikq"
 
 [connection signal="activated" from="FloorButton" to="Gate" method="_on_floor_button_activated"]
 [connection signal="activated" from="FloorButton" to="Gate2" method="_on_floor_button_activated"]

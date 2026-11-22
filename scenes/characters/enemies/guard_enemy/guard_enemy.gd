@@ -152,11 +152,6 @@ func _repatrol(_position_guard, reason) -> void:	# Starts patrolling in the new 
 	_set_state(State.PATROL)
 				
 	# elif reason == "lost_sucpicion":
-					
-				
-				
-	
-
 
 func _alert(delta, sees):
 	if sees:

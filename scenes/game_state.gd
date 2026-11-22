@@ -35,3 +35,11 @@ func reset():
 	wheel_open = false
 	shift_lock = 0
 	hidden_count = 0
+
+func prepare_next_level():
+	current_form = Form.BASE
+	wheel_open = false
+	shift_lock = 0
+	hidden_count = 0
+	memory = maxi(memory, 3)
+	memory_changed.emit(memory)
