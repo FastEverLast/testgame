@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://c1brlixexv3at"]
+
+[ext_resource type="Script" uid="uid://cs17mwj7v74gu" path="res://scenes/resources/interactables/note/note.gd" id="1_1ps8t"]
+[ext_resource type="Texture2D" uid="uid://bdv2b5j331kmj" path="res://icon.svg" id="1_p3brh"]
+[ext_resource type="FontFile" uid="uid://3oubag611cju" path="res://assets/font/pixelfont_regular.ttf" id="2_vog02"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eu66n"]
+radius = 24.0
+
+[node name="Note" type="Area2D" unique_id=332491752]
+collision_layer = 32
+script = ExtResource("1_1ps8t")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=979350930]
+z_index = -1
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_p3brh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=548441945]
+shape = SubResource("CircleShape2D_eu66n")
+
+[node name="Prompt" type="Label" parent="." unique_id=275958001]
+visible = false
+offset_left = -4.0
+offset_top = -26.0
+offset_right = 36.0
+offset_bottom = -3.0
+theme_override_fonts/font = ExtResource("2_vog02")
+theme_override_font_sizes/font_size = 10
+text = "E"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

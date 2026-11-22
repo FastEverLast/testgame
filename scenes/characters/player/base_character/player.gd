@@ -6,6 +6,7 @@ extends CharacterBody2D
 @export var step_starts: Array[float] = [0.48, 0.79]
 @export var step_starts_varient: Array[float] = [0.17]
 @export var step_length := 0.11
+@onready var puff : CPUParticles2D = $Puff
 @onready var shift_sound : AudioStreamPlayer = $ShiftSound
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var camera: Camera2D = $Camera2D
@@ -13,11 +14,14 @@ extends CharacterBody2D
 @onready var cat_sprite: AnimatedSprite2D = $CatForm
 @onready var active_sprite = $AnimatedSprite2D
 @onready var footsteps : AudioStreamPlayer = $Footsteps_base
+@onready var _sprite_scale := sprite.scale
+@onready var _cat_scale := cat_sprite.scale
 
 var _statue: Node2D # re-added: holds the current statue
 var last_direction: Vector2 = Vector2.DOWN
 var _step_timer := 0.0
 var _flash_tween : Tween
+var _squash_tween : Tween
 
 func _ready() -> void:
 	GameState.form_changed.connect(_on_form_changed)
@@ -34,6 +38,21 @@ func _play_shift_effect(_form):
 	_flash_tween.tween_property(cat_sprite, "self_modulate", Color.WHITE, 0.3)
 	shift_sound.pitch_scale = randf_range(0.9, 1.1)
 	shift_sound.play()
+	_squash()
+	puff.restart()
+
+func _squash():
+	if _squash_tween:
+		_squash_tween.kill()
+	sprite.scale = _sprite_scale * Vector2(1.4, 0.6)
+	cat_sprite.scale = _cat_scale * Vector2(1.4, 0.6)
+	
+	_squash_tween = create_tween()
+	_squash_tween.set_parallel(true)
+	_squash_tween.set_trans(Tween.TRANS_BACK)
+	_squash_tween.set_ease(Tween.EASE_OUT)
+	_squash_tween.tween_property(sprite, "scale", _sprite_scale, 0.25)
+	_squash_tween.tween_property(cat_sprite, "scale", _cat_scale, 0.25)
 
 func _change_animation(form) -> void:
 	if form == GameState.Form.CAT:
@@ -86,7 +105,8 @@ func _on_form_changed(form):
 
 func _physics_process(_delta: float) -> void:
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	if GameState.wheel_open == false:
+	
+	if GameState.wheel_open == false and GameState.reading == false:
 		velocity = direction * speed
 		_handle_footsteps(_delta)
 
