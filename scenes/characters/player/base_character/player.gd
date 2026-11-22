@@ -37,6 +37,7 @@ func _play_shift_effect(_form):
 	_flash_tween.tween_property(sprite, "self_modulate", Color.WHITE, 0.3)
 	_flash_tween.tween_property(cat_sprite, "self_modulate", Color.WHITE, 0.3)
 	shift_sound.pitch_scale = randf_range(0.9, 1.1)
+	shift_sound.volume_db = -7.0
 	shift_sound.play()
 	_squash()
 	puff.restart()
@@ -142,23 +143,18 @@ func _handle_footsteps(delta) -> void:
 		
 func _play_step():
 	var _choose_footstep := randi_range(0, 10)
-	print("ran code:", _choose_footstep)
 	footsteps.volume_db = randf_range(-10.0, -9.0)
 	if range(0,4).has(_choose_footstep):
 		footsteps.pitch_scale = randf_range(0.7, 0.8)
-		print("footstep")
 		footsteps.stream = load("res://assets/audio/sfx/game/footstep.wav")
 		var start : float = step_starts_varient.pick_random() # step_starts for footsteps and footsteps_heavy; step_starts_coarse for footsteps_coarse and step_starts_varient for footstep
 		footsteps.play(start)
 		
 	elif range(4,11).has(_choose_footstep):
 		footsteps.pitch_scale = randf_range(0.8, 1.1)
-		print("footsteps")
 		footsteps.stream = load("res://assets/audio/sfx/game/footsteps.wav")	
 		var start : float = step_starts.pick_random() # step_starts for footsteps and footsteps_heavy; step_starts_coarse for footsteps_coarse and step_starts_varient for footstep
 		footsteps.play(start)
-	
-	
 	
 	await get_tree().create_timer(step_length).timeout
 	footsteps.stop()

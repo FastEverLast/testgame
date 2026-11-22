@@ -19,8 +19,6 @@ layer = 10
 metadata/_tc_offline_added = true
 metadata/_tc_uuid = "7094741322287461601"
 
-[node name="TextBox" parent="UI" unique_id=489984459 instance=ExtResource("2_earhg")]
-
 [node name="PauseMenu" parent="UI" unique_id=1157975477 instance=ExtResource("1_dbkse")]
 mouse_filter = 2
 metadata/_tc_offline_added = true
@@ -41,7 +39,16 @@ metadata/_tc_uuid = "7180429969852244298"
 position = Vector2(320, 180)
 metadata/_tc_offline_added = true
 
+[node name="TextBox" parent="UI" unique_id=489984459 instance=ExtResource("2_earhg")]
+
 [node name="Floor" type="TileMapLayer" parent="." unique_id=512615916]
+z_index = -4
+texture_filter = 1
+tile_set = ExtResource("5_3aqo6")
+metadata/_tc_offline_added = true
+metadata/_tc_uuid = "6766147172219563349"
+
+[node name="FloorDecor" type="TileMapLayer" parent="." unique_id=370759875]
 z_index = -4
 texture_filter = 1
 tile_set = ExtResource("5_3aqo6")

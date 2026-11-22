@@ -3,6 +3,17 @@
 [ext_resource type="Script" uid="uid://cpj5l3cx8buft" path="res://scenes/ui/textbox/textbox.gd" id="1_alx14"]
 [ext_resource type="FontFile" uid="uid://3oubag611cju" path="res://assets/font/pixelfont_regular.ttf" id="2_dcdod"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_alx14"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.14683916, 0.14683916, 0.14683916, 0.78431374)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
 [node name="TextBox" type="Control" unique_id=489984459 groups=["textbox"]]
 layout_mode = 3
 anchors_preset = 15
@@ -21,10 +32,21 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 47.0
+offset_top = -89.0
+offset_right = -48.0
+offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 0
+offset_transform_enabled = true
+theme_override_styles/panel = SubResource("StyleBoxFlat_alx14")
 
 [node name="Label" type="Label" parent="PanelContainer" unique_id=367125314]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_dcdod")
-text = "Autowrap Smart"
+text = "text"
+autowrap_mode = 3
+
+[node name="TypeSound" type="AudioStreamPlayer" parent="." unique_id=428713500]
+bus = &"SFX"
