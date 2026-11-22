@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://2sfre1mijbbj" path="res://scenes/ui/menu/pause_menu.tscn" id="1_dbkse"]
 [ext_resource type="Script" uid="uid://dyyj8i4ihxwp7" path="res://scenes/base_level.gd" id="1_rlct4"]
 [ext_resource type="PackedScene" uid="uid://dwr53o88up1lx" path="res://scenes/characters/player/base_character/player.tscn" id="2_0n1tn"]
+[ext_resource type="PackedScene" uid="uid://dux34oiqpd55k" path="res://scenes/ui/textbox/textbox.tscn" id="2_earhg"]
 [ext_resource type="FontFile" uid="uid://3oubag611cju" path="res://assets/font/pixelfont_regular.ttf" id="2_oox4p"]
 [ext_resource type="Script" uid="uid://p5kk6u0iw3db" path="res://scenes/ui/labels/memory_label.gd" id="3_oox4p"]
 [ext_resource type="PackedScene" uid="uid://bo3nft3cn3asn" path="res://scenes/ui/charwheel/charwheel.tscn" id="4_k2uud"]
@@ -38,7 +39,16 @@ metadata/_tc_uuid = "7180429969852244298"
 position = Vector2(320, 180)
 metadata/_tc_offline_added = true
 
+[node name="TextBox" parent="UI" unique_id=489984459 instance=ExtResource("2_earhg")]
+
 [node name="Floor" type="TileMapLayer" parent="." unique_id=512615916]
+z_index = -4
+texture_filter = 1
+tile_set = ExtResource("5_3aqo6")
+metadata/_tc_offline_added = true
+metadata/_tc_uuid = "6766147172219563349"
+
+[node name="FloorDecor" type="TileMapLayer" parent="." unique_id=370759875]
 z_index = -4
 texture_filter = 1
 tile_set = ExtResource("5_3aqo6")

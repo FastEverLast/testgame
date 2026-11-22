@@ -27,6 +27,7 @@
 [ext_resource type="Texture2D" uid="uid://ccvttmlprxj7d" path="res://assets/characters/player/default/sprite/Up/Base_run_up_6.png" id="25_ds1xl"]
 [ext_resource type="SpriteFrames" uid="uid://ddak614qttx86" path="res://assets/characters/player/cat/animations/cat.tres" id="26_kkree"]
 [ext_resource type="AudioStream" uid="uid://ddnvmx2m8we2s" path="res://assets/audio/sfx/game/footsteps_coarse.wav" id="27_037os"]
+[ext_resource type="AudioStream" uid="uid://cbagebe6f8ft3" path="res://assets/audio/sfx/game/whoosh.mp3" id="28_bythr"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_eu66n"]
 animations = [{
@@ -158,6 +159,10 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eu66n"]
 size = Vector2(8, 9)
 
+[sub_resource type="Gradient" id="Gradient_bythr"]
+offsets = PackedFloat32Array(0.0032467532, 0.14610389, 0.41883117, 0.6201299, 1)
+colors = PackedColorArray(0.15127617, 0.15127602, 0.15127611, 1, 0.21960784, 0.21960784, 0.21960784, 0.9647059, 0.39308554, 0.39308554, 0.39308533, 0.9764706, 0.5053441, 0.50534403, 0.5053442, 0.827451, 1, 1, 1, 0)
+
 [node name="Player" type="CharacterBody2D" unique_id=1894673584]
 collision_mask = 258
 motion_mode = 1
@@ -195,3 +200,25 @@ frame_progress = 0.6719331
 [node name="Footsteps_base" type="AudioStreamPlayer" parent="." unique_id=2030906858]
 stream = ExtResource("27_037os")
 bus = &"SFX"
+
+[node name="ShiftSound" type="AudioStreamPlayer" parent="." unique_id=498874251]
+stream = ExtResource("28_bythr")
+bus = &"SFX"
+
+[node name="Puff" type="CPUParticles2D" parent="." unique_id=1444674725]
+position = Vector2(0, -6)
+emitting = false
+amount = 12
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 4.0
+direction = Vector2(0, -1)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 40.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color_ramp = SubResource("Gradient_bythr")

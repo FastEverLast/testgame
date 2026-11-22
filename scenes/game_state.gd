@@ -6,6 +6,7 @@ var current_form:Form = Form.BASE
 var wheel_open : bool = false
 var shift_lock := 0
 var hidden_count := 0
+var reading := false
 
 enum Form { BASE, GUARD, CAT, STATUE }
 
@@ -35,3 +36,13 @@ func reset():
 	wheel_open = false
 	shift_lock = 0
 	hidden_count = 0
+	reading = false
+
+func prepare_next_level():
+	current_form = Form.BASE
+	wheel_open = false
+	shift_lock = 0
+	hidden_count = 0
+	memory = maxi(memory, 3)
+	memory_changed.emit(memory)
+	reading = false

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://dwk8hae3oh1ac"]
+
+[ext_resource type="Script" uid="uid://ck8ow8bx5ie7q" path="res://scenes/levels/exit_level/exit_level.gd" id="1_5c4wh"]
+[ext_resource type="Texture2D" uid="uid://b04b8pakxvrta" path="res://assets/tilesets/sets/Set-Main.png" id="1_cj8by"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eu66n"]
+size = Vector2(12, 12)
+
+[node name="ExitLevel" type="Area2D" unique_id=1225360685]
+collision_layer = 0
+script = ExtResource("1_5c4wh")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1790261072]
+z_index = -1
+texture = ExtResource("1_cj8by")
+region_enabled = true
+region_rect = Rect2(256, 176, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=416503906]
+shape = SubResource("RectangleShape2D_eu66n")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
