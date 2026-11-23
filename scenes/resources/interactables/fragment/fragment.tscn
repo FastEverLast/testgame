@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bl6scbn0sm7t7" path="res://scenes/resources/interactables/fragment/fragment.gd" id="1_h7my7"]
 [ext_resource type="Texture2D" uid="uid://hfv5e23fwqu7" path="res://assets/sprites/fragments/fragment.png" id="2_3jbsj"]
+[ext_resource type="AudioStream" uid="uid://bof8mi6m5t1yl" path="res://assets/audio/sfx/game/pickup.mp3" id="3_b4k5d"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rbs2f"]
 radius = 4.0
@@ -78,5 +79,9 @@ autoplay = "fragment"
 frame_progress = 0.6497355
 metadata/_tc_offline_added = true
 metadata/_tc_uuid = "855079209550903134"
+
+[node name="Pickup" type="AudioStreamPlayer" parent="." unique_id=740496722]
+stream = ExtResource("3_b4k5d")
+bus = &"SFX"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
