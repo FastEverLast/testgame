@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bvlp2olvmkqc1" path="res://scenes/characters/enemies/guard_enemy/guard_enemy.gd" id="1_3ptlu"]
 [ext_resource type="Texture2D" uid="uid://dyisnxw658ugx" path="res://assets/characters/player/default/sprite/Down/Base_run_down_1.png" id="1_s4gqi"]
+[ext_resource type="AudioStream" uid="uid://dfvf6mf7dr61e" path="res://assets/audio/sfx/game/footsteps_guard.wav" id="3_qxpml"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_037os"]
 radius = 4.5
@@ -57,6 +58,10 @@ collision_mask = 258
 [node name="Patrol_Right" type="RayCast2D" parent="." unique_id=392480336]
 target_position = Vector2(128, 0)
 collision_mask = 258
+
+[node name="Footsteps_guard" type="AudioStreamPlayer" parent="." unique_id=969363419]
+stream = ExtResource("3_qxpml")
+bus = &"SFX"
 
 [connection signal="body_entered" from="Vision/Cone" to="." method="_on_cone_body_entered"]
 [connection signal="body_exited" from="Vision/Cone" to="." method="_on_cone_body_exited"]

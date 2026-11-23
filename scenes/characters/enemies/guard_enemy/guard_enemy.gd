@@ -14,6 +14,12 @@ enum State { PATROL, SUSPICIOUS, ALERT }
 @onready var los : RayCast2D = $LineOfSight		# Line of sight
 @onready var alert_label : Label = $LineOfSight/Alert
 
+@onready var footsteps : AudioStreamPlayer = $Footsteps_guard
+@onready var step_starts : Array[float] = [0.17]
+@onready var step_length := 0.10
+
+@export var step_interval := 0.17
+
 @onready var patrol_up : RayCast2D = $Patrol_Up
 @onready var patrol_down : RayCast2D = $Patrol_Down
 @onready var patrol_left : RayCast2D = $Patrol_Left
@@ -29,6 +35,8 @@ var _suspicion := 0.0				# 0.0 is nothing and 1.0 is certain
 var _lost_timer := 0.0				# How many seconds the guard has been chasing the player without seeing him
 var _last_seen : Vector2 = Vector2.ZERO		# Last position the guard saw the player, he moves toward it every frame
 var _caught := false
+var _step_timer := 0.0
+var _step_count := 0
 
 func _ready() -> void:
 	_points = [global_position, global_position + patrol_offset]	# The array is populated, with the current position as the first stop, and the current pos
@@ -60,10 +68,41 @@ func _move_toward(target: Vector2, speed: float) -> void:
 	if (_player != null) and ((target == _player.global_position) and (_can_see_player() == false)): # So that the enemy doesn't chase you if you are behind a wall
 		return		
 	else:
-		var dir: Vector2 = global_position.direction_to(target)		# Direction to gives an arrow of length 1 that points at the target
+		var dir: Vector2 = global_position.direction_to(target)		# Direction to gives an arrow of length 1 that points at the target	
 		velocity = dir * speed			# Moves the enemy in a certain direction (dir) at a certain speed (speed)
 		vision.rotation = dir.angle()	# Rotates the red vision cone towards the player, so that he can detect the player again
 		move_and_slide()
+
+			
+		
+func _guard_sfx(delta) -> void:	
+	if _state == State.ALERT:
+		if (footsteps.playing == false):
+			if get_real_velocity().length() < 5.0:
+				_step_timer = 0.0
+				return
+				
+			_step_timer -= delta	# Counts down in seconds
+			
+			if _step_timer <= 0.0:
+				if _step_count == 0:
+					_step_count = 1
+					footsteps.pitch_scale = 1.1
+					step_length = 0.06
+				elif _step_count == 1:
+					_step_count = 0	
+					footsteps.pitch_scale = 1.0
+					step_length = 0.1
+				_step_timer = step_interval
+				footsteps.stream = load("res://assets/audio/sfx/game/footstep.wav")	
+				footsteps.volume_db = 8.0
+				var start : float = step_starts.pick_random() 
+				footsteps.play(start)	
+				await get_tree().create_timer(step_length).timeout
+				footsteps.stop()
+		
+		
+	
 	
 func _set_state(new_state):		# Changes the guards "mood"
 	_state = new_state			# Store the new mood
@@ -173,6 +212,7 @@ func _alert(delta, sees):
 
 func _physics_process(delta: float) -> void: 	# Runs 60 times a second
 	var sees := _can_see_player()	# Asks the question and stores the "true" or "false" answer
+	_guard_sfx(delta)					# Always run _guard_sfx
 	match _state:					# Call the right function depending on his mood
 		State.PATROL : _patrol(sees)
 		State.SUSPICIOUS : _suspicious(delta, sees)
