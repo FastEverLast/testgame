@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://by8qwvcko06qb" path="res://scenes/scene_manager.gd" id="1_we8k5"]
 
 [node name="SceneManager" type="Node" unique_id=1974011946]
+process_mode = 3
 script = ExtResource("1_we8k5")
 metadata/_tc_uuid = "1583298720836216090"
 

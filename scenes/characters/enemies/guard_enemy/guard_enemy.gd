@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 enum State { PATROL, SUSPICIOUS, ALERT }
 
-@export var patrol_offset := Vector2(96, 0)		# The point the guard is going to, we can make it an array for more complex shapes
+@export var patrol_offsets : Array[Vector2] = [Vector2(96, 0)]		# The point the guard is going to, we can make it an array for more complex shapes
 @export var patrol_speed : float = 40.0
 @export var chase_speed : float = 85.0
 @export var creep_speed : float = 12.0
@@ -39,8 +39,13 @@ var _step_timer := 0.0
 var _step_count := 0
 
 func _ready() -> void:
-	_points = [global_position, global_position + patrol_offset]	# The array is populated, with the current position as the first stop, and the current pos
-																	# plus the offset specified above as the second position 	
+	_points = [global_position]	# The array is populated, with the current position as the first stop, and the current pos
+								# plus the offset specified above as the second position 
+	for offset in patrol_offsets:
+		_points.append(global_position + offset)
+	
+	_player = get_tree().get_first_node_in_group("player")
+
 func _on_cone_body_entered(body):	# Body can only be the player, since the mask is set to the player
 	_player = body					# Fills the variable that was previously null
 	_in_cone = true
@@ -200,7 +205,7 @@ func _alert(delta, sees):
 		
 		if global_position.distance_to(_player.global_position) < 14.0 and not _caught: # If you are within 14 pixels of him, and _caught is still false, make it true
 			_caught = true
-			SceneManager.restart_level() # Pretty obvious what this does...
+			SceneManager.caught() # Pretty obvious what this does...
 	else:
 		_lost_timer += delta
 			
@@ -211,8 +216,17 @@ func _alert(delta, sees):
 			_repatrol(global_position, "lost_player")
 
 func _physics_process(delta: float) -> void: 	# Runs 60 times a second
+	if SceneManager.busy or SceneManager.catching:
+		return
+	
+	if _player != null and not _caught:
+		if global_position.distance_to(_player.global_position) < 14.0 and GameState.current_form != GameState.Form.GUARD and GameState.hidden_count == 0:
+			_caught = true
+			SceneManager.caught()
+			return
+	
 	var sees := _can_see_player()	# Asks the question and stores the "true" or "false" answer
-	_guard_sfx(delta)					# Always run _guard_sfx
+	_guard_sfx(delta)				# Always run _guard_sfx
 	match _state:					# Call the right function depending on his mood
 		State.PATROL : _patrol(sees)
 		State.SUSPICIOUS : _suspicious(delta, sees)

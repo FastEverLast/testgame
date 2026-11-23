@@ -2,6 +2,9 @@ extends StaticBody2D
 
 var _tween: Tween
 var _is_open := false
+var _pressed := 0
+@export var required := 1
+@export var stay_open := false
 @onready var shape: CollisionShape2D = $CollisionShape2D
 
 
@@ -26,8 +29,15 @@ func _close() -> void:
 	# Play close sound
 
 func _on_floor_button_activated() -> void:
-	_open()
-
+	_pressed += 1
+	if _pressed >= required:
+		_open()
 
 func _on_floor_button_released() -> void:
-	_close()
+	_pressed -= 1
+	if _pressed < required and not stay_open:
+		_close()
+
+
+func _on_guard_panel_activated() -> void:
+	pass # Replace with function body.

@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://ddnamdbtutcvx"]
+
+[ext_resource type="Texture2D" uid="uid://bdv2b5j331kmj" path="res://icon.svg" id="1_0kqfh"]
+[ext_resource type="Script" uid="uid://xirpr3q2gmrb" path="res://scenes/resources/level/guard_panel/guard_panel.gd" id="1_1jbsl"]
+[ext_resource type="FontFile" uid="uid://3oubag611cju" path="res://assets/font/pixelfont_regular.ttf" id="3_1grc6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eu66n"]
+radius = 20.0
+
+[node name="GuardPanel" type="Area2D" unique_id=1548600339]
+collision_layer = 32
+script = ExtResource("1_1jbsl")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=112377106]
+modulate = Color(0.16862746, 0.19607843, 1, 1)
+z_index = -1
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_0kqfh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=210843011]
+shape = SubResource("CircleShape2D_eu66n")
+
+[node name="Prompt" type="Label" parent="." unique_id=1743807836]
+visible = false
+offset_left = -2.0
+offset_top = -19.0
+offset_right = 38.0
+offset_bottom = 4.0
+theme_override_fonts/font = ExtResource("3_1grc6")
+theme_override_font_sizes/font_size = 10
+text = "E"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

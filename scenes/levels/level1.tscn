@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dij54u3ixb7vq" path="res://scenes/resources/level/hiding_spot/hiding_spot.tscn" id="7_2r1tl"]
 [ext_resource type="PackedScene" uid="uid://dwk8hae3oh1ac" path="res://scenes/levels/exit_level/exit_level.tscn" id="8_8a7m2"]
 [ext_resource type="PackedScene" uid="uid://c1brlixexv3at" path="res://scenes/resources/interactables/note/note.tscn" id="9_plydf"]
+[ext_resource type="PackedScene" uid="uid://ddnamdbtutcvx" path="res://scenes/resources/level/guard_panel/guard_panel.tscn" id="10_5ntmo"]
 
 [sub_resource type="GDScript" id="GDScript_bfxgj"]
 
@@ -44,40 +45,61 @@ metadata/_tc_offline_added = true
 
 [node name="Gate" parent="." index="7" unique_id=488032558 instance=ExtResource("3_dd0lh")]
 position = Vector2(200, 71)
+required = 2
+stay_open = true
 
 [node name="Gate2" parent="." index="8" unique_id=837141038 instance=ExtResource("3_dd0lh")]
 position = Vector2(200, 87)
+required = 2
+stay_open = true
 
-[node name="FloorButton" parent="." index="9" unique_id=607420037 instance=ExtResource("4_bfxgj")]
+[node name="Gate3" parent="." index="9" unique_id=636718059 instance=ExtResource("3_dd0lh")]
+position = Vector2(456, 40)
+stay_open = true
+
+[node name="FloorButton" parent="." index="10" unique_id=607420037 instance=ExtResource("4_bfxgj")]
 position = Vector2(139, 67)
 
-[node name="Vent" parent="." index="10" unique_id=1633649404 instance=ExtResource("5_dywbp")]
+[node name="FloorButton2" parent="." index="11" unique_id=13689235 instance=ExtResource("4_bfxgj")]
+position = Vector2(184, 168)
+
+[node name="Vent" parent="." index="12" unique_id=1633649404 instance=ExtResource("5_dywbp")]
 position = Vector2(152, 152)
 
-[node name="Vent2" parent="." index="11" unique_id=724024474 instance=ExtResource("5_dywbp")]
+[node name="Vent2" parent="." index="13" unique_id=724024474 instance=ExtResource("5_dywbp")]
 position = Vector2(504, 88)
 
-[node name="Guard" parent="." index="12" unique_id=179134705 instance=ExtResource("6_1seuy")]
-position = Vector2(42, 90)
+[node name="Guard" parent="." index="14" unique_id=179134705 instance=ExtResource("6_1seuy")]
+position = Vector2(43, 38)
+patrol_offsets = Array[Vector2]([Vector2(120, 0), Vector2(120, 70), Vector2(0, 70)])
 
-[node name="HidingSpot" parent="." index="13" unique_id=45458896 instance=ExtResource("7_2r1tl")]
+[node name="HidingSpot" parent="." index="15" unique_id=45458896 instance=ExtResource("7_2r1tl")]
 position = Vector2(184, 136)
 
-[node name="ExitLevel" parent="." index="14" unique_id=1225360685 instance=ExtResource("8_8a7m2")]
+[node name="ExitLevel" parent="." index="16" unique_id=1225360685 instance=ExtResource("8_8a7m2")]
 position = Vector2(536, 73)
 next_level = "uid://bp3tnpmf8eikq"
 locked = true
 
-[node name="Note" parent="." index="15" unique_id=332491752 instance=ExtResource("9_plydf")]
-position = Vector2(395, 76)
+[node name="Note" parent="." index="17" unique_id=332491752 instance=ExtResource("9_plydf")]
+position = Vector2(184, 276)
 text = "You were framed. . . The collector is your enemy, believe NO one!"
 memory_reward = 1
 
-[node name="Player" parent="." index="16" unique_id=1894673584]
+[node name="Player" parent="." index="18" unique_id=1894673584]
 position = Vector2(158, 224)
+
+[node name="GuardPanel" parent="." index="19" unique_id=1548600339 instance=ExtResource("10_5ntmo")]
+position = Vector2(391, 66)
 
 [connection signal="activated" from="FloorButton" to="Gate" method="_on_floor_button_activated"]
 [connection signal="activated" from="FloorButton" to="Gate2" method="_on_floor_button_activated"]
 [connection signal="activated" from="FloorButton" to="ExitLevel" method="unlock"]
 [connection signal="released" from="FloorButton" to="Gate" method="_on_floor_button_released"]
 [connection signal="released" from="FloorButton" to="Gate2" method="_on_floor_button_released"]
+[connection signal="activated" from="FloorButton2" to="Gate" method="_on_floor_button_activated"]
+[connection signal="activated" from="FloorButton2" to="Gate2" method="_on_floor_button_activated"]
+[connection signal="activated" from="FloorButton2" to="ExitLevel" method="unlock"]
+[connection signal="released" from="FloorButton2" to="Gate" method="_on_floor_button_released"]
+[connection signal="released" from="FloorButton2" to="Gate2" method="_on_floor_button_released"]
+[connection signal="activated" from="GuardPanel" to="Gate3" method="_on_floor_button_activated"]

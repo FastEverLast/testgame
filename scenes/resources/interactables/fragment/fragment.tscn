@@ -63,6 +63,7 @@ script = ExtResource("1_h7my7")
 metadata/_tc_uuid = "1906401528075340749"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2073363677]
+scale = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_rbs2f")
 metadata/_tc_offline_added = true
 metadata/_tc_uuid = "4914791197471270540"
@@ -70,6 +71,7 @@ metadata/_tc_uuid = "4914791197471270540"
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1877575148]
 z_index = -1
 texture_filter = 1
+scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_eu66n")
 animation = &"fragment"
 autoplay = "fragment"

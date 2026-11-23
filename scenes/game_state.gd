@@ -32,6 +32,9 @@ func shift_to(form):
 	
 func reset():
 	memory = 5
+	reset_level_state()
+	
+func reset_level_state():
 	current_form = Form.BASE
 	wheel_open = false
 	shift_lock = 0
