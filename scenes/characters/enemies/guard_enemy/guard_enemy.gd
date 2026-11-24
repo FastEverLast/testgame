@@ -9,15 +9,16 @@ enum State { PATROL, SUSPICIOUS, ALERT }
 @export var sus_time : float = 1.4				# How long until he starts chasing after he saw you
 @export var lose_time : float = 3.0				# How long to keep searching after he cant se you anymore
 @export var search_reach : float = 128.0			# How far the guard checks if there is a wall in the way before starting to patrol
+@export var detects_disguise := false
 
 @onready var vision : Node2D = $Vision			# We rotate this to turn the guards view
 @onready var los : RayCast2D = $LineOfSight		# Line of sight
 @onready var alert_label : Label = $LineOfSight/Alert
-
+@onready var cone_visual : Sprite2D = $Vision/ConeVisual
+@onready var beam_material : ShaderMaterial = cone_visual.material
 @onready var footsteps : AudioStreamPlayer = $Footsteps_guard
 @onready var step_starts : Array[float] = [0.17]
 @onready var step_length := 0.10
-
 @export var step_interval := 0.17
 
 @onready var patrol_up : RayCast2D = $Patrol_Up
@@ -45,6 +46,9 @@ func _ready() -> void:
 		_points.append(global_position + offset)
 	
 	_player = get_tree().get_first_node_in_group("player")
+	
+	if detects_disguise:
+		$Sprite2D.modulate = Color(1.0, 0.85, 0.3)
 
 func _on_cone_body_entered(body):	# Body can only be the player, since the mask is set to the player
 	_player = body					# Fills the variable that was previously null
@@ -60,7 +64,7 @@ func _can_see_player() -> bool:
 	if GameState.hidden_count > 0:
 		return false
 			
-	if GameState.current_form == GameState.Form.GUARD:	# Guard does not detect the player when he is in the guard form
+	if GameState.current_form == GameState.Form.GUARD and not detects_disguise:	# Guard does not detect the player when he is in the guard form
 		return false
 	
 	los.target_position = los.to_local(_player.global_position + Vector2(0, -8))	# The raycast "lazer". The raycast is aimed at the player, and moved 8 pixels up, so
@@ -78,8 +82,6 @@ func _move_toward(target: Vector2, speed: float) -> void:
 		vision.rotation = dir.angle()	# Rotates the red vision cone towards the player, so that he can detect the player again
 		move_and_slide()
 
-			
-		
 func _guard_sfx(delta) -> void:	
 	if _state == State.ALERT:
 		if (footsteps.playing == false):
@@ -107,8 +109,6 @@ func _guard_sfx(delta) -> void:
 				footsteps.stop()
 		
 		
-	
-	
 func _set_state(new_state):		# Changes the guards "mood"
 	_state = new_state			# Store the new mood
 	_lost_timer = 0.0			# Reset "lost you" timer
@@ -117,8 +117,11 @@ func _set_state(new_state):		# Changes the guards "mood"
 	
 	match new_state:	# Case statement that displays something else in the label based on the mood
 		State.PATROL : alert_label.text = ""
+		State.PATROL : beam_material.set_shader_parameter("beam_color",Color(1, 1, 1, 0.12))
 		State.SUSPICIOUS : alert_label.text = "?"
+		State.SUSPICIOUS : beam_material.set_shader_parameter("beam_color",Color(1.0, 0.85, 0.2, 0.22))
 		State.ALERT : alert_label.text = "!"
+		State.ALERT : beam_material.set_shader_parameter("beam_color",Color(1.0, 0.2, 0.2, 0.3))
 	
 func _patrol(sees) -> void:
 	if sees == true:	# The "sees" comes from the can_see_player variable
@@ -220,7 +223,7 @@ func _physics_process(delta: float) -> void: 	# Runs 60 times a second
 		return
 	
 	if _player != null and not _caught:
-		if global_position.distance_to(_player.global_position) < 14.0 and GameState.current_form != GameState.Form.GUARD and GameState.hidden_count == 0:
+		if global_position.distance_to(_player.global_position) < 14.0 and (GameState.current_form != GameState.Form.GUARD or detects_disguise) and GameState.hidden_count == 0:
 			_caught = true
 			SceneManager.caught()
 			return

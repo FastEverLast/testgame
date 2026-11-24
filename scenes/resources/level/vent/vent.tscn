@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://drdaj31u5facs" path="res://scenes/resources/level/vent/vent.gd" id="1_ylrj1"]
 [ext_resource type="Texture2D" uid="uid://c40vmk3lmpwif" path="res://assets/tilesets/sets/Set-Misc.png" id="2_ylrj1"]
+[ext_resource type="Texture2D" uid="uid://b04b8pakxvrta" path="res://assets/tilesets/sets/Set-Main.png" id="3_vk70l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eu66n"]
 size = Vector2(16, 16)
@@ -12,12 +13,20 @@ size = Vector2(12, 12)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_alj2j"]
 size = Vector2(16, 2)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_xpxyv"]
+atlas = ExtResource("3_vk70l")
+region = Rect2(80, 160, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dkvdt"]
+size = Vector2(16, 16)
+
 [node name="Vent" type="StaticBody2D" unique_id=1633649404]
 collision_layer = 256
 collision_mask = 0
 script = ExtResource("1_ylrj1")
 
 [node name="TopHalf" type="Sprite2D" parent="." unique_id=1418346514]
+z_index = -1
 texture = ExtResource("2_ylrj1")
 region_enabled = true
 region_rect = Rect2(160, 63, 16, 16)
@@ -43,6 +52,45 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ZDetection" unique_id=278591172]
 position = Vector2(0, 7)
 shape = SubResource("RectangleShape2D_alj2j")
+
+[node name="WallRight" type="Sprite2D" parent="." unique_id=1861748359]
+z_index = -1
+position = Vector2(16, 0)
+texture = SubResource("AtlasTexture_xpxyv")
+
+[node name="Polygon" type="StaticBody2D" parent="WallRight" unique_id=1165653462]
+collision_layer = 511
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WallRight/Polygon" unique_id=1952199407]
+position = Vector2(8, -8)
+polygon = PackedVector2Array(0, 0, -11, 0, -13, 8, -11, 16, 0, 16)
+
+[node name="Wall" type="StaticBody2D" parent="WallRight" unique_id=1273481415]
+collision_layer = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight/Wall" unique_id=59625499]
+shape = SubResource("RectangleShape2D_dkvdt")
+
+[node name="WallLeft" type="Sprite2D" parent="." unique_id=319335774]
+z_index = -1
+position = Vector2(-16, 0)
+texture = ExtResource("3_vk70l")
+region_enabled = true
+region_rect = Rect2(112, 160, 16, 16)
+
+[node name="Polygon" type="StaticBody2D" parent="WallLeft" unique_id=170532485]
+rotation = 3.1415927
+collision_layer = 511
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WallLeft/Polygon" unique_id=357251519]
+position = Vector2(8, -8)
+polygon = PackedVector2Array(0, 0, -11.000001, 9.536743e-07, -13, 8.000001, -10.999999, 16, 0, 16)
+
+[node name="Wall" type="StaticBody2D" parent="WallLeft" unique_id=1975556779]
+collision_layer = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft/Wall" unique_id=2078541199]
+shape = SubResource("RectangleShape2D_dkvdt")
 
 [connection signal="body_entered" from="Zone" to="." method="_on_zone_body_entered"]
 [connection signal="body_exited" from="Zone" to="." method="_on_zone_body_exited"]

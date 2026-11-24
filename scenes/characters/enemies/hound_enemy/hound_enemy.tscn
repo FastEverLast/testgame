@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://dgahsqmapbsp2"]
+
+[ext_resource type="Script" uid="uid://bghfqc0gxg8bh" path="res://scenes/characters/enemies/hound_enemy/hound_enemy.gd" id="1_k4qkl"]
+[ext_resource type="Texture2D" uid="uid://dyisnxw658ugx" path="res://assets/characters/player/default/sprite/Down/Base_run_down_1.png" id="2_p6y38"]
+[ext_resource type="AudioStream" uid="uid://dfvf6mf7dr61e" path="res://assets/audio/sfx/game/footsteps_guard.wav" id="3_ib4vc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_037os"]
+radius = 3.0
+height = 6.0
+
+[node name="Hound" type="CharacterBody2D" unique_id=179134705]
+collision_layer = 4
+collision_mask = 258
+motion_mode = 1
+script = ExtResource("1_k4qkl")
+chase_speed = 80.0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1022339886]
+modulate = Color(1, 0.5019608, 0.5019608, 1)
+texture = ExtResource("2_p6y38")
+offset = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1261029963]
+position = Vector2(1, -3)
+shape = SubResource("CapsuleShape2D_037os")
+
+[node name="Vision" type="Node2D" parent="." unique_id=2029233971]
+position = Vector2(0.5, -8)
+
+[node name="Cone" type="Area2D" parent="Vision" unique_id=1912507215]
+collision_layer = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Vision/Cone" unique_id=1925150633]
+polygon = PackedVector2Array(0, 0, -14, -40, 20, -50, 45, -48, 62, -38, 74, -22, 78, 0, 74, 22, 62, 38, 45, 48, 20, 50, -14, 40)
+
+[node name="LineOfSight" type="RayCast2D" parent="." unique_id=1937117469]
+position = Vector2(0, -8)
+collision_mask = 2
+
+[node name="Alert" type="Label" parent="LineOfSight" unique_id=1176441701]
+offset_left = -4.0
+offset_top = -40.0
+offset_right = 36.0
+offset_bottom = -17.0
+
+[node name="Patrol_Left" type="RayCast2D" parent="." unique_id=1299833948]
+target_position = Vector2(-128, 0)
+collision_mask = 258
+
+[node name="Patrol_Up" type="RayCast2D" parent="." unique_id=1484870379]
+target_position = Vector2(0, -128)
+collision_mask = 258
+
+[node name="Patrol_Down" type="RayCast2D" parent="." unique_id=1955153950]
+target_position = Vector2(0, 128)
+collision_mask = 258
+
+[node name="Patrol_Right" type="RayCast2D" parent="." unique_id=392480336]
+target_position = Vector2(128, 0)
+collision_mask = 258
+
+[node name="Footsteps_hound" type="AudioStreamPlayer" parent="." unique_id=969363419]
+stream = ExtResource("3_ib4vc")
+bus = &"SFX"
+
+[connection signal="body_entered" from="Vision/Cone" to="." method="_on_cone_body_entered"]
+[connection signal="body_exited" from="Vision/Cone" to="." method="_on_cone_body_exited"]

@@ -3,10 +3,18 @@
 [ext_resource type="Script" uid="uid://bvlp2olvmkqc1" path="res://scenes/characters/enemies/guard_enemy/guard_enemy.gd" id="1_3ptlu"]
 [ext_resource type="Texture2D" uid="uid://dyisnxw658ugx" path="res://assets/characters/player/default/sprite/Down/Base_run_down_1.png" id="1_s4gqi"]
 [ext_resource type="AudioStream" uid="uid://dfvf6mf7dr61e" path="res://assets/audio/sfx/game/footsteps_guard.wav" id="3_qxpml"]
+[ext_resource type="Shader" uid="uid://cvsth6nn3fv4o" path="res://scenes/characters/enemies/guard_enemy/flashlight.gdshader" id="4_s3ds3"]
+[ext_resource type="Texture2D" uid="uid://diengjja86ugv" path="res://assets/sprites/flashlight/flashlight_beam.png" id="4_v5d4m"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_037os"]
 radius = 4.5
 height = 11.2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s3ds3"]
+resource_local_to_scene = true
+shader = ExtResource("4_s3ds3")
+shader_parameter/beam_color = Color(1, 0.95, 0.7, 0.45)
+shader_parameter/levels = 4.0
 
 [node name="Guard" type="CharacterBody2D" unique_id=179134705]
 collision_layer = 4
@@ -32,6 +40,12 @@ collision_layer = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Vision/Cone" unique_id=1925150633]
 polygon = PackedVector2Array(0, 0, -14, -40, 20, -50, 45, -48, 62, -38, 74, -22, 78, 0, 74, 22, 62, 38, 45, 48, 20, 50, -14, 40)
+
+[node name="ConeVisual" type="Sprite2D" parent="Vision" unique_id=1172624384]
+material = SubResource("ShaderMaterial_s3ds3")
+position = Vector2(56.5, 52)
+texture = ExtResource("4_v5d4m")
+offset = Vector2(-14, -50)
 
 [node name="LineOfSight" type="RayCast2D" parent="." unique_id=1937117469]
 position = Vector2(0, -8)

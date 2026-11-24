@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dfm474pl4bhp7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eu66n"]
+size = Vector2(198, 124)
+
+[node name="WashZone" type="Area2D" unique_id=384680208]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1761948688]
+shape = SubResource("RectangleShape2D_eu66n")

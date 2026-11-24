@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bqh03bflgnj6u"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_alj2j"]
+
+[node name="VentSide2" type="Area2D" unique_id=1544046494]
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1419672730 groups=["Hound_Group"]]
+shape = SubResource("WorldBoundaryShape2D_alj2j")
