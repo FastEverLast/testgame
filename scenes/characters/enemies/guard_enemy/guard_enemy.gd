@@ -116,12 +116,15 @@ func _set_state(new_state):		# Changes the guards "mood"
 		_suspicion = 0.0
 	
 	match new_state:	# Case statement that displays something else in the label based on the mood
-		State.PATROL : alert_label.text = ""
-		State.PATROL : beam_material.set_shader_parameter("beam_color",Color(1, 1, 1, 0.12))
-		State.SUSPICIOUS : alert_label.text = "?"
-		State.SUSPICIOUS : beam_material.set_shader_parameter("beam_color",Color(1.0, 0.85, 0.2, 0.22))
-		State.ALERT : alert_label.text = "!"
-		State.ALERT : beam_material.set_shader_parameter("beam_color",Color(1.0, 0.2, 0.2, 0.3))
+		State.PATROL : 
+			alert_label.text = ""
+			beam_material.set_shader_parameter("beam_color",Color(1, 1, 1, 0.12))
+		State.SUSPICIOUS : 	
+			alert_label.text = "?"
+			beam_material.set_shader_parameter("beam_color",Color(1.0, 0.85, 0.2, 0.22))
+		State.ALERT : 
+			alert_label.text = "!"
+			beam_material.set_shader_parameter("beam_color",Color(1.0, 0.2, 0.2, 0.3))
 	
 func _patrol(sees) -> void:
 	if sees == true:	# The "sees" comes from the can_see_player variable
