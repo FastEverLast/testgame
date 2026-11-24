@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bbhaikodge262"
-path="res://.godot/imported/controlpanel.png-4d1caa38c3cd0ea4ac659977d8e83bf2.ctex"
+path="res://.godot/imported/Controlpanel.png-70a786b207d96e4bd5f5e93236e058b9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/controlpanel/controlpanel.png"
-dest_files=["res://.godot/imported/controlpanel.png-4d1caa38c3cd0ea4ac659977d8e83bf2.ctex"]
+source_file="res://assets/sprites/controlpanel/Controlpanel.png"
+dest_files=["res://.godot/imported/Controlpanel.png-70a786b207d96e4bd5f5e93236e058b9.ctex"]
 
 [params]
 

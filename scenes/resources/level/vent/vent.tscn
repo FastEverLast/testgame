@@ -59,7 +59,7 @@ position = Vector2(16, 0)
 texture = SubResource("AtlasTexture_xpxyv")
 
 [node name="Polygon" type="StaticBody2D" parent="WallRight" unique_id=1165653462]
-collision_layer = 511
+collision_layer = 2
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WallRight/Polygon" unique_id=1952199407]
 position = Vector2(8, -8)
@@ -80,7 +80,7 @@ region_rect = Rect2(112, 160, 16, 16)
 
 [node name="Polygon" type="StaticBody2D" parent="WallLeft" unique_id=170532485]
 rotation = 3.1415927
-collision_layer = 511
+collision_layer = 2
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WallLeft/Polygon" unique_id=357251519]
 position = Vector2(8, -8)
