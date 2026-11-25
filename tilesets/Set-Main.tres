@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bp5eugdno024d" path="res://assets/tilesets/tiles/sprites/torch.png" id="2_kilm2"]
 [ext_resource type="Texture2D" uid="uid://bedvf3q4h4gmy" path="res://assets/tilesets/tiles/sprites/floor_button.png" id="3_1ru1a"]
 [ext_resource type="Texture2D" uid="uid://ds0iv12lyy4fm" path="res://assets/tilesets/sets/Set-Fade.png" id="4_kilm2"]
+[ext_resource type="Texture2D" uid="uid://djt84sqpoaqta" path="res://assets/tilesets/tiles/sprites/gate.png" id="5_rd5e1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6su7b"]
 resource_name = "Base"
@@ -553,6 +554,36 @@ texture = ExtResource("4_kilm2")
 16:9/0 = 0
 17:9/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rd5e1"]
+texture = ExtResource("5_rd5e1")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+8:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+8:2/0 = 0
+
 [resource]
 physics_layer_0/collision_layer = 2
 physics_layer_0/collision_mask = 0
@@ -560,3 +591,4 @@ sources/0 = SubResource("TileSetAtlasSource_6su7b")
 sources/1 = SubResource("TileSetAtlasSource_mlsew")
 sources/2 = SubResource("TileSetAtlasSource_hfgxq")
 sources/3 = SubResource("TileSetAtlasSource_1ru1a")
+sources/6 = SubResource("TileSetAtlasSource_rd5e1")

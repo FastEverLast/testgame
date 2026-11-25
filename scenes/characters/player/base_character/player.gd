@@ -114,9 +114,12 @@ func _physics_process(_delta: float) -> void:
 
 		if direction != Vector2.ZERO:
 			last_direction = direction.normalized()
-
+			
 		move_and_slide()
 		_update_animation(direction)
+	else:
+		velocity = Vector2.ZERO
+		_update_animation(Vector2.ZERO)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("form_base"):

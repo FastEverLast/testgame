@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://g0yk0vytfqor"]
+
+[ext_resource type="Script" uid="uid://b3c4lhad3qaoy" path="res://scenes/resources/interactables/screen_popup/screen_popup.gd" id="1_rq8r5"]
+[ext_resource type="Texture2D" uid="uid://c3kle38ea600t" path="res://assets/ui/buttons/animations/ShitSheet.png" id="2_cmcqe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eu66n"]
+size = Vector2(188, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fcbnh"]
+atlas = ExtResource("2_cmcqe")
+region = Rect2(0, 0, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hvr5w"]
+atlas = ExtResource("2_cmcqe")
+region = Rect2(32, 0, 32, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4xxee"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fcbnh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hvr5w")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 2.0
+}]
+
+[node name="ScreenPopup" type="Node2D" unique_id=1375831140]
+script = ExtResource("1_rq8r5")
+
+[node name="Trigger" type="Area2D" parent="." unique_id=1956683010]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trigger" unique_id=2008244521]
+shape = SubResource("RectangleShape2D_eu66n")
+
+[node name="Shift" type="AnimatedSprite2D" parent="." unique_id=1579672222]
+position = Vector2(0, -28)
+sprite_frames = SubResource("SpriteFrames_4xxee")
+autoplay = "default"
+frame_progress = 0.49755123

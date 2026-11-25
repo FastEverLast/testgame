@@ -1,0 +1,25 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://c0bjfom3g62ft"]
+
+[ext_resource type="Texture2D" uid="uid://b5gdvlfs6usmy" path="res://assets/tilesets/tiles/animations/gate.png" id="1_rvhmc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fgj8l"]
+atlas = ExtResource("1_rvhmc")
+region = Rect2(0, 0, 144, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_83p3t"]
+atlas = ExtResource("1_rvhmc")
+region = Rect2(144, 0, 144, 48)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fgj8l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_83p3t")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]

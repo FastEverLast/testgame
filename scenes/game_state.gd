@@ -19,7 +19,8 @@ func change_memory(amount):
 
 func shift_to(form):
 	if shift_lock > 0:
-		return
+		if reading:
+			return
 	if form == current_form:
 		return
 	elif form != Form.BASE:
