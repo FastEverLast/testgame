@@ -199,41 +199,42 @@ func _repatrol(_position_hound, reason) -> void:	# Starts patrolling in the new 
 				
 	# elif reason == "lost_sucpicion":
 
+# Returns where the hound should walk right now. Usually the target itself, but if a wall is in the way, it returns the vent entrance instead.
 func _funnel_target(target: Vector2) -> Vector2:
-	var vent_x : float = vent_side_1.global_position.x
-	var north_y : float = vent_side_1.global_position.y
-	var south_y : float = vent_side_2.global_position.y
-	var misaligned : bool = abs(global_position.x - vent_x) > 10.0 # Mesures how far the hound is from the real entrance
-	var entrance_north := Vector2(vent_x, north_y - 25.0)
+	var vent_x : float = vent_side_1.global_position.x # The x pos of the vent opening, both sides share it
+	var north_y : float = vent_side_1.global_position.y # Vent side 1's north edge
+	var south_y : float = vent_side_2.global_position.y # Vent side 2's south edge
+	var misaligned : bool = abs(global_position.x - vent_x) > 10.0 # Mesures how far the hound is from the real entrance, if that distance is more than 10px
+	var entrance_north := Vector2(vent_x, north_y - 25.0) # A spot 25 px north of the vents north side
 	var entrance_south := Vector2(vent_x, south_y + 25.0)
 	
-	if global_position.y < north_y and target.y >= north_y:
-		if misaligned:
+	if global_position.y < north_y and target.y >= north_y: # If the hound is north of the wall and the target is at or past the wall
+		if misaligned:	# Not lined up with vent, so move to entrance
 			return entrance_north
 		if target.y > south_y:
-			return entrance_south
+			return entrance_south	# Properly lined up, walk through
 		return target
 	
-	if global_position.y > south_y and target.y <= south_y:
+	if global_position.y > south_y and target.y <= south_y: # Same as above, but the hound is on the south side
 		if misaligned:
 			return entrance_south
 		if target.y < north_y:
 			return entrance_north
 		return target
 		
-	if global_position.y >= north_y and global_position.y <= south_y:
+	if global_position.y >= north_y and global_position.y <= south_y: # Hound is inside the vent, leave through side the target is on
 		if target.y > south_y:
 			return entrance_south
 		if target.y < north_y:
 			return entrance_north
-	return target
+	return target # Nothing in the way, go to the target!
 	
 func _alert(delta, sees):
 	if sees:
 		_last_seen = _player.global_position	# If he sees you, he sets the last_seen pos to your current positon
 		_lost_timer = 0.0						# Reset lost timer, because he sees you...
 		
-		_move_toward(_funnel_target(_last_seen), chase_speed)
+		_move_toward(_funnel_target(_last_seen), chase_speed) # Funnel swaps real target for vent entrance if wall is in the way
 		
 		if global_position.distance_to(_player.global_position) < 14.0 and not _caught: # If you are within 14 pixels of him, and _caught is still false, make it true
 			_caught = true
