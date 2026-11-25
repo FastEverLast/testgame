@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bhepm76kbajsn"]
 
-[ext_resource type="Texture2D" uid="uid://cy2mdh88oql6y" path="res://assets/characters/player/statue/sprite/statue.png" id="1_1112u"]
+[ext_resource type="Texture2D" uid="uid://3uykyd3b5b0f" path="res://assets/characters/player/statue/sprite/Statue.png" id="1_c0ckv"]
 
 [sub_resource type="GDScript" id="GDScript_dlg4w"]
 script/source = "extends CharacterBody2D
@@ -23,8 +23,11 @@ collision_mask = 2
 script = SubResource("GDScript_dlg4w")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1292840101]
-texture = ExtResource("1_1112u")
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_c0ckv")
 offset = Vector2(0, -16)
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 64)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1668365768]
 position = Vector2(0, -4)

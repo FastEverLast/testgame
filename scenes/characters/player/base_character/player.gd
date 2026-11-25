@@ -103,6 +103,7 @@ func _on_form_changed(form):
 			new_statue.position = position
 			_statue = new_statue # re-added: remember the new statue
 			add_sibling(new_statue)
+			GameState.shift_to(GameState.Form.BASE)
 
 func _physics_process(_delta: float) -> void:
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
