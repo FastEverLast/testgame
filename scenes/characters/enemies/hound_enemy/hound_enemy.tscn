@@ -8,7 +8,7 @@
 radius = 3.0
 height = 6.0
 
-[node name="Hound" type="CharacterBody2D" unique_id=179134705]
+[node name="Hound" type="CharacterBody2D" unique_id=179134705 groups=["hound"]]
 collision_layer = 4
 collision_mask = 258
 motion_mode = 1
@@ -45,19 +45,19 @@ offset_bottom = -17.0
 
 [node name="Patrol_Left" type="RayCast2D" parent="." unique_id=1299833948]
 target_position = Vector2(-128, 0)
-collision_mask = 258
+collision_mask = 2
 
 [node name="Patrol_Up" type="RayCast2D" parent="." unique_id=1484870379]
 target_position = Vector2(0, -128)
-collision_mask = 258
+collision_mask = 2
 
 [node name="Patrol_Down" type="RayCast2D" parent="." unique_id=1955153950]
 target_position = Vector2(0, 128)
-collision_mask = 258
+collision_mask = 2
 
 [node name="Patrol_Right" type="RayCast2D" parent="." unique_id=392480336]
 target_position = Vector2(128, 0)
-collision_mask = 258
+collision_mask = 2
 
 [node name="Footsteps_hound" type="AudioStreamPlayer" parent="." unique_id=969363419]
 stream = ExtResource("3_ib4vc")

@@ -51,10 +51,14 @@ func _ready() -> void:
 	_player = get_tree().get_first_node_in_group("player")
 
 func _on_cone_body_entered(body):	# Body can only be the player, since the mask is set to the player
+	if not body.is_in_group("player"): 
+		return
 	_player = body					# Fills the variable that was previously null
 	_in_cone = true
 
-func _on_cone_body_exited(_body):	# The _body just means that we are not using the body now
+func _on_cone_body_exited(body):	# The _body just means that we are not using the body now
+	if not body.is_in_group("player"): 
+		return
 	_in_cone = false
 
 func _can_see_player() -> bool:
@@ -138,11 +142,11 @@ func _suspicious(delta, sees):	# Delta is the number of seconds since the last f
 		vision.rotation = (global_position.direction_to(_player.global_position)).angle()	# Rotate the red vision area to face that last seen position.
 		
 		if global_position.distance_to(_player.global_position) > 20:
-			_move_toward(_player.global_position, creep_speed)
+			_move_toward(_funnel_target(_player.global_position), creep_speed)
 	else:
 		_suspicion -= delta		# The meter drains in seconds
 		if global_position.distance_to(_last_seen) > 4.0:
-			_move_toward(_last_seen, creep_speed)
+			_move_toward(_funnel_target(_last_seen), creep_speed)
 	
 	if _suspicion >= 1.0:	# If the meter is full
 		_set_state(State.ALERT)
@@ -195,17 +199,41 @@ func _repatrol(_position_hound, reason) -> void:	# Starts patrolling in the new 
 				
 	# elif reason == "lost_sucpicion":
 
+func _funnel_target(target: Vector2) -> Vector2:
+	var vent_x : float = vent_side_1.global_position.x
+	var north_y : float = vent_side_1.global_position.y
+	var south_y : float = vent_side_2.global_position.y
+	var misaligned : bool = abs(global_position.x - vent_x) > 10.0 # Mesures how far the hound is from the real entrance
+	var entrance_north := Vector2(vent_x, north_y - 25.0)
+	var entrance_south := Vector2(vent_x, south_y + 25.0)
+	
+	if global_position.y < north_y and target.y >= north_y:
+		if misaligned:
+			return entrance_north
+		if target.y > south_y:
+			return entrance_south
+		return target
+	
+	if global_position.y > south_y and target.y <= south_y:
+		if misaligned:
+			return entrance_south
+		if target.y < north_y:
+			return entrance_north
+		return target
+		
+	if global_position.y >= north_y and global_position.y <= south_y:
+		if target.y > south_y:
+			return entrance_south
+		if target.y < north_y:
+			return entrance_north
+	return target
+	
 func _alert(delta, sees):
 	if sees:
 		_last_seen = _player.global_position	# If he sees you, he sets the last_seen pos to your current positon
 		_lost_timer = 0.0						# Reset lost timer, because he sees you...
-		if ((vent_side_1.overlaps_body(_player)) and (vent_side_2.overlaps_body(self))) or ((vent_side_2.overlaps_body(_player)) and (vent_side_1.overlaps_body(self))):
-			if (vent_side_1.overlaps_body(_player)) and (vent_side_2.overlaps_body(self)):
-				_move_toward(vent_side_2.global_position + Vector2(0, 25), chase_speed)	
-			elif (vent_side_2.overlaps_body(_player)) and (vent_side_1.overlaps_body(self)):
-				_move_toward(vent_side_1.global_position + Vector2(0, -25), chase_speed)	
-		else:
-			_move_toward(_last_seen, chase_speed)
+		
+		_move_toward(_funnel_target(_last_seen), chase_speed)
 		
 		if global_position.distance_to(_player.global_position) < 14.0 and not _caught: # If you are within 14 pixels of him, and _caught is still false, make it true
 			_caught = true
@@ -214,7 +242,7 @@ func _alert(delta, sees):
 		_lost_timer += delta
 			
 		if global_position.distance_to(_last_seen) > 4.0:	# If he is more than 4 pixels away from where he last saw you, keep running there!
-			_move_toward(_last_seen, chase_speed)
+			_move_toward(_funnel_target(_last_seen), chase_speed)
 			
 		if _lost_timer >= lose_time:	# Give up, you lost the player ;)
 			_repatrol(global_position, "lost_player")

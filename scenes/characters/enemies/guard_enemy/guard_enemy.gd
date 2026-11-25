@@ -51,10 +51,14 @@ func _ready() -> void:
 		$Sprite2D.modulate = Color(1.0, 0.85, 0.3)
 
 func _on_cone_body_entered(body):	# Body can only be the player, since the mask is set to the player
-	_player = body					# Fills the variable that was previously null
+	if not body.is_in_group("player"): 
+		return
+	_player = body		# Fills the variable that was previously null
 	_in_cone = true
 
-func _on_cone_body_exited(_body):	# The _body just means that we are not using the body now
+func _on_cone_body_exited(body):	# The _body just means that we are not using the body now
+	if not body.is_in_group("player"): 
+		return
 	_in_cone = false
 
 func _can_see_player() -> bool:
