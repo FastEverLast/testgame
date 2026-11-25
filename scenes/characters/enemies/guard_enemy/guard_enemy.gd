@@ -25,6 +25,7 @@ enum State { PATROL, SUSPICIOUS, ALERT }
 @onready var patrol_down : RayCast2D = $Patrol_Down
 @onready var patrol_left : RayCast2D = $Patrol_Left
 @onready var patrol_right : RayCast2D = $Patrol_Right
+@onready var prev_pos : Vector2
 
 
 var _state: int = State.PATROL
@@ -95,22 +96,29 @@ func _guard_sfx(delta) -> void:
 				
 			_step_timer -= delta	# Counts down in seconds
 			
-			if _step_timer <= 0.0:
-				if _step_count == 0:
-					_step_count = 1
-					footsteps.pitch_scale = 1.1
-					step_length = 0.06
-				elif _step_count == 1:
-					_step_count = 0	
-					footsteps.pitch_scale = 1.0
-					step_length = 0.1
-				_step_timer = step_interval
-				footsteps.stream = load("res://assets/audio/sfx/game/footstep.wav")	
-				footsteps.volume_db = 8.0
-				var start : float = step_starts.pick_random() 
-				footsteps.play(start)	
-				await get_tree().create_timer(step_length).timeout
-				footsteps.stop()
+			if global_position.distance_to(prev_pos) > 0.5:
+				if _step_timer <= 0.0:
+					if _step_count == 0:
+						_step_count = 1
+						footsteps.pitch_scale = 1.1
+						step_length = 0.06
+					elif _step_count == 1:
+						_step_count = 0	
+						footsteps.pitch_scale = 1.0
+						step_length = 0.1
+					_step_timer = step_interval
+					footsteps.stream = load("res://assets/audio/sfx/game/footstep.wav")	
+					footsteps.volume_db = 8.0
+					var start : float = step_starts.pick_random() 
+					footsteps.play(start)	
+					await get_tree().create_timer(step_length).timeout
+					footsteps.stop()
+			else:
+				print("THE DUMBASS IS STATIONARY")
+
+			prev_pos = global_position
+			
+			
 		
 		
 func _set_state(new_state):		# Changes the guards "mood"
@@ -225,7 +233,11 @@ func _alert(delta, sees):
 		if _lost_timer >= lose_time:	# Give up, you lost the player ;)
 			_repatrol(global_position, "lost_player")
 
+
+
 func _physics_process(delta: float) -> void: 	# Runs 60 times a second
+	
+	
 	if SceneManager.busy or SceneManager.catching:
 		return
 	

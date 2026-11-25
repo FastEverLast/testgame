@@ -209,7 +209,7 @@ func _funnel_target(target: Vector2) -> Vector2:
 	var entrance_south := Vector2(vent_x, south_y + 25.0)
 	
 	if global_position.y < north_y and target.y >= north_y: # If the hound is north of the wall and the target is at or past the wall
-		if misaligned:	# Not lined up with vent, so move to entrance
+		if misaligned:		# Not lined up with vent, so move to entrance
 			return entrance_north
 		if target.y > south_y:
 			return entrance_south	# Properly lined up, walk through
@@ -227,7 +227,7 @@ func _funnel_target(target: Vector2) -> Vector2:
 			return entrance_south
 		if target.y < north_y:
 			return entrance_north
-	return target # Nothing in the way, go to the target!
+	return target 	# Nothing in the way, go to the target!
 	
 func _alert(delta, sees):
 	if sees:

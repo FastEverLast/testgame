@@ -13,7 +13,7 @@ func _ready() -> void:
 
 func _on_start_game_pressed() -> void:
 	GameState.reset()
-	SceneManager.change_level("res://scenes/levels/level1.tscn")
+	SceneManager.change_level("res://scenes/levels/tutorial_level.tscn")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 
