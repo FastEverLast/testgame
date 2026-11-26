@@ -3,6 +3,8 @@ extends StaticBody2D
 @onready var top_half: Sprite2D = $TopHalf
 @onready var bottom_half: Sprite2D = $BottomHalf
 
+signal wall_walked
+
 
 func _on_zone_body_entered(body):
 	if body.is_in_group("player"):
@@ -35,7 +37,7 @@ func _on_z_detection_body_entered(body) -> void:
 		if body.has_node("CatForm"):
 			body.get_node("CatForm").z_index = -1	
 		
-	if GameState.current_form == GameState.Form.BASE:
+	if GameState.current_form != GameState.Form.CAT:
 		top_half.z_index = 0
 
 
@@ -48,3 +50,8 @@ func _on_z_detection_body_exited(body: Node2D) -> void:
 		
 	if body.global_position.y > global_position.y + 8:
 		top_half.z_index = 0
+
+
+func _on_player_detector_body_entered(body: Node2D) -> void:
+	if GameState.current_form != GameState.Form.CAT:
+		wall_walked.emit()

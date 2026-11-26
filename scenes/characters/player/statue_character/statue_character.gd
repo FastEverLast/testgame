@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Statue
 
 var _player : Node2D = null
 var _pushing := false
