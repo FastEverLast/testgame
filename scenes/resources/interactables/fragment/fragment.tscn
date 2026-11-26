@@ -4,8 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://hfv5e23fwqu7" path="res://assets/sprites/fragments/fragment.png" id="2_3jbsj"]
 [ext_resource type="AudioStream" uid="uid://bof8mi6m5t1yl" path="res://assets/audio/sfx/game/pickup.mp3" id="3_b4k5d"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_rbs2f"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bmrm0"]
 radius = 4.0
+height = 12.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mei78"]
 atlas = ExtResource("2_3jbsj")
@@ -64,8 +65,9 @@ script = ExtResource("1_h7my7")
 metadata/_tc_uuid = "1906401528075340749"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2073363677]
+position = Vector2(0, 0.5)
 scale = Vector2(0.5, 0.5)
-shape = SubResource("CircleShape2D_rbs2f")
+shape = SubResource("CapsuleShape2D_bmrm0")
 metadata/_tc_offline_added = true
 metadata/_tc_uuid = "4914791197471270540"
 

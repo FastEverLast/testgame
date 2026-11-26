@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://7a82y05tyroc"]
+
+[ext_resource type="Script" uid="uid://0ls34g7s5kp4" path="res://scenes/resources/level/conversation_helper/conversation_helper.gd" id="1_dqxam"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y253g"]
+size = Vector2(147.25, 20)
+
+[node name="ConversationHelper" type="Area2D" unique_id=459314372]
+collision_layer = 0
+script = ExtResource("1_dqxam")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=658012071]
+shape = SubResource("RectangleShape2D_y253g")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

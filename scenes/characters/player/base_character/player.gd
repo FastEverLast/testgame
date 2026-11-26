@@ -6,6 +6,7 @@ extends CharacterBody2D
 @export var step_starts: Array[float] = [0.48, 0.79]
 @export var step_starts_varient: Array[float] = [0.17]
 @export var step_length := 0.11
+@export var walk_speed := 50.0
 @onready var puff : CPUParticles2D = $Puff
 @onready var shift_sound : AudioStreamPlayer = $ShiftSound
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -22,8 +23,12 @@ var last_direction: Vector2 = Vector2.DOWN
 var _step_timer := 0.0
 var _flash_tween : Tween
 var _squash_tween : Tween
+var talk_direction := Vector2.ZERO
+var direction : Vector2
 
 func _ready() -> void:
+	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING 	# Fixes issues so godot doesn't treat up and down differently from left and right
+													# i.e. the makes the statue have a constant speed in all directions
 	GameState.form_changed.connect(_on_form_changed)
 	GameState.form_changed.connect(_play_shift_effect)
 	_on_form_changed(GameState.current_form)
@@ -104,9 +109,19 @@ func _on_form_changed(form):
 			_statue = new_statue # re-added: remember the new statue
 			add_sibling(new_statue)
 			GameState.shift_to(GameState.Form.BASE)
-
+			
+func move_talk(_delta, direction) -> void:
+	velocity = direction.normalized() * walk_speed
+	_handle_footsteps(_delta)
+	
+	if direction != Vector2.ZERO:
+		last_direction = direction.normalized()
+		
+	move_and_slide()
+	_update_animation(direction) 
+	
 func _physics_process(_delta: float) -> void:
-	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	
 	if GameState.wheel_open == false and GameState.reading == false:
 		velocity = direction * speed
@@ -117,9 +132,13 @@ func _physics_process(_delta: float) -> void:
 			
 		move_and_slide()
 		_update_animation(direction)
+		
 	else:
-		velocity = Vector2.ZERO
-		_update_animation(Vector2.ZERO)
+		if talk_direction != Vector2.ZERO:
+			move_talk(_delta, talk_direction)
+		else:
+			velocity = Vector2.ZERO
+			_update_animation(Vector2.ZERO)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("form_base"):

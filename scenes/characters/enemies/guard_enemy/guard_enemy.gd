@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-enum State { PATROL, SUSPICIOUS, ALERT }
+enum State { PATROL, SUSPICIOUS, ALERT, TALKING }
 
 @export var patrol_offsets : Array[Vector2] = [Vector2(96, 0)]		# The point the guard is going to, we can make it an array for more complex shapes
 @export var patrol_speed : float = 40.0
@@ -27,7 +27,6 @@ enum State { PATROL, SUSPICIOUS, ALERT }
 @onready var patrol_right : RayCast2D = $Patrol_Right
 @onready var prev_pos : Vector2
 
-
 var _state: int = State.PATROL
 var _points : Array[Vector2]		# The different places the guard is going to stop at
 var _index := 0						# The stop he is currently driving to - Fast here DRIVIG???
@@ -39,6 +38,8 @@ var _last_seen : Vector2 = Vector2.ZERO		# Last position the guard saw the playe
 var _caught := false
 var _step_timer := 0.0
 var _step_count := 0
+var talking := false	# True while he is in conversation, which means that he cannot move
+var look_target : Node2D = null
 
 func _ready() -> void:
 	_points = [global_position]	# The array is populated, with the current position as the first stop, and the current pos
@@ -51,13 +52,13 @@ func _ready() -> void:
 	if detects_disguise:
 		$Sprite2D.modulate = Color(1.0, 0.85, 0.3)
 
-func _on_cone_body_entered(body):	# Body can only be the player, since the mask is set to the player
+func _on_cone_body_entered(body) -> void:	# Body can only be the player, since the mask is set to the player
 	if not body.is_in_group("player"): 
 		return
 	_player = body		# Fills the variable that was previously null
 	_in_cone = true
 
-func _on_cone_body_exited(body):	# The _body just means that we are not using the body now
+func _on_cone_body_exited(body) -> void:	# The _body just means that we are not using the body now
 	if not body.is_in_group("player"): 
 		return
 	_in_cone = false
@@ -118,8 +119,6 @@ func _guard_sfx(delta) -> void:
 
 			prev_pos = global_position
 			
-			
-		
 		
 func _set_state(new_state):		# Changes the guards "mood"
 	_state = new_state			# Store the new mood
@@ -233,23 +232,37 @@ func _alert(delta, sees):
 		if _lost_timer >= lose_time:	# Give up, you lost the player ;)
 			_repatrol(global_position, "lost_player")
 
-
+func start_talking() -> void:
+	talking = true
+	_set_state(State.PATROL) # Removes beam color and questionmark
+	
+func stop_talking() -> void:
+	talking = false
+	look_target = null
+	
+func face(target : Node2D) -> void:
+	look_target = target
 
 func _physics_process(delta: float) -> void: 	# Runs 60 times a second
-	
-	
 	if SceneManager.busy or SceneManager.catching:
 		return
 	
-	if _player != null and not _caught:
-		if global_position.distance_to(_player.global_position) < 14.0 and (GameState.current_form != GameState.Form.GUARD or detects_disguise) and GameState.hidden_count == 0:
-			_caught = true
-			SceneManager.caught()
+	if talking:
+		if look_target != null:
+			vision.rotation = global_position.direction_to(look_target.global_position).angle()
 			return
 	
-	var sees := _can_see_player()	# Asks the question and stores the "true" or "false" answer
-	_guard_sfx(delta)				# Always run _guard_sfx
-	match _state:					# Call the right function depending on his mood
-		State.PATROL : _patrol(sees)
-		State.SUSPICIOUS : _suspicious(delta, sees)
-		State.ALERT : _alert(delta, sees)
+	if talking == false:
+		if _player != null and not _caught:
+			if global_position.distance_to(_player.global_position) < 14.0 and (GameState.current_form != GameState.Form.GUARD or detects_disguise) and GameState.hidden_count == 0:
+				_caught = true
+				SceneManager.caught()
+				return
+		
+		var sees := _can_see_player()	# Asks the question and stores the "true" or "false" answer
+	
+		_guard_sfx(delta)				# Always run _guard_sfx
+		match _state:					# Call the right function depending on his mood
+			State.PATROL : _patrol(sees)
+			State.SUSPICIOUS : _suspicious(delta, sees)
+			State.ALERT : _alert(delta, sees)

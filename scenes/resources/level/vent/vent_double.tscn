@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://dts0slnh7kwh4"]
+
+[ext_resource type="Script" uid="uid://uggylnod1yx2" path="res://scenes/resources/level/vent/vent_double.gd" id="1_4vcb1"]
+[ext_resource type="Texture2D" uid="uid://c40vmk3lmpwif" path="res://assets/tilesets/sets/Set-Misc.png" id="1_imkba"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4vcb1"]
+size = Vector2(32, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j1f34"]
+size = Vector2(26, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8oej6"]
+size = Vector2(32, 2)
+
+[node name="VentDouble" type="StaticBody2D" unique_id=551841300]
+collision_layer = 256
+script = ExtResource("1_4vcb1")
+
+[node name="TopHalf" type="Sprite2D" parent="." unique_id=1468668006]
+z_index = -1
+texture = ExtResource("1_imkba")
+region_enabled = true
+region_rect = Rect2(208, 64, 32, 16)
+
+[node name="BottomHalf" type="Sprite2D" parent="." unique_id=1122928280]
+z_index = -2
+texture = ExtResource("1_imkba")
+region_enabled = true
+region_rect = Rect2(208, 80, 32, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1489931475]
+shape = SubResource("RectangleShape2D_4vcb1")
+
+[node name="Zone" type="Area2D" parent="." unique_id=1614914016]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zone" unique_id=1427680922]
+shape = SubResource("RectangleShape2D_j1f34")
+
+[node name="ZDetection" type="Area2D" parent="." unique_id=83971638]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZDetection" unique_id=1354531900]
+position = Vector2(0, 7)
+shape = SubResource("RectangleShape2D_8oej6")
+
+[connection signal="body_entered" from="Zone" to="." method="_on_zone_body_entered"]
+[connection signal="body_exited" from="Zone" to="." method="_on_zone_body_exited"]
+[connection signal="body_entered" from="ZDetection" to="." method="_on_z_detection_body_entered"]
+[connection signal="body_exited" from="ZDetection" to="." method="_on_z_detection_body_exited"]

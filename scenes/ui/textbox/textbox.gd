@@ -30,7 +30,7 @@ func show_text(text : String):
 		if i % 2 == 0:
 			textbox.stream = load("res://assets/audio/sfx/ui/chatter.wav")
 			textbox.play(0.5)
-		await get_tree().create_timer(char_delay).timeout
+		await get_tree().create_timer(char_delay, false).timeout
 		textbox.stop()
 	if not _open:
 		return
