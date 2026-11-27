@@ -23,6 +23,8 @@ enum State { PATROL, SUSPICIOUS, ALERT, TALKING }
 @export var distance_sus := false
 @export var maximise_distance := false
 @export var patrol_offsets_high : Array[Vector2] = [Vector2(96, 0)]
+@export var get_him : bool = false
+@export var get_him_time := 0.8
 
 @onready var patrol_up : RayCast2D = $Patrol_Up
 @onready var patrol_down : RayCast2D = $Patrol_Down
@@ -44,6 +46,7 @@ var _step_count := 0
 var talking := false	# True while he is in conversation, which means that he cannot move
 var look_target : Node2D = null
 var _resetting := false
+var _start_attack := false
 
 func _ready() -> void:
 	_points = [global_position]	# The array is populated, with the current position as the first stop, and the current pos
@@ -51,6 +54,7 @@ func _ready() -> void:
 	for offset in patrol_offsets:
 		_points.append(global_position + offset)
 	
+	# print(self.name, ": ", _points)
 	
 	_player = get_tree().get_first_node_in_group("player")
 	
@@ -253,6 +257,13 @@ func start_talking() -> void:
 func stop_talking() -> void:
 	talking = false
 	look_target = null
+	if get_him:
+		await get_tree().create_timer(0.1).timeout # Enough time to realise oh no...
+		_start_attack = true
+		await get_tree().create_timer(get_him_time).timeout
+		_start_attack = false
+		
+	
 	
 func face(target : Node2D) -> void:
 	look_target = target
@@ -276,10 +287,14 @@ func _physics_process(delta: float) -> void: 	# Runs 60 times a second
 		var sees := _can_see_player()	# Asks the question and stores the "true" or "false" answer
 	
 		_guard_sfx(delta)				# Always run _guard_sfx
-		match _state:					# Call the right function depending on his mood
-			State.PATROL : _patrol(sees)
-			State.SUSPICIOUS : _suspicious(delta, sees)
-			State.ALERT : _alert(delta, sees)
+		if _start_attack:
+			_set_state(State.ALERT)
+			_alert(delta, true)
+		else:
+			match _state:					# Call the right function depending on his mood
+				State.PATROL : _patrol(sees)
+				State.SUSPICIOUS : _suspicious(delta, sees)
+				State.ALERT : _alert(delta, sees)
 
 
 func _on_conversation_helper_maximise_dist() -> void:
