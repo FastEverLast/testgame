@@ -22,7 +22,7 @@ func _on_body_entered(body):
 			await get_tree().create_timer(walk_time, false).timeout
 			_player.talk_direction = Vector2.ZERO
 			GameState.reading = false
-			
+
 			if not GameState.entrances_used.has(get_tree().current_scene.scene_file_path) and (SceneManager.just_died == false):
 				GameState.entrances_used.append(get_tree().current_scene.scene_file_path)
 				if GameState.memory <= 2:
@@ -43,7 +43,7 @@ func _on_body_entered(body):
 						elif direction_in == Vector2.RIGHT:
 							new_fragment.position = global_position + Vector2((i*23), 0) + Vector2(extra, 0)
 						add_sibling(new_fragment)
-						
+
 			elif GameState.entrances_used.has(get_tree().current_scene.scene_file_path) and (SceneManager.just_died) and (GameState.memory <= min_memory):
 				for i in range(min_memory+1):
 					var new_fragment = _fragment.instantiate()
@@ -52,10 +52,10 @@ func _on_body_entered(body):
 					elif direction_in == Vector2.RIGHT:
 						new_fragment.position = global_position + Vector2((i*23), 0) + Vector2(extra, 0)
 					add_sibling(new_fragment)
+				
+				SceneManager.just_died = false
 
 			_used = true
-			
-			
 		return
 		
 	if locked:
