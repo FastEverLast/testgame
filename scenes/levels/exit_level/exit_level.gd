@@ -73,6 +73,10 @@ func _update_look():
 		sprite.modulate = Color.WHITE
 
 func _ready() -> void:
+	if direction_in == Vector2(-1.0, 0.0):
+		direction_in = Vector2.LEFT
+	elif direction_in == Vector2(1.0, 0.0):
+		direction_in = Vector2.RIGHT
 	walk_direction = direction_in
 	_player = get_tree().get_first_node_in_group("player")
 	_update_look()

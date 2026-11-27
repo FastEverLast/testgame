@@ -39,9 +39,5 @@ func _on_floor_button_released() -> void:
 		_close()
 
 
-func _on_guard_panel_activated() -> void:
-	pass # Replace with function body.
-
-
-func _on_guard_panel_helper_body_ent() -> void:
+func _on_guard_panel_helper_body_entered(_body: Node2D) -> void:
 	_close()
