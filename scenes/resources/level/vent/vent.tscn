@@ -15,7 +15,7 @@ size = Vector2(16, 2)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xpxyv"]
 atlas = ExtResource("3_vk70l")
-region = Rect2(80, 160, 16, 16)
+region = Rect2(305, 208, 16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dkvdt"]
 size = Vector2(16, 16)
@@ -76,7 +76,7 @@ z_index = -1
 position = Vector2(-16, 0)
 texture = ExtResource("3_vk70l")
 region_enabled = true
-region_rect = Rect2(112, 160, 16, 16)
+region_rect = Rect2(335, 208, 16, 16)
 
 [node name="Polygon" type="StaticBody2D" parent="WallLeft" unique_id=170532485]
 rotation = 3.1415927

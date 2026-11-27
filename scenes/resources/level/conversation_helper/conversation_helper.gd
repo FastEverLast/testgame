@@ -6,6 +6,9 @@ extends Area2D
 @export var pause_between := 0.5
 @export var walk_direction := Vector2.UP
 @export var walk_time := 0.6
+@export var guard := false
+@export var base := false
+@export var cat := false
 
 var _playing := false
 var _player : Node2D = null
@@ -13,7 +16,11 @@ var _player : Node2D = null
 func _on_body_entered(body : Node2D) -> void:
 	if not body.is_in_group("player"):
 		return
-	if GameState.current_form != GameState.Form.GUARD:
+	if (GameState.current_form != GameState.Form.GUARD) and guard:
+		return
+	if (GameState.current_form != GameState.Form.BASE) and base:
+		return
+	if (GameState.current_form != GameState.Form.CAT) and cat:
 		return
 	if _playing:
 		return
