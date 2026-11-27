@@ -27,7 +27,7 @@ func _on_body_entered(body):
 						new_fragment.global_position = global_position + Vector2((i*40), 0)
 					elif direction_in == Vector2.RIGHT:
 						new_fragment.global_position = global_position + Vector2((i*-40), 0)
-					get_parent().add_sibling(new_fragment)
+					add_sibling(new_fragment)
 			else:
 				for i in range(1, 3):
 					var new_fragment = _fragment.instantiate()
@@ -35,7 +35,7 @@ func _on_body_entered(body):
 						new_fragment.global_position = global_position + Vector2((i*40), 0)
 					elif direction_in == Vector2.RIGHT:
 						new_fragment.glbal_position = global_position + Vector2((i*-40), 0)
-					get_parent().add_sibling(new_fragment)
+					add_sibling(new_fragment)
 		return
 		
 	if locked:
