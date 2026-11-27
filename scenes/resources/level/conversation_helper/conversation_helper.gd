@@ -16,12 +16,9 @@ var _player : Node2D = null
 func _on_body_entered(body : Node2D) -> void:
 	if not body.is_in_group("player"):
 		return
-	if (GameState.current_form != GameState.Form.GUARD) and guard:
+	if ((GameState.current_form != GameState.Form.GUARD) and guard) and ((GameState.current_form != GameState.Form.BASE) and base) and ((GameState.current_form != GameState.Form.CAT) and cat):
 		return
-	if (GameState.current_form != GameState.Form.BASE) and base:
-		return
-	if (GameState.current_form != GameState.Form.CAT) and cat:
-		return
+		
 	if _playing:
 		return
 	
