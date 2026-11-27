@@ -20,8 +20,10 @@ func _on_body_entered(body):
 			_player.talk_direction = Vector2.ZERO
 			GameState.reading = false
 			
-			if _used == false:
+			if not GameState.entrances_used.has(get_tree().current_scene.scene_file_path):
+				GameState.entrances_used.append(get_tree().current_scene.scene_file_path)
 				if GameState.memory <= 2:
+					GameState.memory_at_level_start += 4
 					for i in range(1, 5):
 						var new_fragment = _fragment.instantiate()
 						if direction_in == Vector2.LEFT:
@@ -30,6 +32,7 @@ func _on_body_entered(body):
 							new_fragment.position = global_position + Vector2((i*23), 0)
 						add_sibling(new_fragment)
 				else:
+					GameState.memory_at_level_start += 2
 					for i in range(1, 3):
 						var new_fragment = _fragment.instantiate()
 						if direction_in == Vector2.LEFT:

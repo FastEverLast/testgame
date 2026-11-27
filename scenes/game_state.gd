@@ -10,6 +10,7 @@ var reading := false
 var seen_conversations :  Array[String] = []
 var memory_at_level_start := 5
 var free_retries := false
+var entrances_used : Array[String] = []
 
 enum Form { BASE, GUARD, CAT, STATUE }
 
@@ -34,6 +35,7 @@ func shift_to(form):
 	form_changed.emit(form)
 	
 func reset():
+	entrances_used.clear()
 	seen_conversations.clear()
 	memory = 5
 	reset_level_state()
