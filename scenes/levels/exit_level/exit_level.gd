@@ -11,6 +11,8 @@ var walk_time := 0.9
 var _fragment := preload("res://scenes/resources/interactables/fragment/fragment.tscn")
 var _used := false
 
+const extra := 20.0
+
 func _on_body_entered(body):
 	if next_level == "":
 		if body.is_in_group("player"):
@@ -27,18 +29,18 @@ func _on_body_entered(body):
 					for i in range(1, 5):
 						var new_fragment = _fragment.instantiate()
 						if direction_in == Vector2.LEFT:
-							new_fragment.position = global_position - Vector2((i*23), 0)
+							new_fragment.position = global_position - Vector2((i*23), 0) - Vector2(extra, 0)
 						elif direction_in == Vector2.RIGHT:
-							new_fragment.position = global_position + Vector2((i*23), 0)
+							new_fragment.position = global_position + Vector2((i*23), 0) + Vector2(extra, 0)
 						add_sibling(new_fragment)
 				else:
 					GameState.memory_at_level_start += 2
 					for i in range(1, 3):
 						var new_fragment = _fragment.instantiate()
 						if direction_in == Vector2.LEFT:
-							new_fragment.position = global_position - Vector2((i*23), 0)
+							new_fragment.position = global_position - Vector2((i*23), 0) - Vector2(extra, 0)
 						elif direction_in == Vector2.RIGHT:
-							new_fragment.position = global_position + Vector2((i*23), 0)
+							new_fragment.position = global_position + Vector2((i*23), 0) + Vector2(extra, 0)
 						add_sibling(new_fragment)
 						
 			_used = true
