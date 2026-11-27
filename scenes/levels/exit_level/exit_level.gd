@@ -42,7 +42,6 @@ func _on_body_entered(body):
 						elif direction_in == Vector2.RIGHT:
 							new_fragment.position = global_position + Vector2((i*23), 0) + Vector2(extra, 0)
 						add_sibling(new_fragment)
-						
 			_used = true
 		return
 		

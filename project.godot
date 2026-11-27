@@ -127,6 +127,7 @@ interact={
 2d_physics/layer_7="Hiding"
 2d_physics/layer_8="Statue"
 2d_physics/layer_9="CatGap"
+2d_physics/layer_10="GuardStop"
 
 [physics]
 

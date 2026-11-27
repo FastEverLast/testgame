@@ -20,6 +20,9 @@ signal form_changed(new_form)
 func change_memory(amount):
 	memory = clampi(memory + amount, 0, MAX_MEMORY)
 	memory_changed.emit(memory)
+	if memory == 0:
+		SceneManager.change_level("res://scenes/levels/tutorial_level.tscn")
+		reset()
 
 func shift_to(form):
 	if shift_lock > 0 or reading:

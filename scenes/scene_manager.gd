@@ -5,7 +5,13 @@ extends Node
 
 var busy := false
 var catching := false
-	
+
+
+func _on_memory_empty():
+	if busy:
+		return
+	change_level("res://scenes/levels/tutorial_level.tscn")
+
 func change_level(path: String) -> void:
 	if busy:
 		return
@@ -45,15 +51,11 @@ func caught():
 			await get_tree().create_timer(0.04, true).timeout
 		camera.offset = Vector2.ZERO	# Reset camera shake
 	
-	GameState.change_memory(GameState.memory_at_level_start - GameState.memory)
-	
 	if GameState.free_retries:		# Tutorial: dying costs nothing
+		GameState.change_memory(GameState.memory_at_level_start - GameState.memory)
 		GameState.reset_level_state()
 		change_level(get_tree().current_scene.scene_file_path)
-	elif GameState.memory <= 0:
-		go_to_main_menu()
 	else:
-		GameState.change_memory(-1)
 		GameState.reset_level_state()
 		change_level(get_tree().current_scene.scene_file_path)
 	catching = false

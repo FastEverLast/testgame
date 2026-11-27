@@ -114,8 +114,6 @@ func _guard_sfx(delta) -> void:
 					footsteps.play(start)	
 					await get_tree().create_timer(step_length).timeout
 					footsteps.stop()
-			else:
-				print("THE DUMBASS IS STATIONARY")
 
 			prev_pos = global_position
 			

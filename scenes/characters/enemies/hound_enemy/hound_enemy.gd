@@ -39,6 +39,9 @@ var _caught := false
 var _step_timer := 0.0
 var _step_count := 0
 
+var talking := false	# True while he is in conversation, which means that he cannot move
+var look_target : Node2D = null
+
 func _ready() -> void:
 	set_collision_mask_value(9, false)
 	_points = [global_position]	# The array is populated, with the current position as the first stop, and the current pos
@@ -248,16 +251,33 @@ func _alert(delta, sees):
 			
 		if _lost_timer >= lose_time:	# Give up, you lost the player ;)
 			_repatrol(global_position, "lost_player")
+			
+func start_talking() -> void:
+	talking = true
+	_set_state(State.PATROL) # Removes beam color and questionmark
+	
+func stop_talking() -> void:
+	talking = false
+	look_target = null
+	
+func face(target : Node2D) -> void:
+	look_target = target
 
 func _physics_process(delta: float) -> void: 	# Runs 60 times a second
 	if SceneManager.busy or SceneManager.catching:
 		return
-	
-	if _player != null and not _caught:
-		if global_position.distance_to(_player.global_position) < 14.0 and GameState.current_form == GameState.Form.CAT and GameState.hidden_count == 0:
-			_caught = true
-			SceneManager.caught()
+			
+	if talking:
+		if look_target != null:
+			vision.rotation = global_position.direction_to(look_target.global_position).angle()
 			return
+	
+	if talking == false:
+		if _player != null and not _caught:
+			if global_position.distance_to(_player.global_position) < 14.0 and GameState.current_form == GameState.Form.CAT and GameState.hidden_count == 0:
+				_caught = true
+				SceneManager.caught()
+				return
 	
 	var sees := _can_see_player()	# Asks the question and stores the "true" or "false" answer
 	_hound_sfx(delta)				# Always run _hound_sfx
