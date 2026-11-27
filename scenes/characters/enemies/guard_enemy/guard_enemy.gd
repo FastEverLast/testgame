@@ -20,6 +20,9 @@ enum State { PATROL, SUSPICIOUS, ALERT, TALKING }
 @onready var step_starts : Array[float] = [0.17]
 @onready var step_length := 0.10
 @export var step_interval := 0.17
+@export var distance_sus := false
+@export var maximise_distance := false
+@export var patrol_offsets_high : Array[Vector2] = [Vector2(96, 0)]
 
 @onready var patrol_up : RayCast2D = $Patrol_Up
 @onready var patrol_down : RayCast2D = $Patrol_Down
@@ -40,12 +43,14 @@ var _step_timer := 0.0
 var _step_count := 0
 var talking := false	# True while he is in conversation, which means that he cannot move
 var look_target : Node2D = null
+var _resetting := false
 
 func _ready() -> void:
 	_points = [global_position]	# The array is populated, with the current position as the first stop, and the current pos
 								# plus the offset specified above as the second position 
 	for offset in patrol_offsets:
 		_points.append(global_position + offset)
+	
 	
 	_player = get_tree().get_first_node_in_group("player")
 	
@@ -136,99 +141,110 @@ func _set_state(new_state):		# Changes the guards "mood"
 			beam_material.set_shader_parameter("beam_color",Color(1.0, 0.2, 0.2, 0.3))
 	
 func _patrol(sees) -> void:
-	if sees == true:	# The "sees" comes from the can_see_player variable
-		_set_state(State.SUSPICIOUS)
-		return
-	
-	var target: Vector2 = _points[_index]	# Sets the target where he wants to patrol to. The index specifies which set of coords to walk too.
-	
-	if global_position.distance_to(target) < 2.0:	# If he is within 2 pixels of the stop, it counts as him arriving
-		_index = (_index + 1) % _points.size()		# Increase the index by one to go to the next stop on the list. We mod with 2 right now since there are only 2 points
-													# which means that the index will either be 0 or 1, so the guard just moves between index 0 and 1
-	else:
-		_move_toward(target, patrol_speed)	# If he is not close enough, walk towords the point at patrol_speed
+	if _resetting == false:
+		if sees == true:	# The "sees" comes from the can_see_player variable
+			_set_state(State.SUSPICIOUS)
+			return
+		
+		var target: Vector2 = _points[_index]	# Sets the target where he wants to patrol to. The index specifies which set of coords to walk too.
+		
+		if global_position.distance_to(target) < 2.0:	# If he is within 2 pixels of the stop, it counts as him arriving
+			_index = (_index + 1) % _points.size()		# Increase the index by one to go to the next stop on the list. We mod with 2 right now since there are only 2 points
+														# which means that the index will either be 0 or 1, so the guard just moves between index 0 and 1
+		else:
+			_move_toward(target, patrol_speed)	# If he is not close enough, walk towords the point at patrol_speed
 
 func _suspicious(delta, sees):	# Delta is the number of seconds since the last frame, a very small number
-	if sees:
-		_suspicion += delta / sus_time	# Adds this very small number to the sus time, every second
-		_last_seen = _player.global_position	# REMEMBERS the last place he saw you at
-		vision.rotation = (global_position.direction_to(_player.global_position)).angle()	# Rotate the red vision area to face that last seen position.
+	if _resetting == false:
+		if sees:
+			var time := sus_time
+			if distance_sus:
+				var distance := global_position.distance_to(_player.global_position)
+				if distance > 65:
+					time = sus_time * 0.67
+				elif distance > 40:
+					time = sus_time * 0.82
+			_suspicion += delta / time	# Adds this very small number to the sus time, every second
+			_last_seen = _player.global_position	# REMEMBERS the last place he saw you at
+			vision.rotation = (global_position.direction_to(_player.global_position)).angle()	# Rotate the red vision area to face that last seen position.
+			
+			if global_position.distance_to(_player.global_position) > 20:
+				_move_toward(_player.global_position, creep_speed)
+		else:
+			_suspicion -= delta		# The meter drains in seconds
+			if global_position.distance_to(_last_seen) > 4.0:
+				_move_toward(_last_seen, creep_speed)
 		
-		if global_position.distance_to(_player.global_position) > 20:
-			_move_toward(_player.global_position, creep_speed)
-	else:
-		_suspicion -= delta		# The meter drains in seconds
-		if global_position.distance_to(_last_seen) > 4.0:
-			_move_toward(_last_seen, creep_speed)
-	
-	if _suspicion >= 1.0:	# If the meter is full
-		_set_state(State.ALERT)
-	
-	if _suspicion <= 0.0: # If the meter is empty
-		_repatrol(global_position, "lost_sucpicion")
+		if _suspicion >= 1.0:	# If the meter is full
+			_set_state(State.ALERT)
 		
+		if _suspicion <= 0.0: # If the meter is empty
+			_repatrol(global_position, "lost_sucpicion")
+			
 				
 func _repatrol(_position_guard, reason) -> void:	# Starts patrolling in the new position
-	if reason == "lost_player":
-		var distance_down : float = patrol_down.target_position.length()	# Get the lenght of the vector (128 px)
-		if patrol_down.is_colliding():
-			distance_down = global_position.distance_to(patrol_down.get_collision_point()) 		# If the raycast collides with anything, make the new distance that point
-																								#										|
-		var distance_up : float = patrol_up.target_position.length()							#										|
-		if patrol_up.is_colliding():															#										|
-			distance_up = global_position.distance_to(patrol_up.get_collision_point())			# <-------------------------------------|
-																								#										|									 	
-		var distance_right : float = patrol_right.target_position.length()						#										|
-		if patrol_right.is_colliding():															#										|
-			distance_right = global_position.distance_to(patrol_right.get_collision_point())	# <-------------------------------------|
-																								#										|
-		var distance_left : float = patrol_left.target_position.length()						#										|
-		if patrol_left.is_colliding():															#										|
-			distance_left = global_position.distance_to(patrol_left.get_collision_point())		# <-------------------------------------|
-		
-		var horizontal : float = distance_left + distance_right
-		var vertical : float = distance_up + distance_down
-		var buffer_distance := 12	# Important, otherwise the distance the guard can walk is smaller than its hitbox, causing it to get stuck
-		
-		if vertical > horizontal:
-			if distance_up > 96:
-				_points = [global_position, global_position - Vector2(0, 96)] 
-			elif distance_down > 96:
-				_points = [global_position, global_position + Vector2(0, 96)] 
-			else: 	
-				_points = [Vector2(global_position.x, global_position.y - distance_up + buffer_distance), Vector2(global_position.x, global_position.y + distance_down - buffer_distance)] 
+	if _resetting == false:
+		if reason == "lost_player":
+			var distance_down : float = patrol_down.target_position.length()	# Get the lenght of the vector (128 px)
+			if patrol_down.is_colliding():
+				distance_down = global_position.distance_to(patrol_down.get_collision_point()) 		# If the raycast collides with anything, make the new distance that point
+																									#										|
+			var distance_up : float = patrol_up.target_position.length()							#										|
+			if patrol_up.is_colliding():															#										|
+				distance_up = global_position.distance_to(patrol_up.get_collision_point())			# <-------------------------------------|
+																									#										|									 	
+			var distance_right : float = patrol_right.target_position.length()						#										|
+			if patrol_right.is_colliding():															#										|
+				distance_right = global_position.distance_to(patrol_right.get_collision_point())	# <-------------------------------------|
+																									#										|
+			var distance_left : float = patrol_left.target_position.length()						#										|
+			if patrol_left.is_colliding():															#										|
+				distance_left = global_position.distance_to(patrol_left.get_collision_point())		# <-------------------------------------|
 			
-		else:
-			if distance_right > 96:
-				_points = [global_position, global_position + Vector2(96, 0)] 
-			elif distance_left > 96:
-				_points = [global_position, global_position - Vector2(96, 0)] 
-			else: 	
-				_points = [Vector2(global_position.x - distance_left + buffer_distance, global_position.y), Vector2(global_position.x + distance_right - buffer_distance, global_position.y)] 
-	
-		_index = 0	# Walk to the second point first		
+			var horizontal : float = distance_left + distance_right
+			var vertical : float = distance_up + distance_down
+			var buffer_distance := 12	# Important, otherwise the distance the guard can walk is smaller than its hitbox, causing it to get stuck
 			
-	_set_state(State.PATROL)
+			if vertical > horizontal:
+				if distance_up > 96:
+					_points = [global_position, global_position - Vector2(0, 96)] 
+				elif distance_down > 96:
+					_points = [global_position, global_position + Vector2(0, 96)] 
+				else: 	
+					_points = [Vector2(global_position.x, global_position.y - distance_up + buffer_distance), Vector2(global_position.x, global_position.y + distance_down - buffer_distance)] 
+				
+			else:
+				if distance_right > 96:
+					_points = [global_position, global_position + Vector2(96, 0)] 
+				elif distance_left > 96:
+					_points = [global_position, global_position - Vector2(96, 0)] 
+				else: 	
+					_points = [Vector2(global_position.x - distance_left + buffer_distance, global_position.y), Vector2(global_position.x + distance_right - buffer_distance, global_position.y)] 
+		
+			_index = 0	# Walk to the second point first		
+				
+		_set_state(State.PATROL)
 				
 	# elif reason == "lost_sucpicion":
 
 func _alert(delta, sees):
-	if sees:
-		_last_seen = _player.global_position	# If he sees you, he sets the last_seen pos to your current positon
-		_lost_timer = 0.0						# Reset lost timer, because he sees you...
-		_move_toward(_last_seen, chase_speed)
-		
-		if global_position.distance_to(_player.global_position) < 14.0 and not _caught: # If you are within 14 pixels of him, and _caught is still false, make it true
-			_caught = true
-			SceneManager.caught() # Pretty obvious what this does...
-	else:
-		_lost_timer += delta
-			
-		if global_position.distance_to(_last_seen) > 4.0:	# If he is more than 4 pixels away from where he last saw you, keep running there!
+	if _resetting == false:
+		if sees:
+			_last_seen = _player.global_position	# If he sees you, he sets the last_seen pos to your current positon
+			_lost_timer = 0.0						# Reset lost timer, because he sees you...
 			_move_toward(_last_seen, chase_speed)
 			
-		if _lost_timer >= lose_time:	# Give up, you lost the player ;)
-			_repatrol(global_position, "lost_player")
+			if global_position.distance_to(_player.global_position) < 14.0 and not _caught: # If you are within 14 pixels of him, and _caught is still false, make it true
+				_caught = true
+				SceneManager.caught() # Pretty obvious what this does...
+		else:
+			_lost_timer += delta
+				
+			if global_position.distance_to(_last_seen) > 4.0:	# If he is more than 4 pixels away from where he last saw you, keep running there!
+				_move_toward(_last_seen, chase_speed)
+				
+			if _lost_timer >= lose_time:	# Give up, you lost the player ;)
+				_repatrol(global_position, "lost_player")
 
 func start_talking() -> void:
 	talking = true
@@ -242,7 +258,7 @@ func face(target : Node2D) -> void:
 	look_target = target
 
 func _physics_process(delta: float) -> void: 	# Runs 60 times a second
-	if SceneManager.busy or SceneManager.catching:
+	if SceneManager.busy or SceneManager.catching or (_resetting == true):
 		return
 	
 	if talking:
@@ -264,3 +280,22 @@ func _physics_process(delta: float) -> void: 	# Runs 60 times a second
 			State.PATROL : _patrol(sees)
 			State.SUSPICIOUS : _suspicious(delta, sees)
 			State.ALERT : _alert(delta, sees)
+
+
+func _on_conversation_helper_maximise_dist() -> void:
+	if maximise_distance:
+		_resetting = true
+		_points = []
+		for p in range(patrol_offsets_high.size()):
+			_points.append(patrol_offsets_high[p])
+		patrol_speed = patrol_speed * 1.4
+		_resetting = false
+
+
+func _on_floor_button_activated() -> void:
+	if maximise_distance:
+		_resetting = true
+		_points = []
+		for p in range(patrol_offsets_high.size()):
+			_points.append(patrol_offsets_high[p])
+		_resetting = false

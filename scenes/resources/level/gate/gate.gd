@@ -41,3 +41,7 @@ func _on_floor_button_released() -> void:
 
 func _on_guard_panel_activated() -> void:
 	pass # Replace with function body.
+
+
+func _on_guard_panel_helper_body_ent() -> void:
+	_close()

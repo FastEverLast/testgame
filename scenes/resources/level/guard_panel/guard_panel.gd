@@ -34,3 +34,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	prompt.visible = false
 	sprite.modulate = Color.GREEN
 	activated.emit()
+
+
+func _on_guard_panel_helper_body_ent() -> void:
+	_used = false
+	sprite.modulate = Color.WHITE
+	# play click sfx maybe?

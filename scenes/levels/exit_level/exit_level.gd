@@ -8,11 +8,12 @@ extends Area2D
 
 var _player : Node2D = null
 var walk_direction : Vector2
-var walk_time := 0.9
 var _fragment := preload("res://scenes/resources/interactables/fragment/fragment.tscn")
 var _used := false
 
 const extra := 20.0
+const extra_died := 44.0
+const walk_time := 0.9
 
 func _on_body_entered(body):
 	if next_level == "":
@@ -45,12 +46,12 @@ func _on_body_entered(body):
 						add_sibling(new_fragment)
 
 			elif GameState.entrances_used.has(get_tree().current_scene.scene_file_path) and (SceneManager.just_died) and (GameState.memory <= min_memory):
-				for i in range(min_memory+1):
+				for i in range((min_memory - GameState.memory)+1):
 					var new_fragment = _fragment.instantiate()
 					if direction_in == Vector2.LEFT:
-						new_fragment.position = global_position - Vector2((i*23), 0) - Vector2(extra, 0)
+						new_fragment.position = global_position - Vector2((i*23), 0) - Vector2(extra_died, 0)
 					elif direction_in == Vector2.RIGHT:
-						new_fragment.position = global_position + Vector2((i*23), 0) + Vector2(extra, 0)
+						new_fragment.position = global_position + Vector2((i*23), 0) + Vector2(extra_died, 0)
 					add_sibling(new_fragment)
 				
 				SceneManager.just_died = false

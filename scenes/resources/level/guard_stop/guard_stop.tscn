@@ -3,7 +3,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eu66n"]
 size = Vector2(32, 16)
 
-[node name="GuardStop" type="StaticBody2D" unique_id=393893586]
+[node name="GuardStop" type="Area2D" unique_id=1828477259]
 collision_layer = 512
 collision_mask = 512
 

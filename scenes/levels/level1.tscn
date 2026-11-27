@@ -15,6 +15,8 @@
 [ext_resource type="PackedScene" uid="uid://bqh03bflgnj6u" path="res://scenes/characters/enemies/hound_enemy/vent_side2.tscn" id="13_jprdt"]
 [ext_resource type="PackedScene" uid="uid://dij54u3ixb7vq" path="res://scenes/resources/level/hiding_spot/hiding_spot.tscn" id="14_jprdt"]
 [ext_resource type="PackedScene" uid="uid://dw4l135s5h2b3" path="res://scenes/resources/level/guard_stop/guard_stop.tscn" id="15_ps2vj"]
+[ext_resource type="PackedScene" uid="uid://cudtnxk8u0eqf" path="res://scenes/resources/level/camera_pan/camera_pan.tscn" id="16_sbmf2"]
+[ext_resource type="PackedScene" uid="uid://buxp4si0l6kq5" path="res://scenes/resources/level/guard_panel/guard_panel_helper/guard_panel_helper.tscn" id="17_1xax6"]
 
 [node name="Level1" unique_id=1515612743 instance=ExtResource("1_jwv3a")]
 
@@ -32,6 +34,7 @@ position = Vector2(692, 291)
 
 [node name="ExitLevel" parent="." index="5" unique_id=1225360685 instance=ExtResource("2_4tcl0")]
 position = Vector2(680, 288)
+min_memory = 3
 
 [node name="Vent" parent="." index="6" unique_id=1633649404 instance=ExtResource("5_dywbp")]
 position = Vector2(552, 248)
@@ -47,22 +50,33 @@ position = Vector2(520, 152)
 [node name="FloorButton" parent="." index="8" unique_id=607420037 instance=ExtResource("4_bfxgj")]
 position = Vector2(488, 200)
 
-[node name="Guards" type="Node" parent="." index="9" unique_id=453972408]
+[node name="Marker2D" type="Marker2D" parent="." index="9" unique_id=2025112180]
+visible = false
+position = Vector2(493, 227)
+
+[node name="Guards" type="Node" parent="." index="10" unique_id=453972408]
 
 [node name="Guard" parent="Guards" index="0" unique_id=179134705 instance=ExtResource("6_1seuy")]
 position = Vector2(501, 184)
 patrol_offsets = Array[Vector2]([Vector2(54, 0), Vector2(54, 44), Vector2(0, 44)])
+distance_sus = true
+maximise_distance = true
+patrol_offsets_high = Array[Vector2]([Vector2(500, 170), Vector2(535, 200), Vector2(500, 230)])
 
 [node name="Guard2" parent="Guards" index="1" unique_id=1378337072 instance=ExtResource("6_1seuy")]
-position = Vector2(354, 35)
-patrol_offsets = Array[Vector2]([Vector2(0, 120)])
-patrol_speed = 50.0
+position = Vector2(354, 45)
+patrol_offsets = Array[Vector2]([Vector2(0, 30)])
+patrol_speed = 35.7
+maximise_distance = true
+patrol_offsets_high = Array[Vector2]([Vector2(354, 165), Vector2(354, 35)])
 
 [node name="Guard3" parent="Guards" index="2" unique_id=1918917238 instance=ExtResource("6_1seuy")]
-position = Vector2(310, 168)
-patrol_offsets = Array[Vector2]([Vector2(0, -110)])
-patrol_speed = 65.0
+position = Vector2(310, 175)
+patrol_offsets = Array[Vector2]([Vector2(0, -40)])
+patrol_speed = 46.4
 detects_disguise = true
+maximise_distance = true
+patrol_offsets_high = Array[Vector2]([Vector2(310, 45), Vector2(310, 165)])
 
 [node name="Guard4" parent="Guards" index="3" unique_id=1103787985 instance=ExtResource("6_1seuy")]
 position = Vector2(110, 130)
@@ -79,7 +93,7 @@ position = Vector2(240, 240)
 patrol_offsets = Array[Vector2]([Vector2(0, -110)])
 detects_disguise = true
 
-[node name="Fragments" type="Node" parent="." index="10" unique_id=554463010]
+[node name="Fragments" type="Node" parent="." index="11" unique_id=554463010]
 
 [node name="Fragment" parent="Fragments" index="0" unique_id=1635556197 instance=ExtResource("7_2r1tl")]
 position = Vector2(493, 95)
@@ -87,66 +101,69 @@ position = Vector2(493, 95)
 [node name="Fragment2" parent="Fragments" index="1" unique_id=830200909 instance=ExtResource("7_2r1tl")]
 position = Vector2(176, 32)
 
-[node name="ConversationHelper" type="Node" parent="." index="11" unique_id=400599703]
+[node name="ConversationHelper" type="Node" parent="." index="12" unique_id=400599703]
 
 [node name="ConversationHelper" parent="ConversationHelper" index="0" unique_id=459314372 node_paths=PackedStringArray("speakers", "audiences") instance=ExtResource("8_8a7m2")]
 position = Vector2(355, 96)
 speakers = [NodePath("../../Guards/Guard3"), NodePath("../../Guards/Guard2"), NodePath("../../Guards/Guard2"), NodePath("../../Guards/Guard3"), NodePath("../../Guards/Guard3")]
 audiences = [NodePath("../../Guards/Guard2"), NodePath("../../Guards/Guard3"), NodePath("../../Guards/Guard3"), NodePath("../../Guards/Guard2"), NodePath("../../Guards/Guard2")]
-lines = Array[String](["Oi! Did you hear about the prisoner?", "Sir, with all due respect, that's not possible.", "But if he did escape, I'm not paid enough to care", "Well I am and I WILL find him...", "Also, you're fired. Hand in your badge at the end of the day."])
+lines = Array[String](["Oi! Did you hear about the prisoner?", "Sir, with all due respect, I don't believe those stories", "But if he did escape, I'm not paid enough to care", "Well I am and I WILL find him...", "Also, you're fired. Hand in your badge at the end of the day."])
 walk_direction = Vector2(-2, 0)
 guard = true
 base = true
 cat = true
 
 [node name="ConversationHelper2" parent="ConversationHelper" index="1" unique_id=827449751 node_paths=PackedStringArray("speakers", "audiences") instance=ExtResource("8_8a7m2")]
-position = Vector2(605, 82)
+position = Vector2(603, 84)
 speakers = [NodePath("../../Guards/Guard"), NodePath("../../Guards/Guard")]
 audiences = [NodePath("../../Player"), NodePath("../../Player")]
 lines = Array[String](["WHERE DID HE GO?!", "I now believe in ghosts..."])
 walk_direction = Vector2(0, 0)
+wait_time = 0.4
 guard = true
 base = true
 cat = true
 
 [node name="ConversationHelper3" parent="ConversationHelper" index="2" unique_id=1377410702 node_paths=PackedStringArray("speakers", "audiences") instance=ExtResource("8_8a7m2")]
-position = Vector2(238, 399)
+position = Vector2(235, 397)
 speakers = [NodePath("../../Hound")]
 audiences = [NodePath("../../Player")]
 lines = Array[String](["Woof, WOOF!"])
 walk_direction = Vector2(0, 0)
+wait_time = 0.4
 guard = true
 base = true
 cat = true
 
-[node name="GuardPanel" parent="." index="12" unique_id=1548600339 instance=ExtResource("9_plydf")]
+[node name="GuardPanel" parent="." index="13" unique_id=1548600339 instance=ExtResource("9_plydf")]
 position = Vector2(329, 6)
 
-[node name="Gate3" parent="." index="13" unique_id=670284961 instance=ExtResource("3_dd0lh")]
+[node name="Gate3" parent="." index="14" unique_id=670284961 instance=ExtResource("3_dd0lh")]
 position = Vector2(232, 24)
 rotation = 3.1415927
 
-[node name="Gate4" parent="." index="14" unique_id=1484559091 instance=ExtResource("3_dd0lh")]
+[node name="Gate4" parent="." index="15" unique_id=1484559091 instance=ExtResource("3_dd0lh")]
 position = Vector2(232, 40)
 
-[node name="VentDouble" parent="." index="15" unique_id=551841300 instance=ExtResource("10_5ntmo")]
+[node name="VentDouble" parent="." index="16" unique_id=551841300 instance=ExtResource("10_5ntmo")]
 position = Vector2(176, 296)
 
-[node name="Hound" parent="." index="16" unique_id=284663861 node_paths=PackedStringArray("vent_side_1", "vent_side_2") instance=ExtResource("11_nkeig")]
+[node name="Hound" parent="." index="17" unique_id=284663861 node_paths=PackedStringArray("vent_side_1", "vent_side_2") instance=ExtResource("11_nkeig")]
 position = Vector2(129, 267)
 patrol_offsets = Array[Vector2]([Vector2(80, 0)])
 chase_speed = 100.0
+sus_time = 1.0
 vent_side_1 = NodePath("../VentSide1")
 vent_side_2 = NodePath("../VentSide2")
 
-[node name="VentSide1" parent="." index="17" unique_id=1336006414 instance=ExtResource("12_lgguw")]
+[node name="VentSide1" parent="." index="18" unique_id=1336006414 instance=ExtResource("12_lgguw")]
 position = Vector2(176, 288)
 
-[node name="VentSide2" parent="." index="18" unique_id=1544046494 instance=ExtResource("13_jprdt")]
+[node name="VentSide2" parent="." index="19" unique_id=1544046494 instance=ExtResource("13_jprdt")]
 position = Vector2(176, 304)
 rotation = 3.1415927
 
-[node name="HidingSpots" type="Node" parent="." index="19" unique_id=1482829116]
+[node name="HidingSpots" type="Node" parent="." index="20" unique_id=1482829116]
 
 [node name="HidingSpot" parent="HidingSpots" index="0" unique_id=45458896 instance=ExtResource("14_jprdt")]
 position = Vector2(88, 265)
@@ -160,7 +177,7 @@ position = Vector2(536, 88)
 [node name="HidingSpot4" parent="HidingSpots" index="3" unique_id=1346569216 instance=ExtResource("14_jprdt")]
 position = Vector2(168, 393)
 
-[node name="GuardStops" type="Node" parent="." index="20" unique_id=576218494]
+[node name="GuardStops" type="Node" parent="." index="21" unique_id=576218494]
 
 [node name="GuardStop" parent="GuardStops" index="0" unique_id=328209935 instance=ExtResource("15_ps2vj")]
 position = Vector2(528, 136)
@@ -173,14 +190,31 @@ rotation = 1.5707964
 position = Vector2(136, 385)
 rotation = 1.5707964
 
-[node name="ExitLevel2" parent="." index="21" unique_id=1465888023 instance=ExtResource("2_4tcl0")]
+[node name="ExitLevel2" parent="." index="22" unique_id=1465888023 instance=ExtResource("2_4tcl0")]
 position = Vector2(56, 384)
 scale = Vector2(-1, 1)
 next_level = "uid://bp3tnpmf8eikq"
 
+[node name="CameraPan" parent="." index="23" unique_id=1076684679 instance=ExtResource("16_sbmf2")]
+position = Vector2(176, 32)
+direction = 1
+distance = 180.0
+pan_time = 1.4
+zoom_out = 0.0
+
+[node name="GuardPanelHelper" parent="." index="24" unique_id=924847772 instance=ExtResource("17_1xax6")]
+position = Vector2(211, 32)
+rotation = 1.5707964
+
 [connection signal="activated" from="FloorButton" to="Gate/Gate" method="_on_floor_button_activated"]
 [connection signal="activated" from="FloorButton" to="Gate/Gate2" method="_on_floor_button_activated"]
+[connection signal="activated" from="FloorButton" to="Guards/Guard" method="_on_floor_button_activated"]
 [connection signal="released" from="FloorButton" to="Gate/Gate" method="_on_floor_button_released"]
 [connection signal="released" from="FloorButton" to="Gate/Gate2" method="_on_floor_button_released"]
+[connection signal="maximise_dist" from="ConversationHelper/ConversationHelper" to="Guards/Guard2" method="_on_conversation_helper_maximise_dist"]
+[connection signal="maximise_dist" from="ConversationHelper/ConversationHelper" to="Guards/Guard3" method="_on_conversation_helper_maximise_dist"]
 [connection signal="activated" from="GuardPanel" to="Gate3" method="_on_floor_button_activated"]
 [connection signal="activated" from="GuardPanel" to="Gate4" method="_on_floor_button_activated"]
+[connection signal="body_ent" from="GuardPanelHelper" to="GuardPanel" method="_on_guard_panel_helper_body_ent"]
+[connection signal="body_ent" from="GuardPanelHelper" to="Gate3" method="_on_guard_panel_helper_body_ent"]
+[connection signal="body_ent" from="GuardPanelHelper" to="Gate4" method="_on_guard_panel_helper_body_ent"]

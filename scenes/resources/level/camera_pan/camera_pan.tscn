@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://cudtnxk8u0eqf"]
+
+[ext_resource type="Script" uid="uid://b64j8rwhqekpd" path="res://scenes/resources/level/camera_pan/camera_pan.gd" id="1_lkpaf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gb8ox"]
+size = Vector2(32, 32)
+
+[node name="CameraPan" type="Area2D" unique_id=1076684679]
+collision_layer = 0
+script = ExtResource("1_lkpaf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=792628448]
+shape = SubResource("RectangleShape2D_gb8ox")

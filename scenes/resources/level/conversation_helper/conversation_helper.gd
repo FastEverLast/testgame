@@ -6,12 +6,15 @@ extends Area2D
 @export var pause_between := 0.5
 @export var walk_direction := Vector2.UP
 @export var walk_time := 0.6
+@export var wait_time := 0.0
 @export var guard := false
 @export var base := false
 @export var cat := false
 
 var _playing := false
 var _player : Node2D = null
+
+signal maximise_dist
 
 func _on_body_entered(body : Node2D) -> void:
 	if not body.is_in_group("player"):
@@ -32,6 +35,8 @@ func _on_body_entered(body : Node2D) -> void:
 	
 	_player = body
 	
+	await get_tree().create_timer(wait_time, false).timeout
+	
 	_playing = true
 	GameState.reading = true
 	
@@ -41,6 +46,7 @@ func _on_body_entered(body : Node2D) -> void:
 	_player.talk_direction = walk_direction
 	await get_tree().create_timer(walk_time, false).timeout
 	_player.talk_direction = Vector2.ZERO
+	
 		
 	for x in lines.size():
 		var speaker : Node2D = speakers[x]
@@ -63,3 +69,4 @@ func _on_body_entered(body : Node2D) -> void:
 	GameState.reading = false
 	GameState.seen_conversations.append(key)
 	_playing = false
+	maximise_dist.emit()

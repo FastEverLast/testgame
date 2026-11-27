@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bghfqc0gxg8bh" path="res://scenes/characters/enemies/hound_enemy/hound_enemy.gd" id="1_k4qkl"]
 [ext_resource type="Texture2D" uid="uid://dyisnxw658ugx" path="res://assets/characters/player/default/sprite/Down/Base_run_down_1.png" id="2_p6y38"]
 [ext_resource type="AudioStream" uid="uid://dfvf6mf7dr61e" path="res://assets/audio/sfx/game/footsteps_guard.wav" id="3_ib4vc"]
+[ext_resource type="PackedScene" uid="uid://dio74gecan1w3" path="res://scenes/ui/speech_bubble/speech_bubble.tscn" id="4_ia3mf"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_037os"]
 radius = 3.0
@@ -62,6 +63,8 @@ collision_mask = 514
 [node name="Footsteps_hound" type="AudioStreamPlayer" parent="." unique_id=969363419]
 stream = ExtResource("3_ib4vc")
 bus = &"SFX"
+
+[node name="SpeechBubble" parent="." unique_id=1501063029 instance=ExtResource("4_ia3mf")]
 
 [connection signal="body_entered" from="Vision/Cone" to="." method="_on_cone_body_entered"]
 [connection signal="body_exited" from="Vision/Cone" to="." method="_on_cone_body_exited"]

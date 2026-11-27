@@ -279,9 +279,9 @@ func _physics_process(delta: float) -> void: 	# Runs 60 times a second
 				SceneManager.caught()
 				return
 	
-	var sees := _can_see_player()	# Asks the question and stores the "true" or "false" answer
-	_hound_sfx(delta)				# Always run _hound_sfx
-	match _state:					# Call the right function depending on his mood
-		State.PATROL : _patrol(sees)
-		State.SUSPICIOUS : _suspicious(delta, sees)
-		State.ALERT : _alert(delta, sees)
+		var sees := _can_see_player()	# Asks the question and stores the "true" or "false" answer
+		_hound_sfx(delta)				# Always run _hound_sfx
+		match _state:					# Call the right function depending on his mood
+			State.PATROL : _patrol(sees)
+			State.SUSPICIOUS : _suspicious(delta, sees)
+			State.ALERT : _alert(delta, sees)

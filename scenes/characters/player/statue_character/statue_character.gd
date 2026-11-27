@@ -15,7 +15,7 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	var target_velocity = Vector2.ZERO
+	var target_velocity : Vector2 = Vector2.ZERO
 	var input_dir : Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")	# The keys the player holds, not his real velocity (that drops to zero when he is blocked)
 	
 	if _pushing and input_dir != Vector2.ZERO and GameState.reading == false and GameState.wheel_open == false: # No movement if changing form or reading
