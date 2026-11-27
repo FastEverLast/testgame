@@ -24,17 +24,17 @@ func _on_body_entered(body):
 					var new_fragment = _fragment.instantiate()
 					
 					if direction_in == Vector2.LEFT:
-						new_fragment.global_position = global_position + Vector2((i*40), 0)
+						new_fragment.position = global_position + Vector2((i*40), 0)
 					elif direction_in == Vector2.RIGHT:
-						new_fragment.global_position = global_position + Vector2((i*-40), 0)
+						new_fragment.position = global_position + Vector2((i*-40), 0)
 					add_sibling(new_fragment)
 			else:
 				for i in range(1, 3):
 					var new_fragment = _fragment.instantiate()
 					if direction_in == Vector2.LEFT:
-						new_fragment.global_position = global_position + Vector2((i*40), 0)
+						new_fragment.position = global_position + Vector2((i*40), 0)
 					elif direction_in == Vector2.RIGHT:
-						new_fragment.glbal_position = global_position + Vector2((i*-40), 0)
+						new_fragment.position = global_position + Vector2((i*-40), 0)
 					add_sibling(new_fragment)
 		return
 		
