@@ -9,6 +9,7 @@ var _player : Node2D = null
 var walk_direction : Vector2
 var walk_time := 0.9
 var _fragment := preload("res://scenes/resources/interactables/fragment/fragment.tscn")
+var _used := false
 
 func _on_body_entered(body):
 	if next_level == "":
@@ -19,31 +20,33 @@ func _on_body_entered(body):
 			_player.talk_direction = Vector2.ZERO
 			GameState.reading = false
 			
-			if GameState.memory <= 2:
-				for i in range(1, 5):
-					var new_fragment = _fragment.instantiate()
-					
-					if direction_in == Vector2.LEFT:
-						new_fragment.position = global_position + Vector2((i*40), 0)
-					elif direction_in == Vector2.RIGHT:
-						new_fragment.position = global_position + Vector2((i*-40), 0)
-					add_sibling(new_fragment)
-			else:
-				for i in range(1, 3):
-					var new_fragment = _fragment.instantiate()
-					if direction_in == Vector2.LEFT:
-						new_fragment.position = global_position + Vector2((i*40), 0)
-					elif direction_in == Vector2.RIGHT:
-						new_fragment.position = global_position + Vector2((i*-40), 0)
-					add_sibling(new_fragment)
+			if _used == false:
+				if GameState.memory <= 2:
+					for i in range(1, 5):
+						var new_fragment = _fragment.instantiate()
+						if direction_in == Vector2.LEFT:
+							new_fragment.position = global_position - Vector2((i*23), 0)
+						elif direction_in == Vector2.RIGHT:
+							new_fragment.position = global_position + Vector2((i*23), 0)
+						add_sibling(new_fragment)
+				else:
+					for i in range(1, 3):
+						var new_fragment = _fragment.instantiate()
+						if direction_in == Vector2.LEFT:
+							new_fragment.position = global_position - Vector2((i*23), 0)
+						elif direction_in == Vector2.RIGHT:
+							new_fragment.position = global_position + Vector2((i*23), 0)
+						add_sibling(new_fragment)
+						
+			_used = true
 		return
 		
 	if locked:
 		return
 	GameState.prepare_next_level()
 	SceneManager.change_level(next_level)
-	
-		
+	_used = false
+
 
 func _update_look():
 	if locked:

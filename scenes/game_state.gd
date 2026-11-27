@@ -54,6 +54,6 @@ func prepare_next_level():
 	wheel_open = false
 	shift_lock = 0
 	hidden_count = 0
-	memory = maxi(memory, 3)
+	# memory = maxi(memory, 3)
 	memory_changed.emit(memory)
 	reading = false
