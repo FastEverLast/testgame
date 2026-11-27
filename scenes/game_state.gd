@@ -7,6 +7,9 @@ var wheel_open : bool = false
 var shift_lock := 0
 var hidden_count := 0
 var reading := false
+var seen_conversations :  Array[String] = []
+var memory_at_level_start := 5
+var free_retries := false
 
 enum Form { BASE, GUARD, CAT, STATUE }
 
@@ -18,9 +21,8 @@ func change_memory(amount):
 	memory_changed.emit(memory)
 
 func shift_to(form):
-	if shift_lock > 0:
-		if reading:
-			return
+	if shift_lock > 0 or reading:
+		return
 	if form == current_form:
 		return
 	elif form != Form.BASE:
@@ -32,8 +34,13 @@ func shift_to(form):
 	form_changed.emit(form)
 	
 func reset():
+	seen_conversations.clear()
 	memory = 5
 	reset_level_state()
+	
+func start_level(free : bool) -> void:
+	memory_at_level_start = memory
+	free_retries = free
 	
 func reset_level_state():
 	current_form = Form.BASE

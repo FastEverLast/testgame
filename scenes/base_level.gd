@@ -1,10 +1,7 @@
 extends Node2D
 
-# Called when the node enters the scene tree for the first time.
+@export var free_retries := false
+
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
+	GameState.start_level(free_retries)

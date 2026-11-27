@@ -4,10 +4,9 @@
 [ext_resource type="Script" uid="uid://cictcjbt3gqo5" path="res://scenes/characters/player/statue_character/statue_character.gd" id="1_ighq5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_alj2j"]
-size = Vector2(9, 9)
+size = Vector2(10, 9)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ighq5"]
-size = Vector2(14, 13)
 
 [node name="StatueCharacter" type="CharacterBody2D" unique_id=662923737]
 collision_layer = 128
@@ -22,13 +21,13 @@ region_enabled = true
 region_rect = Rect2(0, 0, 64, 64)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1668365768]
-position = Vector2(-0.5, -4.5)
+position = Vector2(0, -4.5)
 shape = SubResource("RectangleShape2D_alj2j")
 
 [node name="Detection" type="Area2D" parent="." unique_id=162543268]
 
 [node name="DetectionShape" type="CollisionShape2D" parent="Detection" unique_id=233611170]
-position = Vector2(-0.7, -4)
+position = Vector2(-0.5, -4.5)
 shape = SubResource("RectangleShape2D_ighq5")
 
 [connection signal="body_entered" from="Detection" to="." method="_on_detection_body_entered"]

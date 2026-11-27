@@ -8,7 +8,6 @@ extends Area2D
 @export var walk_time := 0.6
 
 var _playing := false
-var _done := false
 var _player : Node2D = null
 
 func _on_body_entered(body : Node2D) -> void:
@@ -16,8 +15,13 @@ func _on_body_entered(body : Node2D) -> void:
 		return
 	if GameState.current_form != GameState.Form.GUARD:
 		return
-	if _playing or _done:
+	if _playing:
 		return
+	
+	var key : String = get_tree().current_scene.scene_file_path + "/" + str(name)	# Unique name for this conversation: the level plus this node's name
+	if GameState.seen_conversations.has(key):	# Already seen, even before dying
+		return
+	
 	if speakers.size() != lines.size() or audiences.size() != lines.size():
 		push_error("Not equal amounts of speakers and lines to say")
 		return
@@ -53,5 +57,5 @@ func _on_body_entered(body : Node2D) -> void:
 	for guard in speakers:
 		guard.stop_talking()
 	GameState.reading = false
+	GameState.seen_conversations.append(key)
 	_playing = false
-	_done = true

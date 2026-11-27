@@ -10,15 +10,13 @@ enum State { PATROL, SUSPICIOUS, ALERT }
 @export var lose_time : float = 3.0				# How long to keep searching after he cant se you anymore
 @export var search_reach : float = 128.0			# How far the hound checks if there is a wall in the way before starting to patrol
 @export var step_interval := 0.17
+@export var vent_side_1: Node2D
+@export var vent_side_2: Node2D
 
 @onready var vision : Node2D = $Vision			# We rotate this to turn the hounds view
 @onready var los : RayCast2D = $LineOfSight		# Line of sight
 @onready var alert_label : Label = $LineOfSight/Alert
-
 @onready var footsteps : AudioStreamPlayer = $Footsteps_hound
-
-@onready var vent_side_1: Area2D = $"../VentSide1"
-@onready var vent_side_2: Area2D = $"../VentSide2"
 
 @onready var step_starts : Array[float] = [0.17]
 @onready var step_length := 0.10
@@ -133,7 +131,7 @@ func _patrol(sees) -> void:
 		_index = (_index + 1) % _points.size()		# Increase the index by one to go to the next stop on the list. We mod with 2 right now since there are only 2 points
 													# which means that the index will either be 0 or 1, so the hound just moves between index 0 and 1
 	else:
-		_move_toward(target, patrol_speed)	# If he is not close enough, walk towords the point at patrol_speed
+		_move_toward(_funnel_target(target), patrol_speed)	# If he is not close enough, walk towords the point at patrol_speed
 
 func _suspicious(delta, sees):	# Delta is the number of seconds since the last frame, a very small number
 	if sees:
@@ -201,6 +199,9 @@ func _repatrol(_position_hound, reason) -> void:	# Starts patrolling in the new 
 
 # Returns where the hound should walk right now. Usually the target itself, but if a wall is in the way, it returns the vent entrance instead.
 func _funnel_target(target: Vector2) -> Vector2:
+	if vent_side_1 == null or vent_side_2 == null:
+		return target
+
 	var vent_x : float = vent_side_1.global_position.x # The x pos of the vent opening, both sides share it
 	var north_y : float = vent_side_1.global_position.y # Vent side 1's north edge
 	var south_y : float = vent_side_2.global_position.y # Vent side 2's south edge
