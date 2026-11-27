@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dio74gecan1w3"]
 
-[ext_resource type="FontFile" uid="uid://3oubag611cju" path="res://assets/font/pixelfont_regular.ttf" id="1_h3upq"]
 [ext_resource type="Script" uid="uid://tvktkgnktpps" path="res://scenes/ui/speech_bubble/speech_bubble.gd" id="1_jibl7"]
+[ext_resource type="FontFile" uid="uid://c6ou6hvi7o73f" path="res://assets/font/comic-8.ttf" id="2_jibl7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eu66n"]
 content_margin_left = 8.0
@@ -22,16 +22,16 @@ scale = Vector2(0.5, 0.5)
 script = ExtResource("1_jibl7")
 
 [node name="Panel" type="PanelContainer" parent="." unique_id=288633318]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 214.0
+offset_bottom = 28.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_eu66n")
 
 [node name="Text" type="Label" parent="Panel" unique_id=1190193244]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("1_h3upq")
-theme_override_font_sizes/font_size = 16
+theme_override_fonts/font = ExtResource("2_jibl7")
+theme_override_font_sizes/font_size = 12
 autowrap_mode = 3
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=898037069]

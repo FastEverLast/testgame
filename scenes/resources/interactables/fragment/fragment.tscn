@@ -58,7 +58,7 @@ animations = [{
 "speed": 9.0
 }]
 
-[node name="Fragment" type="Area2D" unique_id=1635556197]
+[node name="Fragment" type="Area2D" unique_id=1635556197 groups=["fragment"]]
 scale = Vector2(2, 2)
 collision_layer = 16
 script = ExtResource("1_h7my7")

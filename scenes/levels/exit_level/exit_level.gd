@@ -8,6 +8,7 @@ extends Area2D
 var _player : Node2D = null
 var walk_direction : Vector2
 var walk_time := 0.9
+var _fragment := preload("res://scenes/resources/interactables/fragment/fragment.tscn")
 
 func _on_body_entered(body):
 	if next_level == "":
@@ -17,11 +18,32 @@ func _on_body_entered(body):
 			await get_tree().create_timer(walk_time, false).timeout
 			_player.talk_direction = Vector2.ZERO
 			GameState.reading = false
+			
+			if GameState.memory <= 2:
+				for i in range(1, 5):
+					var new_fragment = _fragment.instantiate()
+					
+					if direction_in == Vector2.LEFT:
+						new_fragment.global_position = global_position + Vector2((i*40), 0)
+					elif direction_in == Vector2.RIGHT:
+						new_fragment.global_position = global_position + Vector2((i*-40), 0)
+					get_parent().add_sibling(new_fragment)
+			else:
+				for i in range(1, 3):
+					var new_fragment = _fragment.instantiate()
+					if direction_in == Vector2.LEFT:
+						new_fragment.global_position = global_position + Vector2((i*40), 0)
+					elif direction_in == Vector2.RIGHT:
+						new_fragment.glbal_position = global_position + Vector2((i*-40), 0)
+					get_parent().add_sibling(new_fragment)
 		return
+		
 	if locked:
 		return
 	GameState.prepare_next_level()
 	SceneManager.change_level(next_level)
+	
+		
 
 func _update_look():
 	if locked:
