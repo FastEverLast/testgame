@@ -3,6 +3,7 @@ extends Area2D
 @export_file("*.tscn") var next_level : String
 @export var direction_in := Vector2.LEFT
 @export var locked := false
+@export var min_memory : int
 @onready var sprite : Sprite2D = $Sprite2D
 
 var _player : Node2D = null
@@ -22,7 +23,7 @@ func _on_body_entered(body):
 			_player.talk_direction = Vector2.ZERO
 			GameState.reading = false
 			
-			if not GameState.entrances_used.has(get_tree().current_scene.scene_file_path):
+			if not GameState.entrances_used.has(get_tree().current_scene.scene_file_path) and (SceneManager.just_died == false):
 				GameState.entrances_used.append(get_tree().current_scene.scene_file_path)
 				if GameState.memory <= 2:
 					GameState.memory_at_level_start += 4
@@ -42,7 +43,19 @@ func _on_body_entered(body):
 						elif direction_in == Vector2.RIGHT:
 							new_fragment.position = global_position + Vector2((i*23), 0) + Vector2(extra, 0)
 						add_sibling(new_fragment)
+						
+			elif GameState.entrances_used.has(get_tree().current_scene.scene_file_path) and (SceneManager.just_died) and (GameState.memory <= min_memory):
+				for i in range(min_memory+1):
+					var new_fragment = _fragment.instantiate()
+					if direction_in == Vector2.LEFT:
+						new_fragment.position = global_position - Vector2((i*23), 0) - Vector2(extra, 0)
+					elif direction_in == Vector2.RIGHT:
+						new_fragment.position = global_position + Vector2((i*23), 0) + Vector2(extra, 0)
+					add_sibling(new_fragment)
+
 			_used = true
+			
+			
 		return
 		
 	if locked:

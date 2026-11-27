@@ -6,6 +6,8 @@ extends Node
 var busy := false
 var catching := false
 
+var just_died := false
+
 
 func _on_memory_empty():
 	if busy:
@@ -58,6 +60,7 @@ func caught():
 	else:
 		GameState.reset_level_state()
 		change_level(get_tree().current_scene.scene_file_path)
+		just_died = true
 	catching = false
 
 func go_to_main_menu():
