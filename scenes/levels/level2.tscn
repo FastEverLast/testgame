@@ -39,6 +39,7 @@ scale = Vector2(-1, 1)
 direction_in = Vector2(1, 0)
 min_memory = 6
 spaces_between = 13
+extra = 30.0
 
 [node name="Vent" parent="." index="6" unique_id=1633649404 instance=ExtResource("3_71baw")]
 position = Vector2(88, 72)

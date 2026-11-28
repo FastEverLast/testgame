@@ -298,6 +298,7 @@ func _physics_process(delta: float) -> void: 	# Runs 60 times a second
 			_set_state(State.ALERT)
 			_alert(delta, true)
 			target_patrol = _points[_index]
+			await get_tree().create_timer(0.2).timeout   # Fixes some rare cases where it was useing the above variable
 		else:
 			match _state:					# Call the right function depending on his mood
 				State.PATROL : _patrol(sees)

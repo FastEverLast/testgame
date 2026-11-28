@@ -12,8 +12,8 @@ var walk_direction : Vector2
 var _fragment := preload("res://scenes/resources/interactables/fragment/fragment.tscn")
 var _used := false
 
-const extra := 20.0
-const extra_died := 44.0
+@export var extra := 20.0
+@export var extra_died := 44.0
 const walk_time := 0.9
 
 func _on_body_entered(body):
