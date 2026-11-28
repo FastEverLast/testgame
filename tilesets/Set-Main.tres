@@ -432,6 +432,21 @@ texture = ExtResource("1_iewc6")
 23:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -3.5274773, 8, -3.5274768, 8, 8, -8, 8)
 22:11/0 = 0
 22:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -3.5274773, 8, -3.5274768, 8, 8, -8, 8)
+22:13/0 = 0
+22:14/0 = 0
+23:14/0 = 0
+23:15/0 = 0
+23:16/0 = 0
+22:15/0 = 0
+22:16/0 = 0
+24:16/0 = 0
+25:16/0 = 0
+25:15/0 = 0
+25:14/0 = 0
+24:14/0 = 0
+24:15/0 = 0
+24:13/0 = 0
+23:13/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mlsew"]
 texture = ExtResource("2_kilm2")

@@ -196,7 +196,6 @@ position = Vector2(176, 40)
 direction = 1
 distance = 180.0
 pan_time = 1.4
-zoom_out = 0.0
 
 [node name="GuardPanelHelper" parent="." index="23" unique_id=924847772 instance=ExtResource("17_1xax6")]
 position = Vector2(211, 32)
