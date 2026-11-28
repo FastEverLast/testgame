@@ -31,6 +31,9 @@ func say(text : String) -> void:
 	await get_tree().create_timer(hold_time, false).timeout
 	panel.visible = false
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _process(_delta: float) -> void:
-	pass
+	var cam = get_viewport().get_camera_2d()
+	
+	if cam != null:
+		scale = Vector2.ONE / cam.zoom

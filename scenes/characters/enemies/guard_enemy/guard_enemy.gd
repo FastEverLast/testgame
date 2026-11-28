@@ -99,7 +99,7 @@ func _can_see_player() -> bool:
 									# Returns false if it hits a wall, and true when he does not. 
 	
 func _move_toward(target: Vector2, speed: float) -> void:
-	if (_player != null) and ((target == _player.global_position) and (_can_see_player() == false)): # So that the enemy doesn't chase you if you are behind a wall
+	if (_start_attack == false) and (_player != null) and ((target == _player.global_position) and (_can_see_player() == false)): # So that the enemy doesn't chase you if you are behind a wall
 		return		
 	else:
 		var dir: Vector2 = global_position.direction_to(target)		# Direction to gives an arrow of length 1 that points at the target	
@@ -190,15 +190,15 @@ func _suspicious(delta, sees):	# Delta is the number of seconds since the last f
 			if global_position.distance_to(_last_seen) > 4.0:
 				_move_toward(_last_seen, creep_speed)
 		
+		beam_material.set_shader_parameter("beam_color", SUS_COLOR.lerp(ALERT_COLOR, clampf(_suspicion, 0.0, 1.0)))
+		
 		if _suspicion >= 1.0:	# If the meter is full
 			_set_state(State.ALERT)
 		
 		if _suspicion <= 0.0: # If the meter is empty
 			_repatrol(global_position, "lost_sucpicion")
-			
-		beam_material.set_shader_parameter("beam_color", SUS_COLOR.lerp(ALERT_COLOR, clampf(_suspicion, 0.0, 1.0)))
-	
-	
+
+
 func _repatrol(_position_guard, reason) -> void:	# Starts patrolling in the new position
 	if _resetting == false:
 		if reason == "lost_player":

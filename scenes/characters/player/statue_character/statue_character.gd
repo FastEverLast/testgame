@@ -12,6 +12,10 @@ func _ready() -> void:
 														# i.e. the makes the statue have a constant speed in all directions
 	_player = get_tree().get_first_node_in_group("player")
 	velocity = Vector2(0,0)		# Start standing still
+	
+	if _player != null:
+		_player.add_collision_exception_with(self)
+		add_collision_exception_with(_player)
 
 
 func _physics_process(_delta: float) -> void:
@@ -32,8 +36,12 @@ func _physics_process(_delta: float) -> void:
 func _on_detection_body_entered(body: Node2D) -> void:
 	if body == _player:
 		_pushing = true
+		_player.add_collision_exception_with(self)
+		add_collision_exception_with(_player)
 
 
 func _on_detection_body_exited(body: Node2D) -> void:
 	if body == _player:
 		_pushing = false
+		_player.remove_collision_exception_with(self)
+		remove_collision_exception_with(_player)

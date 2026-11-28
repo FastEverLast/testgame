@@ -7,9 +7,12 @@ enum Dir{UP, DOWN, LEFT, RIGHT}
 @export var pan_time := 0.9
 @export var zoom_out := 0.1
 @export var hold_time := 2.2
+@export var one_shot := false
 
 static var _tween : Tween
 static var _pan_id := 0
+
+var _my_pan := false
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
@@ -18,6 +21,14 @@ func _ready() -> void:
 func _on_body_entered(body):
 	if not body.is_in_group("player"):
 		return
+	
+	var key := get_tree().current_scene.scene_file_path + "#" + str(name)
+	if one_shot:
+		if GameState.used_pans.has(key):
+			return
+		GameState.used_pans.append(key)
+	_my_pan = true
+	
 	_pan(_offset_for_direction(), -zoom_out)
 	if hold_time <= 0.0:
 		return
@@ -30,6 +41,9 @@ func _on_body_entered(body):
 func _on_body_exited(body):
 	if not body.is_in_group("player"):
 		return
+	if not _my_pan:
+		return
+	_my_pan = false
 	_pan(Vector2.ZERO, 0.0)
 
 func _offset_for_direction():
@@ -58,4 +72,8 @@ func _pan(target_offset, zoom_change):
 	_tween.set_trans(Tween.TRANS_SINE)
 	_tween.set_ease(Tween.EASE_IN_OUT)
 	_tween.tween_property(cam, "offset", target_offset, pan_time)
-	_tween.tween_property(cam, "zoom", base + Vector2.ONE * zoom_change, pan_time)
+	
+	if target_offset == Vector2.ZERO:
+		cam.zoom = base
+	else:
+		_tween.tween_property(cam, "zoom", base + Vector2.ONE * zoom_change, pan_time)

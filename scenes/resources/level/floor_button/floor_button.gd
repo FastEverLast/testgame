@@ -27,6 +27,8 @@ func _on_body_entered(_body: Node2D) -> void:
 
 
 func _on_body_exited(_body: Node2D) -> void:
+	if not is_inside_tree():
+		return
 	_bodies_on -= 1
 	if _bodies_on == 0:
 		sprite.frame = 1

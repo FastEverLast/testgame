@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b64j8rwhqekpd" path="res://scenes/resources/level/camera_pan/camera_pan.gd" id="1_lkpaf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gb8ox"]
-size = Vector2(32, 32)
+size = Vector2(32, 48)
 
 [node name="CameraPan" type="Area2D" unique_id=1076684679]
 collision_layer = 0
