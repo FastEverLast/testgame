@@ -10,6 +10,13 @@ enum State { PATROL, SUSPICIOUS, ALERT, TALKING }
 @export var lose_time : float = 3.0				# How long to keep searching after he cant se you anymore
 @export var search_reach : float = 128.0			# How far the guard checks if there is a wall in the way before starting to patrol
 @export var detects_disguise := false
+@export var step_interval := 0.17
+@export var distance_sus := false
+@export var maximise_distance := false
+@export var patrol_offsets_high : Array[Vector2] = [Vector2(96, 0)]
+@export var get_him : bool = false
+@export var get_him_time := 0.8
+@export var comedic_timing := false
 
 @onready var vision : Node2D = $Vision			# We rotate this to turn the guards view
 @onready var los : RayCast2D = $LineOfSight		# Line of sight
@@ -19,13 +26,6 @@ enum State { PATROL, SUSPICIOUS, ALERT, TALKING }
 @onready var footsteps : AudioStreamPlayer = $Footsteps_guard
 @onready var step_starts : Array[float] = [0.17]
 @onready var step_length := 0.10
-@export var step_interval := 0.17
-@export var distance_sus := false
-@export var maximise_distance := false
-@export var patrol_offsets_high : Array[Vector2] = [Vector2(96, 0)]
-@export var get_him : bool = false
-@export var get_him_time := 0.8
-
 @onready var patrol_up : RayCast2D = $Patrol_Up
 @onready var patrol_down : RayCast2D = $Patrol_Down
 @onready var patrol_left : RayCast2D = $Patrol_Left
@@ -47,6 +47,8 @@ var talking := false	# True while he is in conversation, which means that he can
 var look_target : Node2D = null
 var _resetting := false
 var _start_attack := false
+var target_patrol: Vector2
+var start_patrol := true
 
 func _ready() -> void:
 	_points = [global_position]	# The array is populated, with the current position as the first stop, and the current pos
@@ -60,6 +62,9 @@ func _ready() -> void:
 	
 	if detects_disguise:
 		$Sprite2D.modulate = Color(1.0, 0.85, 0.3)
+	
+	if comedic_timing:
+		start_patrol = false
 
 func _on_cone_body_entered(body) -> void:	# Body can only be the player, since the mask is set to the player
 	if not body.is_in_group("player"): 
@@ -146,17 +151,18 @@ func _set_state(new_state):		# Changes the guards "mood"
 	
 func _patrol(sees) -> void:
 	if _resetting == false:
-		if sees == true:	# The "sees" comes from the can_see_player variable
-			_set_state(State.SUSPICIOUS)
-			return
-		
-		var target: Vector2 = _points[_index]	# Sets the target where he wants to patrol to. The index specifies which set of coords to walk too.
-		
-		if global_position.distance_to(target) < 2.0:	# If he is within 2 pixels of the stop, it counts as him arriving
-			_index = (_index + 1) % _points.size()		# Increase the index by one to go to the next stop on the list. We mod with 2 right now since there are only 2 points
-														# which means that the index will either be 0 or 1, so the guard just moves between index 0 and 1
-		else:
-			_move_toward(target, patrol_speed)	# If he is not close enough, walk towords the point at patrol_speed
+		if start_patrol:
+			if sees == true:	# The "sees" comes from the can_see_player variable
+				_set_state(State.SUSPICIOUS)
+				return
+				
+			target_patrol = _points[_index]
+	
+			if global_position.distance_to(target_patrol) < 2.0:	# If he is within 2 pixels of the stop, it counts as him arriving
+				_index = (_index + 1) % _points.size()		# Increase the index by one to go to the next stop on the list. We mod with 2 right now since there are only 2 points
+															# which means that the index will either be 0 or 1, so the guard just moves between index 0 and 1
+			else:
+				_move_toward(target_patrol, patrol_speed)	# If he is not close enough, walk towords the point at patrol_speed
 
 func _suspicious(delta, sees):	# Delta is the number of seconds since the last frame, a very small number
 	if _resetting == false:
@@ -289,6 +295,7 @@ func _physics_process(delta: float) -> void: 	# Runs 60 times a second
 		if _start_attack:
 			_set_state(State.ALERT)
 			_alert(delta, true)
+			target_patrol = _points[_index]
 		else:
 			match _state:					# Call the right function depending on his mood
 				State.PATROL : _patrol(sees)

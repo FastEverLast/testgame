@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://bn70s6r752pd2"]
 
 [ext_resource type="Script" uid="uid://crxyotsgqogyl" path="res://scenes/resources/level/gate/gate.gd" id="1_316ya"]
-[ext_resource type="Texture2D" uid="uid://b04b8pakxvrta" path="res://assets/tilesets/Sets/Set-Main.png" id="1_r6r88"]
+[ext_resource type="Texture2D" uid="uid://b04b8pakxvrta" path="res://assets/tilesets/sets/Set-Main.png" id="1_r6r88"]
+[ext_resource type="AudioStream" uid="uid://dipwji0jlchjj" path="res://assets/audio/sfx/game/gate_clopening.wav" id="3_chdou"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r6r88"]
 size = Vector2(15, 16)
@@ -19,3 +20,9 @@ region_rect = Rect2(80, 256, 16, 16)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1201201201]
 position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_r6r88")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer2D" parent="." unique_id=560231215]
+position = Vector2(0, -5)
+stream = ExtResource("3_chdou")
+volume_db = -5.497
+bus = &"SFX"

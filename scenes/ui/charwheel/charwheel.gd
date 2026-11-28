@@ -75,6 +75,11 @@ func _arrow_pick(form : int):
 	_set_hovered(form)
 	if Settings.get_setting("controls", "auto_select", false):
 		_confirm()
+		GameState.wheel_open = true
+		while Input.get_vector("move_left", "move_right", "move_up", "move_down") != Vector2.ZERO:
+			await get_tree().process_frame
+		if not visible:
+			GameState.wheel_open = false
 
 func _set_hovered(form: int):
 	if form == _hovered:
