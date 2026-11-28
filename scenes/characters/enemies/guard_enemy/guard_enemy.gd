@@ -320,3 +320,8 @@ func _on_floor_button_activated() -> void:
 		for p in range(patrol_offsets_high.size()):
 			_points.append(patrol_offsets_high[p])
 		_resetting = false
+
+
+func _on_comedic_timing_body_entered(body: Node2D) -> void:
+	if body == _player:
+		start_patrol = true

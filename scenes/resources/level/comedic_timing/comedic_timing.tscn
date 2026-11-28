@@ -1,3 +1,9 @@
 [gd_scene format=3 uid="uid://b35fy8axn4gau"]
 
-[node name="ComedicTiming" type="Node2D" unique_id=1980092146]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m51pe"]
+size = Vector2(32, 16)
+
+[node name="ComedicTiming" type="Area2D" unique_id=689669989]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1641158036]
+shape = SubResource("RectangleShape2D_m51pe")

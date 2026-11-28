@@ -12,6 +12,7 @@ enum State { PATROL, SUSPICIOUS, ALERT }
 @export var step_interval := 0.17
 @export var vent_side_1: Node2D
 @export var vent_side_2: Node2D
+@export var comedic_timing := false
 
 @onready var vision : Node2D = $Vision			# We rotate this to turn the hounds view
 @onready var los : RayCast2D = $LineOfSight		# Line of sight
@@ -38,7 +39,7 @@ var _last_seen : Vector2 = Vector2.ZERO		# Last position the hound saw the playe
 var _caught := false
 var _step_timer := 0.0
 var _step_count := 0
-
+var start_patrol := true
 var talking := false	# True while he is in conversation, which means that he cannot move
 var look_target : Node2D = null
 
@@ -50,6 +51,9 @@ func _ready() -> void:
 		_points.append(global_position + offset)
 	
 	_player = get_tree().get_first_node_in_group("player")
+	
+	if comedic_timing:
+		start_patrol = false
 
 func _on_cone_body_entered(body):	# Body can only be the player, since the mask is set to the player
 	if not body.is_in_group("player"): 
@@ -124,17 +128,18 @@ func _set_state(new_state):		# Changes the hounds "mood"
 		State.ALERT : alert_label.text = "!"
 	
 func _patrol(sees) -> void:
-	if sees == true:	# The "sees" comes from the can_see_player variable
-		_set_state(State.SUSPICIOUS)
-		return
-	
-	var target: Vector2 = _points[_index]	# Sets the target where he wants to patrol to. The index specifies which set of coords to walk too.
-	
-	if global_position.distance_to(target) < 2.0:	# If he is within 2 pixels of the stop, it counts as him arriving
-		_index = (_index + 1) % _points.size()		# Increase the index by one to go to the next stop on the list. We mod with 2 right now since there are only 2 points
-													# which means that the index will either be 0 or 1, so the hound just moves between index 0 and 1
-	else:
-		_move_toward(_funnel_target(target), patrol_speed)	# If he is not close enough, walk towords the point at patrol_speed
+	if start_patrol:
+		if sees == true:	# The "sees" comes from the can_see_player variable
+			_set_state(State.SUSPICIOUS)
+			return
+		
+		var target: Vector2 = _points[_index]	# Sets the target where he wants to patrol to. The index specifies which set of coords to walk too.
+		
+		if global_position.distance_to(target) < 2.0:	# If he is within 2 pixels of the stop, it counts as him arriving
+			_index = (_index + 1) % _points.size()		# Increase the index by one to go to the next stop on the list. We mod with 2 right now since there are only 2 points
+														# which means that the index will either be 0 or 1, so the hound just moves between index 0 and 1
+		else:
+			_move_toward(_funnel_target(target), patrol_speed)	# If he is not close enough, walk towords the point at patrol_speed
 
 func _suspicious(delta, sees):	# Delta is the number of seconds since the last frame, a very small number
 	if sees:
@@ -285,3 +290,8 @@ func _physics_process(delta: float) -> void: 	# Runs 60 times a second
 			State.PATROL : _patrol(sees)
 			State.SUSPICIOUS : _suspicious(delta, sees)
 			State.ALERT : _alert(delta, sees)
+
+
+func _on_comedic_timing_body_entered(body: Node2D) -> void:
+	if body == _player:
+		start_patrol = true
