@@ -14,8 +14,6 @@ enum State { PATROL, SUSPICIOUS, ALERT, TALKING }
 @export var distance_sus := false
 @export var maximise_distance := false
 @export var patrol_offsets_high : Array[Vector2] = [Vector2(96, 0)]
-@export var get_him : bool = false
-@export var get_him_time := 0.8
 @export var comedic_timing := false
 
 @onready var vision : Node2D = $Vision			# We rotate this to turn the guards view
@@ -272,11 +270,6 @@ func start_talking() -> void:
 func stop_talking() -> void:
 	talking = false
 	look_target = null
-	if get_him:
-		await get_tree().create_timer(0.1).timeout # Enough time to realise oh no...
-		_start_attack = true
-		await get_tree().create_timer(get_him_time).timeout
-		_start_attack = false
 		
 		
 func face(target : Node2D) -> void:
@@ -334,3 +327,12 @@ func _on_floor_button_activated() -> void:
 func _on_comedic_timing_body_entered(body: Node2D) -> void:
 	if body == _player:
 		start_patrol = true
+
+
+func _on_conversation_helper_get_him() -> void:
+	await get_tree().create_timer(0.05).timeout # Enough time to realise oh no...
+	_start_attack = true
+
+
+func _on_conversation_helper_stop_attack() -> void:
+	_start_attack = false

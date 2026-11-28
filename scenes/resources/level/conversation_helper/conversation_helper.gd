@@ -10,11 +10,15 @@ extends Area2D
 @export var guard := false
 @export var base := false
 @export var cat := false
+@export var chase_scene := false
+@export var forward_walk_time := 3.0
 
 var _playing := false
 var _player : Node2D = null
 
 signal maximise_dist
+signal get_him
+signal stop_attack
 
 func _on_body_entered(body : Node2D) -> void:
 	if not body.is_in_group("player"):
@@ -47,7 +51,6 @@ func _on_body_entered(body : Node2D) -> void:
 	await get_tree().create_timer(walk_time, false).timeout
 	_player.talk_direction = Vector2.ZERO
 	
-		
 	for x in lines.size():
 		var speaker : Node2D = speakers[x]
 		var audience : Node2D = audiences[x] # Lets the speaker know who to turn to.
@@ -66,7 +69,27 @@ func _on_body_entered(body : Node2D) -> void:
 		
 	for guard in speakers:
 		guard.stop_talking()
+		
 	GameState.reading = false
 	GameState.seen_conversations.append(key)
 	_playing = false
-	maximise_dist.emit()
+	
+	if chase_scene:
+		GameState.reading = true
+		_player.talk_direction = walk_direction
+		_player.walk_speed = 125.0
+		
+		await get_tree().create_timer(forward_walk_time, false).timeout
+		
+		GameState.reading = false
+		_player.walk_speed = 50.0
+		_player.talk_direction = Vector2.ZERO
+		
+		get_him.emit()
+		
+	else:
+		maximise_dist.emit()
+
+
+func _on_stop_chase_body_entered(_body: Node2D) -> void:
+	stop_attack.emit()
