@@ -1,19 +1,23 @@
 [gd_scene format=3 uid="uid://dfm474pl4bhp7"]
 
+[ext_resource type="Script" uid="uid://bv766158h07dj" path="res://scenes/resources/level/wash_zone/wash_zone.gd" id="1_qih8w"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eu66n"]
 size = Vector2(198, 124)
 
 [node name="WashZone" type="Area2D" unique_id=384680208]
 collision_layer = 0
+script = ExtResource("1_qih8w")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1761948688]
 shape = SubResource("RectangleShape2D_eu66n")
 
 [node name="Tint" type="ColorRect" parent="." unique_id=652321068]
 z_index = -2
-offset_left = -99.0
-offset_top = -62.0
-offset_right = 99.0
-offset_bottom = 62.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 color = Color(0.4, 0.7019608, 1, 0.10980392)

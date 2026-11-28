@@ -1,11 +1,27 @@
 extends Area2D
 
+var _inside := false
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	body_entered.connect(_on_body_entered)
+	body_exited.connect(_on_body_exited)
+	GameState.form_changed.connect(_on_form_changed)
+	
+func _on_body_entered(body):
+	if not body.is_in_group("player"):
+		return
+	_inside = true
+	_strip.call_deferred()
 
+func _on_body_exited(body):
+	if not body.is_in_group("player"):
+		return
+	_inside = false
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func _on_form_changed(_form):
+	if _inside:
+		_strip.call_deferred()
+
+func _strip():
+	if GameState.current_form != GameState.Form.BASE:
+		GameState.shift_to(GameState.Form.BASE)
