@@ -71,7 +71,7 @@ func _ready() -> void:
 	if comedic_timing:
 		start_patrol = false
 	
-		_set_state(State.PATROL)
+	_set_state(State.PATROL)
 
 func _on_cone_body_entered(body) -> void:	# Body can only be the player, since the mask is set to the player
 	if not body.is_in_group("player"): 
@@ -148,13 +148,13 @@ func _set_state(new_state):		# Changes the guards "mood"
 	match new_state:	# Case statement that displays something else in the label based on the mood
 		State.PATROL : 
 			alert_label.text = ""
-			beam_material.set_shader_parameter("beam_color",Color(1, 1, 1, 0.12))
+			beam_material.set_shader_parameter("beam_color", PATROL_COLOR)
 		State.SUSPICIOUS : 	
 			alert_label.text = "?"
-			beam_material.set_shader_parameter("beam_color",Color(1.0, 0.85, 0.2, 0.22))
+			beam_material.set_shader_parameter("beam_color", SUS_COLOR)
 		State.ALERT : 
 			alert_label.text = "!"
-			beam_material.set_shader_parameter("beam_color",Color(1.0, 0.2, 0.2, 0.3))
+			beam_material.set_shader_parameter("beam_color", ALERT_COLOR)
 	
 func _patrol(sees) -> void:
 	if _resetting == false:
@@ -198,7 +198,9 @@ func _suspicious(delta, sees):	# Delta is the number of seconds since the last f
 		if _suspicion <= 0.0: # If the meter is empty
 			_repatrol(global_position, "lost_sucpicion")
 			
-				
+		beam_material.set_shader_parameter("beam_color", SUS_COLOR.lerp(ALERT_COLOR, clampf(_suspicion, 0.0, 1.0)))
+	
+	
 func _repatrol(_position_guard, reason) -> void:	# Starts patrolling in the new position
 	if _resetting == false:
 		if reason == "lost_player":
