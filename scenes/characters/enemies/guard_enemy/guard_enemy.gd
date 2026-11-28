@@ -50,6 +50,11 @@ var _start_attack := false
 var target_patrol: Vector2
 var start_patrol := true
 
+const PATROL_COLOR := Color(0.9, 0.95, 1.0, 0.16)
+const SUS_COLOR := Color(1.0, 0.55, 0.0, 0.40)
+const ALERT_COLOR := Color(1.0, 0.1, 0.1, 0.45)
+const CONE_STEPS := 4
+
 func _ready() -> void:
 	_points = [global_position]	# The array is populated, with the current position as the first stop, and the current pos
 								# plus the offset specified above as the second position 
@@ -65,6 +70,8 @@ func _ready() -> void:
 	
 	if comedic_timing:
 		start_patrol = false
+	
+		_set_state(State.PATROL)
 
 func _on_cone_body_entered(body) -> void:	# Body can only be the player, since the mask is set to the player
 	if not body.is_in_group("player"): 
@@ -130,8 +137,8 @@ func _guard_sfx(delta) -> void:
 					footsteps.stop()
 
 			prev_pos = global_position
-			
-		
+
+
 func _set_state(new_state):		# Changes the guards "mood"
 	_state = new_state			# Store the new mood
 	_lost_timer = 0.0			# Reset "lost you" timer
