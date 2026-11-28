@@ -34,6 +34,7 @@ position = Vector2(692, 291)
 
 [node name="ExitLevel" parent="." index="5" unique_id=1225360685 instance=ExtResource("2_4tcl0")]
 position = Vector2(680, 288)
+direction_in = Vector2(-1, 0)
 min_memory = 3
 
 [node name="Vent" parent="." index="6" unique_id=1633649404 instance=ExtResource("5_dywbp")]

@@ -55,7 +55,7 @@ patrol_offsets = Array[Vector2]([Vector2(-164, 0)])
 position = Vector2(90, 143)
 speakers = [NodePath("../Guards/Guard2"), NodePath("../Guards/Guard"), NodePath("../Guards/Guard"), NodePath("../Guards/Guard2"), NodePath("../Guards/Guard2"), NodePath("../Guards/Guard")]
 audiences = [NodePath("../Guards/Guard"), NodePath("../Player"), NodePath("../Player"), NodePath("../Player"), NodePath("../Player"), NodePath("../Player")]
-lines = Array[String](["Hey, you comin' to the...", "...", "'Sup new guy!", "Are YOU coming to the poker night?", "You are? Great! More money for me!", "See you then!"])
+lines = Array[String](["Hey, you comin' to the...", "...", "'Sup new guy!", "Are YOU coming to the poker night?", "You are? Great! More money for me!", "Ignore him. See you then!"])
 guard = true
 
 [node name="Gate" parent="." index="8" unique_id=488032558 instance=ExtResource("6_jcy27")]

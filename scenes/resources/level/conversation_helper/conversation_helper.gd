@@ -4,7 +4,7 @@ extends Area2D
 @export var audiences : Array[Node2D]
 @export var lines : Array[String]
 @export var pause_between := 0.5
-@export var walk_direction := Vector2.UP
+@export var walk_direction : Vector2
 @export var walk_time := 0.6
 @export var wait_time := 0.0
 @export var guard := false
@@ -19,6 +19,16 @@ var _player : Node2D = null
 signal maximise_dist
 signal get_him
 signal stop_attack
+
+func _ready() -> void:
+	if walk_direction == Vector2(-1.0, 0.0):
+		walk_direction = Vector2.LEFT
+	elif walk_direction == Vector2(1.0, 0.0):
+		walk_direction = Vector2.RIGHT
+	elif walk_direction == Vector2(0.0, -1.0):
+		walk_direction = Vector2.UP
+	elif walk_direction == Vector2(0.0, 1.0):
+		walk_direction = Vector2.DOWN
 
 func _on_body_entered(body : Node2D) -> void:
 	if not body.is_in_group("player"):
