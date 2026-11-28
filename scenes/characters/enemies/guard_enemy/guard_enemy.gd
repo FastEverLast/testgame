@@ -263,8 +263,7 @@ func stop_talking() -> void:
 		await get_tree().create_timer(get_him_time).timeout
 		_start_attack = false
 		
-	
-	
+		
 func face(target : Node2D) -> void:
 	look_target = target
 

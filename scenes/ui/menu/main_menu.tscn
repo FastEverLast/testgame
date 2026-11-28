@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://blehutmoajbgs" path="res://scenes/ui/menu/animated_button.gd" id="4_kiqgm"]
 [ext_resource type="Script" uid="uid://d1tloxnfh8asc" path="res://scenes/ui/menu/audio_control.gd" id="5_hj162"]
 [ext_resource type="Script" uid="uid://3bmx71d4f1yx" path="res://scenes/ui/menu/fullscreen.gd" id="6_xn6kt"]
+[ext_resource type="Script" uid="uid://6a3ddiu6pcvf" path="res://scenes/ui/menu/autoselect.gd" id="7_pm6bo"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_eu66n"]
 texture = ExtResource("1_nl8w3")
@@ -160,10 +161,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -211.75
-offset_top = 4.0
-offset_right = 213.75
-offset_bottom = 96.0
+offset_left = -239.0
+offset_top = -2.0
+offset_right = 241.0
+offset_bottom = 103.0
 grow_horizontal = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.87058824)
 theme_override_constants/shadow_offset_y = 4
@@ -195,7 +196,8 @@ metadata/_tc_uuid = "6534312461615167906"
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 55.0
+offset_top = -4.0
+offset_bottom = 51.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("2_3rkf3")
 theme_override_font_sizes/font_size = 39
@@ -207,10 +209,10 @@ metadata/_tc_uuid = "3155903036551064918"
 
 [node name="Back" type="Button" parent="Options" unique_id=189011263]
 layout_mode = 0
-offset_left = 457.5
-offset_top = 204.0
-offset_right = 568.5
-offset_bottom = 244.0
+offset_left = 458.5
+offset_top = 214.0
+offset_right = 569.5
+offset_bottom = 254.0
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
@@ -232,9 +234,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -87.5
-offset_top = -20.0
+offset_top = -41.0
 offset_right = 212.5
-offset_bottom = 20.0
+offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/slider = SubResource("StyleBoxLine_kiqgm")
@@ -256,9 +258,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -87.5
-offset_top = -65.0
+offset_top = -86.0
 offset_right = 212.5
-offset_bottom = -25.0
+offset_bottom = -46.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/slider = SubResource("StyleBoxLine_isoef")
@@ -275,9 +277,9 @@ metadata/_tc_uuid = "7808712815453683733"
 [node name="Fullscreen" type="CheckButton" parent="Options" unique_id=1623259696]
 layout_mode = 0
 offset_left = 256.5
-offset_top = 142.0
+offset_top = 128.0
 offset_right = 511.0
-offset_bottom = 189.0
+offset_bottom = 175.0
 theme_override_fonts/font = ExtResource("2_3rkf3")
 theme_override_font_sizes/font_size = 24
 text = "Fullscreen"
@@ -285,12 +287,25 @@ script = ExtResource("6_xn6kt")
 metadata/_tc_offline_added = true
 metadata/_tc_uuid = "3170560454679537247"
 
+[node name="AutoSelect" type="CheckButton" parent="Options" unique_id=1576558846]
+layout_mode = 0
+offset_left = 246.0
+offset_top = 173.0
+offset_right = 512.5
+offset_bottom = 220.0
+theme_override_fonts/font = ExtResource("2_3rkf3")
+theme_override_font_sizes/font_size = 24
+text = "Auto select form"
+script = ExtResource("7_pm6bo")
+metadata/_tc_offline_added = true
+metadata/_tc_uuid = "3170560454679537247"
+
 [node name="LabelSFX" type="Label" parent="Options" unique_id=552716124]
 layout_mode = 0
 offset_left = 154.5
-offset_top = 117.0
+offset_top = 96.0
 offset_right = 194.5
-offset_bottom = 147.0
+offset_bottom = 126.0
 theme_override_fonts/font = ExtResource("2_3rkf3")
 theme_override_font_sizes/font_size = 24
 text = "SFX"
@@ -300,9 +315,9 @@ metadata/_tc_uuid = "7665981080175522063"
 [node name="LabelMusic" type="Label" parent="Options" unique_id=868734418]
 layout_mode = 0
 offset_left = 128.5
-offset_top = 72.0
+offset_top = 51.0
 offset_right = 202.5
-offset_bottom = 102.0
+offset_bottom = 81.0
 theme_override_fonts/font = ExtResource("2_3rkf3")
 theme_override_font_sizes/font_size = 24
 text = "Music"
@@ -315,3 +330,4 @@ metadata/_tc_uuid = "3011622451298703367"
 [connection signal="pressed" from="Options/Back" to="." method="_on_back_pressed"]
 [connection signal="value_changed" from="Options/SFX" to="Options/SFX" method="_on_value_changed"]
 [connection signal="toggled" from="Options/Fullscreen" to="Options/Fullscreen" method="_on_toggled"]
+[connection signal="toggled" from="Options/AutoSelect" to="Options/AutoSelect" method="_on_toggled"]

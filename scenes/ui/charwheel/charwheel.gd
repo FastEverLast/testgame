@@ -31,17 +31,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		_open()
 		return
 		
-		
 	if not visible:
 		return
 	elif event.is_action_pressed("move_up"):
-		_set_hovered(GameState.Form.BASE)
+		_arrow_pick(GameState.Form.BASE)
 	elif event.is_action_pressed("move_right"):
-		_set_hovered(GameState.Form.GUARD)
+		_arrow_pick(GameState.Form.GUARD)
 	elif event.is_action_pressed("move_down"):
-		_set_hovered(GameState.Form.CAT)
+		_arrow_pick(GameState.Form.CAT)
 	elif event.is_action_pressed("move_left"):
-		_set_hovered(GameState.Form.STATUE)
+		_arrow_pick(GameState.Form.STATUE)
 
 		
 	if event.is_action_released("wheel_open") and visible:
@@ -71,6 +70,11 @@ func _hover_from_mouse():
 			_set_hovered(GameState.Form.GUARD)
 		else:
 			_set_hovered(GameState.Form.STATUE)
+
+func _arrow_pick(form : int):
+	_set_hovered(form)
+	if Settings.get_setting("controls", "auto_select", false):
+		_confirm()
 
 func _set_hovered(form: int):
 	if form == _hovered:
