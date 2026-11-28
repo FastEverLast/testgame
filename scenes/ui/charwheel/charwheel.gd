@@ -71,13 +71,15 @@ func _hover_from_mouse():
 		else:
 			_set_hovered(GameState.Form.STATUE)
 
-func _arrow_pick(form : int):
+func _arrow_pick(form: int):
 	_set_hovered(form)
 	if Settings.get_setting("controls", "auto_select", false):
 		_confirm()
-		GameState.wheel_open = true
-		while Input.get_vector("move_left", "move_right", "move_up", "move_down") != Vector2.ZERO:
+		GameState.wheel_open = true	# Stay frozen so the held arrow does not make you jump
+		var waited := 0.0
+		while Input.get_vector("move_left", "move_right", "move_up", "move_down") != Vector2.ZERO and waited < 0.4:
 			await get_tree().process_frame
+			waited += get_process_delta_time()	# Count how long we have waited
 		if not visible:
 			GameState.wheel_open = false
 

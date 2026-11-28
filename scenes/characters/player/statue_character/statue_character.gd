@@ -3,6 +3,7 @@ class_name Statue
 
 var _player : Node2D = null
 var _pushing := false
+var _ghost := false	# True while the player is still overlapping the new statue and can walk through it
 
 # Constants are better
 const _push_speed := 60.0	# Higher number = lighter, Lower number = heavier 
@@ -16,9 +17,15 @@ func _ready() -> void:
 	if _player != null:
 		_player.add_collision_exception_with(self)
 		add_collision_exception_with(_player)
+		_ghost = true
 
 
 func _physics_process(_delta: float) -> void:
+	if _ghost and _player.global_position.distance_to(global_position) > 14.0:	# The player has stepped clear of the statue
+		_player.remove_collision_exception_with(self)
+		remove_collision_exception_with(_player)
+		_ghost = false
+		
 	var target_velocity : Vector2 = Vector2.ZERO
 	var input_dir : Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")	# The keys the player holds, not his real velocity (that drops to zero when he is blocked)
 	
@@ -36,12 +43,8 @@ func _physics_process(_delta: float) -> void:
 func _on_detection_body_entered(body: Node2D) -> void:
 	if body == _player:
 		_pushing = true
-		_player.add_collision_exception_with(self)
-		add_collision_exception_with(_player)
 
 
 func _on_detection_body_exited(body: Node2D) -> void:
 	if body == _player:
 		_pushing = false
-		_player.remove_collision_exception_with(self)
-		remove_collision_exception_with(_player)

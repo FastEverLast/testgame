@@ -10,23 +10,20 @@ enum State { PATROL, SUSPICIOUS, ALERT }
 @export var lose_time : float = 3.0				# How long to keep searching after he cant se you anymore
 @export var search_reach : float = 128.0			# How far the hound checks if there is a wall in the way before starting to patrol
 @export var step_interval := 0.17
-@export var vent_side_1: Node2D
-@export var vent_side_2: Node2D
+@export var vent_side_1: Array[Node2D] = []
+@export var vent_side_2: Array[Node2D] = []
 @export var comedic_timing := false
 
 @onready var vision : Node2D = $Vision			# We rotate this to turn the hounds view
 @onready var los : RayCast2D = $LineOfSight		# Line of sight
 @onready var alert_label : Label = $LineOfSight/Alert
 @onready var footsteps : AudioStreamPlayer = $Footsteps_hound
-
 @onready var step_starts : Array[float] = [0.17]
 @onready var step_length := 0.10
-
 @onready var patrol_up : RayCast2D = $Patrol_Up
 @onready var patrol_down : RayCast2D = $Patrol_Down
 @onready var patrol_left : RayCast2D = $Patrol_Left
 @onready var patrol_right : RayCast2D = $Patrol_Right
-
 
 var _state: int = State.PATROL
 var _points : Array[Vector2]		# The different places the hound is going to stop at
@@ -42,6 +39,8 @@ var _step_count := 0
 var start_patrol := true
 var talking := false	# True while he is in conversation, which means that he cannot move
 var look_target : Node2D = null
+var _chosen := -1	# Index of the vent pair the hound has committed to, -1 means none yet
+var _trail : Array[Vector2] = []	# Breadcrumbs of where the player walked, the hound follows these when he cannot see you
 
 func _ready() -> void:
 	set_collision_mask_value(9, false)
@@ -66,8 +65,11 @@ func _on_cone_body_exited(body):	# The _body just means that we are not using th
 		return
 	_in_cone = false
 
+func _is_target_form() -> bool:
+	return GameState.current_form == GameState.Form.CAT or GameState.current_form == GameState.Form.BASE
+
 func _can_see_player() -> bool:
-	if GameState.current_form == GameState.Form.CAT:	# hound only detects the player when he is in the cat form
+	if _is_target_form():	# hound only detects the player when he is in the cat form
 		if _in_cone == false:			
 			return false
 			
@@ -117,6 +119,8 @@ func _hound_sfx(delta) -> void:
 				footsteps.stop()
 		
 func _set_state(new_state):		# Changes the hounds "mood"
+	_trail.clear()				# A new mood starts with no trail
+	_chosen = -1				# Every new mood starts with a fresh vent choice
 	_state = new_state			# Store the new mood
 	_lost_timer = 0.0			# Reset "lost you" timer
 	if new_state == State.PATROL:	# If he is now on patrol, empty the suspicion meter
@@ -139,7 +143,7 @@ func _patrol(sees) -> void:
 			_index = (_index + 1) % _points.size()		# Increase the index by one to go to the next stop on the list. We mod with 2 right now since there are only 2 points
 														# which means that the index will either be 0 or 1, so the hound just moves between index 0 and 1
 		else:
-			_move_toward(_funnel_target(target), patrol_speed)	# If he is not close enough, walk towords the point at patrol_speed
+			_move_toward(target, patrol_speed)	# If he is not close enough, walk towords the point at patrol_speed
 
 func _suspicious(delta, sees):	# Delta is the number of seconds since the last frame, a very small number
 	if sees:
@@ -148,11 +152,11 @@ func _suspicious(delta, sees):	# Delta is the number of seconds since the last f
 		vision.rotation = (global_position.direction_to(_player.global_position)).angle()	# Rotate the red vision area to face that last seen position.
 		
 		if global_position.distance_to(_player.global_position) > 20:
-			_move_toward(_funnel_target(_player.global_position), creep_speed)
+			_move_toward(_player.global_position, creep_speed)
 	else:
 		_suspicion -= delta		# The meter drains in seconds
 		if global_position.distance_to(_last_seen) > 4.0:
-			_move_toward(_funnel_target(_last_seen), creep_speed)
+			_move_toward(_last_seen, creep_speed)
 	
 	if _suspicion >= 1.0:	# If the meter is full
 		_set_state(State.ALERT)
@@ -205,14 +209,53 @@ func _repatrol(_position_hound, reason) -> void:	# Starts patrolling in the new 
 				
 	# elif reason == "lost_sucpicion":
 
-# Returns where the hound should walk right now. Usually the target itself, but if a wall is in the way, it returns the vent entrance instead.
+# Works out where the hound should walk: the target itself, or a vent entrance if a wall is in the way
 func _funnel_target(target: Vector2) -> Vector2:
-	if vent_side_1 == null or vent_side_2 == null:
-		return target
+	var count := mini(vent_side_1.size(), vent_side_2.size())	# Only as many pairs as both lists have
 
-	var vent_x : float = vent_side_1.global_position.x # The x pos of the vent opening, both sides share it
-	var north_y : float = vent_side_1.global_position.y # Vent side 1's north edge
-	var south_y : float = vent_side_2.global_position.y # Vent side 2's south edge
+	# Rule 1: the target is inside a vent shaft, so the player went through that vent
+	for i in count:
+		if vent_side_1[i] == null or vent_side_2[i] == null:
+			continue
+		var vent_x : float = vent_side_1[i].global_position.x
+		var north_y : float = vent_side_1[i].global_position.y
+		var south_y : float = vent_side_2[i].global_position.y
+		if abs(target.x - vent_x) < 16.0 and target.y >= north_y and target.y <= south_y:
+			_chosen = i
+			return _funnel_for_pair(vent_side_1[i], vent_side_2[i], target)
+
+	# Rule 2: keep the vent we already picked, until its wall is no longer in the way
+	if _chosen >= 0 and _chosen < count and vent_side_1[_chosen] != null and vent_side_2[_chosen] != null:
+		var kept := _funnel_for_pair(vent_side_1[_chosen], vent_side_2[_chosen], target)
+		if kept != target:
+			return kept
+		_chosen = -1	# We are through it, free to pick the next one
+
+	# Rule 3: no vent chosen yet, take the one with the shortest trip (hound to vent plus vent to target)
+	var best := target
+	var best_cost := INF
+	var best_index := -1
+	for i in count:
+		if vent_side_1[i] == null or vent_side_2[i] == null:
+			continue
+		var result := _funnel_for_pair(vent_side_1[i], vent_side_2[i], target)
+		if result == target:
+			continue	# This vent is not in the way
+		var middle := (vent_side_1[i].global_position + vent_side_2[i].global_position) / 2.0	# The middle of this vent
+		var cost := global_position.distance_to(middle) + middle.distance_to(target)
+		if cost < best_cost:
+			best = result
+			best_cost = cost
+			best_index = i
+
+	_chosen = best_index	# Remember the pick so it cannot change next frame
+	return best
+
+# Returns where the hound should walk right now. Usually the target itself, but if a wall is in the way, it returns the vent entrance instead.
+func _funnel_for_pair(side_1: Node2D, side_2: Node2D, target: Vector2) -> Vector2:
+	var vent_x : float = side_1.global_position.x # The x pos of the vent opening, both sides share it
+	var north_y : float = side_1.global_position.y # Vent side 1's north edge
+	var south_y : float = side_2.global_position.y # Vent side 2's south edge
 	var misaligned : bool = abs(global_position.x - vent_x) > 10.0 # Mesures how far the hound is from the real entrance, if that distance is more than 10px
 	var entrance_north := Vector2(vent_x, north_y - 25.0) # A spot 25 px north of the vents north side
 	var entrance_south := Vector2(vent_x, south_y + 25.0)
@@ -237,23 +280,47 @@ func _funnel_target(target: Vector2) -> Vector2:
 		if target.y < north_y:
 			return entrance_north
 	return target 	# Nothing in the way, go to the target!
-	
+
+# Drops a breadcrumb at the player's position if he has moved far enough from the last one
+func _record_trail() -> void:
+	if _player == null:
+		return
+	if GameState.hidden_count > 0:	# Hidden players leave no scent
+		return
+	if not _is_target_form():	# Guards leave no scent for hounds
+		return
+	if _trail.is_empty() or _player.global_position.distance_to(_trail.back()) > 6.0:
+		_trail.append(_player.global_position)
+		if _trail.size() > 600:	# Safety: never let the trail grow forever
+			_trail.remove_at(0)
+
 func _alert(delta, sees):
 	if sees:
 		_last_seen = _player.global_position	# If he sees you, he sets the last_seen pos to your current positon
 		_lost_timer = 0.0						# Reset lost timer, because he sees you...
+		_trail.clear()							# He can see you, so the old trail is not needed...
+		_record_trail()							# ...except for one crumb: where you are right now
 		
-		_move_toward(_funnel_target(_last_seen), chase_speed) # Funnel swaps real target for vent entrance if wall is in the way
+		_move_toward(_player.global_position, chase_speed)	# Run straight at you
 		
 		if global_position.distance_to(_player.global_position) < 14.0 and not _caught: # If you are within 14 pixels of him, and _caught is still false, make it true
 			_caught = true
 			SceneManager.caught() # Pretty obvious what this does...
 	else:
-		_lost_timer += delta
-			
-		if global_position.distance_to(_last_seen) > 4.0:	# If he is more than 4 pixels away from where he last saw you, keep running there!
-			_move_toward(_funnel_target(_last_seen), chase_speed)
-			
+		if not _is_target_form():
+			_trail.clear()
+		_record_trail()
+		
+		if _trail.size() > 0:	# Follow the scent, one crumb at a time
+			_lost_timer += delta * 0.3	# Counts slowly while tracking, so he cannot get stuck on a wall forever
+			var next : Vector2 = _trail[0]
+			if global_position.distance_to(next) < 6.0:
+				_trail.remove_at(0)	# Reached this crumb, on to the next
+			else:
+				_move_toward(next, chase_speed)
+		else:
+			_lost_timer += delta	# The trail is over, now he searches normally
+		
 		if _lost_timer >= lose_time:	# Give up, you lost the player ;)
 			_repatrol(global_position, "lost_player")
 			
@@ -279,7 +346,7 @@ func _physics_process(delta: float) -> void: 	# Runs 60 times a second
 	
 	if talking == false:
 		if _player != null and not _caught:
-			if global_position.distance_to(_player.global_position) < 14.0 and GameState.current_form == GameState.Form.CAT and GameState.hidden_count == 0:
+			if global_position.distance_to(_player.global_position) < 14.0 and _is_target_form() and GameState.hidden_count == 0:
 				_caught = true
 				SceneManager.caught()
 				return

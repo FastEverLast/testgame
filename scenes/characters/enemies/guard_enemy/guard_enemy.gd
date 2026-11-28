@@ -336,3 +336,12 @@ func _on_conversation_helper_get_him() -> void:
 
 func _on_conversation_helper_stop_attack() -> void:
 	_start_attack = false
+
+
+func _on_camera_pan_body_exited(_body: Node2D) -> void:    # Probably a one-time use function
+	if maximise_distance:
+		_resetting = true
+		_points = []
+		for p in range(patrol_offsets_high.size()):
+			_points.append(patrol_offsets_high[p])
+		_resetting = false
